@@ -1,4 +1,4 @@
-package repository;
+package pack.repository;
 
 public interface FacilitiesMapInterface {
 
