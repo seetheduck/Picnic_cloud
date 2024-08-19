@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import pack.entity.ChatEntity;
 
 
-public interface ChatInterface extends JpaRepository<ChatEntity,Integer> {
+public interface ChatRepository extends JpaRepository<ChatEntity,Integer> {
 
 }

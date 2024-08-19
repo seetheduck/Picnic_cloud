@@ -1,4 +1,4 @@
-package pack.model;
+package pack.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import pack.dto.FleamarketDto;
 import pack.entity.FleamarketEntity;
-import pack.repository.FleamarketEntityInterface;
+import pack.repository.FleamarketEntityRepository;
 
 @Repository
-public class FleamarketDao {
+public class FleamarketService {
 	
 	@Autowired
-	private FleamarketEntityInterface repository;
+	private FleamarketEntityRepository repository;
 	
 	//전체보기
 	public List<FleamarketDto> findAll() {
@@ -23,16 +23,22 @@ public class FleamarketDao {
 	}
 	
 	//검색
-	public List<FleamarketDto> search(String category,String input){
-		if(category.equals("전체")) {
-			return repository.searchByTitleOrContent(input).stream()
-					.map(FleamarketEntity::toDto)
-					.collect(Collectors.toList());
-		}
-		return repository.searchCategory(category,input)
-				.stream().map(FleamarketEntity::toDto)
-				.collect(Collectors.toList());
+	public List<FleamarketDto> search(String category, String input) {
+	    // 입력값에 와일드카드를 추가
+	    String searchPattern = "%" + input + "%";
+
+	    if (category.equals("전체")) {
+	        return repository.searchByTitleOrContent(searchPattern)
+	                .stream()
+	                .map(FleamarketEntity::toDto)
+	                .collect(Collectors.toList());
+	    }
+	    return repository.searchCategory(category, searchPattern)
+	            .stream()
+	            .map(FleamarketEntity::toDto)
+	            .collect(Collectors.toList());
 	}
+
 	
 	//생성
 	public String insert(FleamarketDto dto) {

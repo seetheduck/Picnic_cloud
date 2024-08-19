@@ -1,8 +1,8 @@
-package pack.model;
+package pack.service;
 
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class FliesDao {
+public class ChatService {
 
 }

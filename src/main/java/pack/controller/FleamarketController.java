@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pack.dto.FleamarketDto;
-import pack.model.FleamarketDao;
+import pack.service.FleamarketService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @CrossOrigin("*")
 public class FleamarketController {
 	@Autowired
-	FleamarketDao dao;
+	FleamarketService dao;
 	
 	//플리마켓 홈
 	@GetMapping("/fleaMarket")

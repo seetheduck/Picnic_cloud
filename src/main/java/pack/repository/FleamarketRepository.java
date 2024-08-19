@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import pack.entity.FleamarketEntity;
 
 
-public interface FleamarketInterface extends JpaRepository<FleamarketEntity,Integer> {
+public interface FleamarketRepository extends JpaRepository<FleamarketEntity,Integer> {
 
 }
