@@ -18,7 +18,6 @@ import jakarta.persistence.Id;
 @AllArgsConstructor
 @Builder
 public class ChatDto {
-	@Id
     private Integer cNo; //채팅방 번호
 
     private Integer cFleaNo; //플리 게시판 번호
@@ -28,7 +27,6 @@ public class ChatDto {
     private String cMessageCont;
     private LocalDateTime cCreateDate;
 
-    @Enumerated(EnumType.STRING)
     private MessageType cMessageType;
 
 
@@ -45,7 +43,6 @@ public class ChatDto {
     // DTO의 필드를 사용하여 엔티티를 생성
     return ChatEntity.builder()
             .cNo(dto.getCNo())
-            .cFleaNo(dto.getCFleaNo())
             .cBuyerId(dto.getCBuyerId())
             .cSellerId(dto.getCSellerId())
             .cMessageNo(dto.getCMessageNo())

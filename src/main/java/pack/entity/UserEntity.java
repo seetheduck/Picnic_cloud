@@ -1,14 +1,21 @@
 package pack.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import pack.dto.FilesDto;
-import pack.dto.FleamarketDto;
-import pack.dto.UserDto;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import pack.dto.UserDto;
 
 @Entity
 @Table(name = "user")
@@ -44,10 +51,10 @@ public class UserEntity{
     private String refreshToken;
     private LocalDateTime tokenExpiration;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FleamarketEntity> fleaMarkets;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FilesEntity> files;
     
     public static UserDto toDto(UserEntity entity) {
@@ -71,8 +78,7 @@ public class UserEntity{
                 .tokenExpiration(entity.getTokenExpiration())
                 .mNo(entity.getFleaMarkets() != null ?
                         entity.getFleaMarkets().stream()
-                        .map(FleamarketEntity::getMNo)
-                                //.map(FleamarketEntity::toDto)
+                        .map(FleamarketEntity::getMNo) // 필요한 데이터만 가져오자. 아니면 스택오버플로우가 생김
                                 .collect(Collectors.toList()) : null)
                 .fNo(entity.getFiles() != null ?
                         entity.getFiles().stream()

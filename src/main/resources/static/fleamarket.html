@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fleaMarket</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+        #app {
+            padding: 20px;
+        }
+        .post-container {
+            width: 1000px;
+            justify-content: space-evenly;
+            display: flex;
+            flex-wrap: wrap; /*줄 바꿈*/
+            gap: 10px; /* 게시글 간의 간격 */
+        }
+        .oneItem {
+            display: block;
+            width: calc(33.333% - 10px); /* 3개씩 배치하기 위한 너비 설정 */
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 카테고리 -->
+         <select name="category">
+            <option>베이비의류(0-2세)</option>
+            <option>여아의류(3-6세)</option>
+            <option>남아의류(3-6세)</option>
+            <option>여아 주니어의류(7세 -)</option>
+            <option>남아 주니어의류(7세 -)</option>
+            <option>신발/가방/잡화</option>
+            <option>유아용품</option>
+            <option>일부의류/용품</option>
+            <option>교구/완구/인형</option>
+            <option>수유/이유용품</option>
+         </select>
+        <!-- 검색창 -->
+        <input type="text" name="search">
+        <button name="searchbtn">검색</button>
+        <!-- 글쓰기 버튼 -->
+        <div>
+            <button name="">글쓰기</button>
+        </div>
+        <!-- 게시판 : 3개씩 정렬을 어떻게 해야하는지 모르겠다 -->
+        <div>
+            <div v-if="fleadatas.length > 0">
+                <div class="post-container">
+                    <span v-for="(item, index) in fleadatas" :key="index" class="onedata">
+                        <span class="oneItem">
+                            <span>{{ item.mfileNo }}</span>
+                            <span>
+                                {{ item.mno }} - {{ item.mtitle }} - {{ item.mcont }} - {{ item.mprice }}
+                            </span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div v-else>
+                <h2>올라온 게시글이 없습니다. 새글을 적어주세요</h2>
+            </div>
+        </div>
+    </div>
+    <script>
+        const {createApp} = Vue;
+        createApp({
+            data() {
+                return {
+                    fleadatas:[],
+                    fleadata:""
+                }
+            },
+            mounted() {
+                this.basicData();
+            },
+            methods: {
+                basicData() {
+                fetch("http://localhost/fleaMarket")
+                .then((response) =>{
+                    console.log(response);
+                    if (!response.ok) {
+                        throw new Error("Ajax error" + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then((data) =>{
+                    this.fleadatas = data;
+                    console.log(this.fleadata);
+                }
+                )
+                .catch(err =>{
+                    //네트워크 오류 혹은 json파싱오류
+                    console.log("Fetch err : " , err)
+                });
+            }
+            },
+        }).mount("#app");
+    </script>
+</body>
+</html>

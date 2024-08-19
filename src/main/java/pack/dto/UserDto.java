@@ -2,9 +2,12 @@ package pack.dto;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pack.entity.FilesEntity;
+import pack.entity.FleamarketEntity;
 import pack.entity.UserEntity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,11 +43,8 @@ public class UserDto{
     private String refreshToken;
     private LocalDateTime tokenExpiration;
 
-    private List<FleamarketDto> fleaMarkets;
-    private List<Integer> mNo;
-
-    private List<FilesDto> files;
-    private List<Integer> fNo;
+    private List<Integer> mNo; //마켓 번호
+    private List<Integer> fNo; //파일 번호
     
  // UserDto를 UserEntity로 변환하는 메서드
     public static UserEntity toEntity(UserDto dto) {
@@ -52,7 +52,7 @@ public class UserDto{
             return null;
         }
 
-        return UserEntity.builder()
+        UserEntity userEnti = UserEntity.builder()
                 .no(dto.getNo())
                 .id(dto.getId())
                 .pw(dto.getPw())
@@ -70,15 +70,8 @@ public class UserDto{
                 .accessToken(dto.getAccessToken())
                 .refreshToken(dto.getRefreshToken())
                 .tokenExpiration(dto.getTokenExpiration())
-                .fleaMarkets(dto.getFleaMarkets() != null ?
-                        dto.getFleaMarkets().stream()
-                                .map(FleamarketDto::toEntity)
-                                .collect(Collectors.toList()) : null)
-                .files(dto.getFiles() != null ?
-                        dto.getFiles().stream()
-                                .map(FilesDto::toEntity)
-                                .collect(Collectors.toList()) : null)
                 .build();
+        return userEnti;
     }
     
 }
