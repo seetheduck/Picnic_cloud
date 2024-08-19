@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>지도</title>
+<!-- CSS 파일 링크 -->
+<link rel="stylesheet" href="../css/style.css">
+<!-- Kakao 지도 API -->
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e392e9ebd1fb886ee48a4316ed1647d0"></script>
+</head>
+<body>
+	<div id="app">
+		<!-- 헤더 -->
+		<header>
+			<h1>Picnic_Cloud</h1>
+			<nav>
+				<a href="#">테마 추천</a> <a href="#">중고거래</a> <a href="#">지도</a> <a
+					href="#">행사 일정</a> <a href="#" class="my-page">my page</a>
+			</nav>
+		</header>
+
+		<!-- 검색 바 및 지도 컨테이너 -->
+		<div class="search-container">
+			<div class="sidebar">
+				<input type="text" v-model="searchQuery" placeholder="장소 검색">
+				<button @click="searchPlaces">검색</button>
+				<!-- 검색 버튼 추가 -->
+				<div>
+					<h3>분류</h3>
+					<p>{{ selectedCategory }}</p>
+				</div>
+				<div>
+					<h3>시설</h3>
+					<p>{{ selectedFacility }}</p>
+				</div>
+			</div>
+
+			<!-- 지도 및 스피너 컨테이너 -->
+			<div id="map" class="map-container">
+				<!-- 로딩 스피너 -->
+				<div v-if="loading" class="spinner-container">
+					<div class="spinner"></div>
+					<div class="spinner-text">Loading...</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- Vue 3 CDN -->
+	<script src="https://unpkg.com/vue@3"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<!-- JS 파일 링크 -->
+	<script src="../js/map.js"></script>
+</body>
+</html>
