@@ -37,6 +37,7 @@ nav a {
 }
 
 
+
 .spinner-container {
     position: absolute;
     top: 0;
@@ -79,6 +80,21 @@ nav a {
     margin-left: 20px;
 }
 
+#current-location-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#current-location-button:hover {
+    background-color: #f0f0f0;
+}
 
 
 footer {
