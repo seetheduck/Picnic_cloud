@@ -1,8 +1,6 @@
 package pack.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -46,34 +44,29 @@ public class FacilitiesMapEntity {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     
-    public List<FacilitiesMapDto> toDto(List<FacilitiesMapEntity> entities) {
-        return entities.stream()
-            .map(entity -> FacilitiesMapDto.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .latitude(entity.getLatitude())
-                .longitude(entity.getLongitude())
-                .category(entity.getCategory())
-                .address(entity.getAddress())
-                .description(entity.getDescription())
-                .homepageUrl(entity.getHomepageUrl())
-                .instagramUrl(entity.getInstagramUrl())
-                .holidayInfo(entity.getHolidayInfo())
-                .ageLimit(entity.getAgeLimit())
-                .operationTime(entity.getOperationTime())
-                .kidsZone(entity.getKidsZone())
-                .freeParking(entity.getFreeParking())
-                .chargedParking(entity.getChargedParking())
-                .telephone(entity.getTelephone())
-                .nursingRoom(entity.getNursingRoom())
-                .strollerRental(entity.getStrollerRental())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
-                .build())
-            .collect(Collectors.toList());
+    // 개별 엔티티를 DTO로 변환하는 메서드
+    public FacilitiesMapDto toDto() {
+        return FacilitiesMapDto.builder()
+                .id(this.id)
+                .name(this.name)
+                .latitude(this.latitude)
+                .longitude(this.longitude)
+                .category(this.category)
+                .address(this.address)
+                .description(this.description)
+                .homepageUrl(this.homepageUrl)
+                .instagramUrl(this.instagramUrl)
+                .holidayInfo(this.holidayInfo)
+                .ageLimit(this.ageLimit)
+                .operationTime(this.operationTime)
+                .kidsZone(this.kidsZone)
+                .freeParking(this.freeParking)
+                .chargedParking(this.chargedParking)
+                .telephone(this.telephone)
+                .nursingRoom(this.nursingRoom)
+                .strollerRental(this.strollerRental)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .build();
     }
-
 }
-
-
-
