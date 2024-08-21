@@ -22,7 +22,7 @@ public class FacilitiesMapController {
     // 뷰를 반환하는 메서드
     @GetMapping("/map")
     public String toMap() {
-        return "map/mapIndex";
+        return "redirect:/mapIndex.html";
     }
 
     // API 데이터를 반환하는 메서드

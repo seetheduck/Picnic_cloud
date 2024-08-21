@@ -96,6 +96,21 @@ nav a {
     background-color: #f0f0f0;
 }
 
+/* 기본 버튼 스타일 */
+.sidebar button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+/* 버튼이 클릭되었을 때 활성화된 상태 */
+.sidebar button.active {
+  background-color: yellow; /* 노란색 배경 */
+  color: #000;
+}
+
 
 footer {
     background-color: #f8f8f8;

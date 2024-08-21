@@ -9,32 +9,46 @@ createApp({
       selectedCategory: '카테고리 없음',
       selectedFacility: '시설 없음',
       map: null,
+      geocoder: null,
       infoWindow: null,
       loading: true,
       markers: [],
+      clusterer: null,
       markerColors: {
         '전시/공연': '#FF0000',
         '문화관광/명소': '#0000FF'
       },
-      activeMarker: null, // 현재 활성화된 마커를 추적
-      infoWindowTimer: null, // 인포윈도우 타이머를 위한 변수
+      activeMarker: null,
+      infoWindowTimer: null,
+      isMouseOverInfoWindow: false,
+      filters: {
+        kidsZone: false,
+        freeParking: false,
+        chargedParking: false,
+        nursingRoom: false,
+        strollerRental: false
+      }
     };
   },
 
   async mounted() {
+    if (typeof kakao !== 'undefined' && kakao.maps && kakao.maps.services) {
+      this.geocoder = new kakao.maps.services.Geocoder();
+    } else {
+      console.error("Kakao 지도 API가 올바르게 로드되지 않았습니다.");
+      return;
+    }
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async position => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
 
-          if (typeof kakao !== 'undefined') {
-            await this.initializeMap(latitude, longitude);
-            await this.fetchFacilities();
-            this.addMapEventListeners();
-          } else {
-            console.error("Kakao 지도 API가 올바르게 로드되지 않았습니다.");
-          }
+          await this.initializeMap(latitude, longitude);
+          this.initializeMarkerClusterer();
+          await this.fetchFacilities();
+          this.addMapEventListeners();
         },
         () => {
           this.initializeMapWithDefaultLocation();
@@ -75,7 +89,26 @@ createApp({
     },
 
     initializeMapWithDefaultLocation() {
-      this.initializeMap(); // 기본 위치로 지도를 초기화합니다.
+      this.initializeMap();
+    },
+
+    initializeMarkerClusterer() {
+      this.clusterer = new kakao.maps.MarkerClusterer({
+        map: this.map,
+        averageCenter: true,
+        minLevel: 7,
+        disableClickZoom: true,
+        styles: [{ 
+          width: '53px', 
+          height: '52px', 
+          background: 'rgba(255, 255, 255, 0.8)', 
+          borderRadius: '26px', 
+          textAlign: 'center', 
+          lineHeight: '52px', 
+          color: '#000', 
+          fontSize: '18px' 
+        }]
+      });
     },
 
     addMapEventListeners() {
@@ -92,15 +125,22 @@ createApp({
     },
 
     updateMarkers() {
+      if (!this.clusterer) {
+        console.error("클러스터러가 초기화되지 않았습니다.");
+        return;
+      }
+
       const bounds = this.map.getBounds();
       this.clearMarkers();
 
-      this.filteredFacilities.forEach(facility => {
+      const markers = this.filteredFacilities.map(facility => {
         const markerPosition = new kakao.maps.LatLng(facility.latitude, facility.longitude);
         if (bounds.contain(markerPosition)) {
-          this.createMarker(facility, markerPosition);
+          return this.createMarker(facility, markerPosition);
         }
-      });
+      }).filter(marker => marker !== undefined);
+
+      this.clusterer.addMarkers(markers);
     },
 
     createMarker(facility, position) {
@@ -117,7 +157,6 @@ createApp({
         this.displayInfoWindow(facility, marker);
       });
 
-      // 마우스가 마커에서 벗어나면 일정 시간 후에 인포윈도우를 닫습니다. 
       kakao.maps.event.addListener(marker, 'mouseout', () => {
         if (this.infoWindowTimer) {
           clearTimeout(this.infoWindowTimer);
@@ -126,11 +165,10 @@ createApp({
           if (!this.isMouseOverInfoWindow) {
             this.infoWindow.close();
           }
-        }, 200); // 200ms 딜레이를 줘서 인포윈도우로 마우스가 이동할 시간을 줌
+        }, 200);
       });
 
-      this.markers.push(marker);
-      marker.setMap(this.map);
+      return marker;
     },
 
     displayInfoWindow(facility, marker) {
@@ -152,7 +190,6 @@ createApp({
 
       const infoWindowElement = document.getElementById('info-window-content');
       if (infoWindowElement) {
-        // 마우스가 인포윈도우에 있을 때 창이 닫히지 않도록 처리
         infoWindowElement.addEventListener('mouseover', () => {
           if (this.infoWindowTimer) {
             clearTimeout(this.infoWindowTimer);
@@ -160,19 +197,21 @@ createApp({
           this.isMouseOverInfoWindow = true;
         });
 
-        // 마우스가 인포윈도우를 벗어날 때 창을 닫습니다.
         infoWindowElement.addEventListener('mouseout', () => {
           this.isMouseOverInfoWindow = false;
           this.infoWindowTimer = setTimeout(() => {
             this.infoWindow.close();
-          }, 200); // 200ms 딜레이 후 인포윈도우를 닫음
+          }, 200);
         });
       }
     },
 
     clearMarkers() {
-      this.markers.forEach(marker => marker.setMap(null));
-      this.markers = [];
+      if (this.clusterer) {
+        this.clusterer.clear();
+      } else {
+        console.warn("클러스터러가 아직 초기화되지 않았습니다.");
+      }
     },
 
     filterByCategory(category) {
@@ -206,11 +245,10 @@ createApp({
 
             this.map.setCenter(locPosition);
 
-            // 현재 위치에 대한 마커 추가 (기본 스타일)
             const marker = new kakao.maps.Marker({
               position: locPosition
             });
-            marker.setMap(this.map); // 현재 위치에 마커를 표시
+            marker.setMap(this.map);
           },
           error => {
             console.error("현재 위치를 가져오지 못했습니다.", error);
@@ -219,6 +257,31 @@ createApp({
       } else {
         console.error("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
       }
+    },
+
+    handleKeydown(event) {
+      if (event.key === 'Enter') {
+        this.searchPlaces();
+      }
+    },
+
+    toggleFilter(filterName) {
+      this.filters[filterName] = !this.filters[filterName];
+      this.filteredFacilities = this.facilities.filter(facility => {
+        return Object.keys(this.filters).every(filter => {
+          if (this.filters[filter]) {
+            return facility[filter];
+          }
+          return true;
+        });
+      });
+      this.updateMarkers();
+    },
+
+    activateButton(event) {
+		const buttons = document.querySelectorAll('.sidebar button');
+		buttons.forEach(btn => btn.classList.remove('active'));
+		event.target.classList.add('active');
     }
   }
 }).mount('#app');
