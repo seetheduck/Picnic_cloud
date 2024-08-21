@@ -6,7 +6,7 @@ createApp({
       facilities: [],
       filteredFacilities: [],
       searchQuery: '',
-      selectedCategory: new Set(), // Set으로 카테고리를 관리하여 중복 선택 가능
+      selectedCategory: '', // 단일 선택을 위해 String으로 변경
       map: null,
       geocoder: null,
       infoWindow: null,
@@ -214,10 +214,10 @@ createApp({
     },
 
     filterByCategory(category) {
-      if (this.selectedCategory.has(category)) {
-        this.selectedCategory.delete(category);  // 이미 선택된 카테고리를 클릭하면 해제
+      if (this.selectedCategory === category) {
+        this.selectedCategory = '';  // 이미 선택된 카테고리를 클릭하면 해제
       } else {
-        this.selectedCategory.add(category);     // 새로운 카테고리를 클릭하면 추가
+        this.selectedCategory = category;  // 새로운 카테고리를 클릭하면 선택
       }
 
       this.updateFilteredFacilities();  // 필터링된 시설 목록을 업데이트
@@ -230,7 +230,7 @@ createApp({
 
     updateFilteredFacilities() {
       this.filteredFacilities = this.facilities.filter(facility => {
-        const matchesCategory = this.selectedCategory.size === 0 || this.selectedCategory.has(facility.category);
+        const matchesCategory = this.selectedCategory === '' || facility.category === this.selectedCategory;
         const matchesFilters = Object.keys(this.filters).every(filter => {
           if (this.filters[filter]) {
             return facility[filter];

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service
 public class FacilitiesMapService {
 
-    private final FacilitiesMapRepository facilitiesMapRepository;
+    private FacilitiesMapRepository facilitiesMapRepository;
 
     public FacilitiesMapService(FacilitiesMapRepository facilitiesMapRepository) {
         this.facilitiesMapRepository = facilitiesMapRepository;
