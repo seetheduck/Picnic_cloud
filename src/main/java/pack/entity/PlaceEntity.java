@@ -32,15 +32,15 @@ public class PlaceEntity {
     private String pAddress;
     private Boolean pLike;
     private Integer pLikeCnt;
-    private Integer pPoint;
+    private float pPoint;
     private String pImage;
     private String pExplain;
     private String pTel;
     private String pPay;
     private String pDay;
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikesEntity> likes;
+    //@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+   // private List<LikesEntity> likes;
     
   //toDto: entity > dto
     public static PlaceDto toPlaceDto(PlaceEntity entity) {
@@ -57,12 +57,11 @@ public class PlaceEntity {
     			.pTel(entity.getPTel())
     			.pPay(entity.getPPay())
     			.pDay(entity.getPDay())
-    			.likes(entity.getLikes() != null ?
-    				entity.getLikes().stream()
-    				.map(LikesEntity::toLikesDto)
-    				.collect(Collectors.toList()) : Collections.emptyList())
+    			//.likes(entity.getLikes() != null ?
+    			//	entity.getLikes().stream()
+    			//	.map(LikesEntity::toLikesDto)
+    			//	.collect(Collectors.toList()) : Collections.emptyList())
     			.build();
-    	//null여부확인은 중요. nullpointerexception 방지.
-    	// null일때 null 반환? 혹은 그저 빈리스트반환은 어떨지?Collections.emptyList()
+    	
     }
 }

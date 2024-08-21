@@ -4,21 +4,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import pack.dto.PlaceDto;
+import pack.entity.PlaceEntity;
 import pack.repository.PlaceRepository;
 
 @Service
 public class PlaceService {
 	@Autowired
 	private PlaceRepository placeRepository;
-	
-	public List<PlaceDto> getPlaceList(String pCategory) {
+
+	public List<PlaceDto> findPlacesBypCategoryandKeyword(String pCategory, String keyword) {
 		
 		//entity to dto
-		return placeRepository.findBypCategory(pCategory).stream()
-				.map(PlaceDto::toDto)
+		return placeRepository.findBypCategoryandKeyword(pCategory, keyword).stream()
+				.map(PlaceEntity::toPlaceDto)
 				.collect(Collectors.toList());
+		
 	}
+	
 }

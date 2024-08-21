@@ -5,15 +5,19 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import pack.entity.PlaceEntity;
 
 public interface PlaceRepository extends JpaRepository<PlaceEntity, Integer>{
 	
-	//Ä«Å×°í¸®º° Àå¼Ò. ÆòÁ¡ÀÌ ³ôÀº¼øÀ¸·Î, °°Àº ÆòÁ¡³»¿¡¼± ÁÁ¾Æ¿ä ¼ö°¡ ¸¹Àº¼øÀ¸·Î. 
-	@Query("select p from PlaceEntity as p where p.pCategory = :pCategory order by p.point desc, p.like_cnt desc")
-	List<PlaceEntity> findBypCategory(@Param("pCategory") String pCategory);
-	
-	//Àå¼Ò Å°¿öµå°Ë»ö
+	@Query("select p from PlaceEntity as p where p.pCategory = :pCategory "//í…Œë§ˆë³„ ì¥ì†Œ
+			+ "and (:keyword is null or :keyword = '' " //í‚¤ì›Œë“œì—†ì„ìˆ˜ë„ ìˆë‹¤.
+			+ "or p.pName like concat('%', :keyword, '%') " //ê²€ìƒ‰í‚¤ì›Œë“œê°€ìˆë‹¤ë©´ ì‹œì„¤ëª…, ì£¼ì†Œì—ì„œ í•„í„°ë§
+			+ "or p.pAddress like concat('%', :keyword, '%')) "
+			+ "order by p.pPoint desc, p.pLikeCnt desc") //í‰ì ìˆœ, ê°™ì€í‰ì ì¼ê²½ìš° ì¢‹ì•„ìš” ìˆœ
+	List<PlaceEntity> findBypCategoryandKeyword(@Param("pCategory") String pCategory, 
+													@Param("keyword") String keyword);
+
 
 }

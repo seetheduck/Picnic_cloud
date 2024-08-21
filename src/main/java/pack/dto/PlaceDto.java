@@ -26,14 +26,14 @@ public class PlaceDto {
     private String pAddress;
     private Boolean pLike;
     private Integer pLikeCnt;
-    private Integer pPoint;
+    private float pPoint;
     private String pImage;
     private String pExplain;
     private String pTel;
     private String pPay;
     private String pDay;
     
-    private List<LikesDto> likes;
+   // private List<LikesDto> likes;
     
     //toEntity: dto > entity
     public static PlaceEntity toPlaceEntity(PlaceDto dto) {
@@ -50,11 +50,11 @@ public class PlaceDto {
     			.pTel(dto.getPTel())
     			.pPay(dto.getPPay())
     			.pDay(dto.getPDay())
-    			.likes(dto.getLikes() != null ? 
-    				dto.getLikes().stream()
-    					.map(LikesDto::toLikesEntity)
-    					.collect(Collectors.toList()) : Collections.emptyList())
+    			//.likes(dto.getLikes() != null ? 
+    			//	dto.getLikes().stream()
+    			//		.map(LikesDto::toLikesEntity)
+    			//		.collect(Collectors.toList()) : Collections.emptyList())
     			.build();
-    				
+    			
     }
 }

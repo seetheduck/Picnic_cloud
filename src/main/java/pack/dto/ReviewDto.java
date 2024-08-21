@@ -36,9 +36,9 @@ public class ReviewDto {
     private Integer rBlockedCnt;
     private String rIp;
 
-    private List<LikesDto> likes;
+    //private List<LikesDto> likes;
 
-    private List<ReportDto> reports;
+    //private List<ReportDto> reports;
 	
 	//toEntity: dto > entity
     public static ReviewEntity toReviewEntity(ReviewDto dto) {
@@ -54,14 +54,14 @@ public class ReviewDto {
     			.rBlocked(dto.getRBlocked())
     			.rBlockedCnt(dto.getRBlockedCnt())
     			.rIp(dto.getRIp())
-    			.likes(dto.getLikes() != null ? 
-    				dto.getLikes().stream()
-    					.map(LikesDto::toLikesEntity)
-    					.collect(Collectors.toList()) : Collections.emptyList())
-    			.reports(dto.getReports() != null ?
-    				dto.getReports().stream()
-    					.map(ReportDto::toReportEntity)
-    					.collect(Collectors.toList()) : Collections.emptyList())
+    			//.likes(dto.getLikes() != null ? 
+    			//	dto.getLikes().stream()
+    			//		.map(LikesDto::toLikesEntity)
+    			///		.collect(Collectors.toList()) : Collections.emptyList())
+    			//.reports(dto.getReports() != null ?
+    			//	dto.getReports().stream()
+    			//		.map(ReportDto::toReportEntity)
+    				//	.collect(Collectors.toList()) : Collections.emptyList())
     			.build();
     }
 }

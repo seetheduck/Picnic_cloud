@@ -39,11 +39,11 @@ public class ReviewEntity {
     private Integer rBlockedCnt;
     private String rIp;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikesEntity> likes;
+    //@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<LikesEntity> likes;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReportEntity> reports;
+   // @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<ReportEntity> reports;
     
     //toDto: entity > dto
     public static ReviewDto toReviewDto(ReviewEntity entity) {
@@ -58,14 +58,14 @@ public class ReviewEntity {
     			.rBlocked(entity.getRBlocked())
     			.rBlockedCnt(entity.getRBlockedCnt())
     			.rIp(entity.getRIp())
-    			.likes(entity.getLikes() != null ?
-    					entity.getLikes().stream()
-    					.map(LikesEntity::toLikesDto)
-    					.collect(Collectors.toList()) : Collections.emptyList())
-    			.reports(entity.getReports() != null ?
-    					entity.getReports().stream()
-    					.map(ReportEntity::toReportDto)
-    					.collect(Collectors.toList()) : Collections.emptyList())
+    			//.likes(entity.getLikes() != null ?
+    			//		entity.getLikes().stream()
+    			//		.map(LikesEntity::toLikesDto)
+    				//	.collect(Collectors.toList()) : Collections.emptyList())
+    			//.reports(entity.getReports() != null ?
+    			//		entity.getReports().stream()
+    			//		.map(ReportEntity::toReportDto)
+    			//		.collect(Collectors.toList()) : Collections.emptyList())
     			.build();
     }
 }

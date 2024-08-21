@@ -1,0 +1,96 @@
+/* 전체 컨테이너 */
+#app {
+    max-width: 800px; /* 최대 너비를 800px로 설정하여 내용이 너무 넓어지지 않도록 제한 */
+    margin: 0 auto; /* 페이지 중앙에 배치하기 위해 자동 여백 설정 */
+    padding: 20px; /* 컨테이너 내부에 20px의 여백 추가 */
+    font-family: Arial, sans-serif; /* 기본 폰트를 Arial로 설정 */
+    background-color: #f4f4f4; /* 배경색을 밝은 회색으로 설정 */
+}
+
+/* 검색 바 스타일 */
+.search-bar {
+    display: flex; /* 요소들을 수평으로 나란히 정렬 */
+    align-items: center; /* 세로 정렬을 중앙으로 맞춤 */
+    gap: 8px; /* 레이블, 입력 필드, 버튼 간의 간격 설정 */
+    margin-bottom: 20px; /* 검색 섹션 아래에 20px의 여백 추가 */
+    background-color: #f4f4f4; /* 검색 바의 배경색을 밝은 회색으로 설정 */
+    padding: 10px; /* 검색 바 내부에 10px의 여백 추가 */
+    border-radius: 5px; /* 검색 바의 모서리를 둥글게 처리 */
+}
+
+.search-bar label {
+    font-weight: bold; /* 레이블 텍스트를 굵게 설정 */
+    font-size: 14px; /* 레이블 텍스트의 크기를 14px로 설정 */
+    color: #333; /* 텍스트 색상을 진한 회색으로 설정 */
+}
+
+.search-bar input {
+    padding: 6px 12px; /* 입력 필드 내부에 6px 위아래, 12px 좌우의 여백 추가 */
+    font-size: 14px; /* 입력 필드 텍스트의 크기를 14px로 설정 */
+    border: 1px solid #ccc; /* 입력 필드의 테두리를 밝은 회색으로 설정 */
+    border-radius: 4px; /* 입력 필드의 모서리를 둥글게 처리 */
+    width: 180px; /* 입력 필드의 너비를 180px로 설정 */
+    box-sizing: border-box; /* 패딩과 경계선이 포함된 너비를 계산하도록 설정 */
+    outline: none; /* 입력 필드에 포커스가 있을 때 기본 아웃라인 제거 */
+}
+
+.search-bar button {
+    padding: 6px 15px; /* 버튼 내부에 6px 위아래, 15px 좌우의 여백 추가 */
+    background-color: #007bff; /* 버튼의 배경색을 파란색으로 설정 */
+    color: white; /* 버튼 텍스트 색상을 흰색으로 설정 */
+    border: 1px solid #007bff; /* 버튼의 테두리를 파란색으로 설정 */
+    border-radius: 4px; /* 버튼의 모서리를 둥글게 처리 */
+    cursor: pointer; /* 버튼에 마우스를 올릴 때 커서를 포인터로 변경 */
+    font-size: 14px; /* 버튼 텍스트의 크기를 14px로 설정 */
+    transition: background-color 0.3s ease; /* 배경색 변화에 0.3초의 전환 효과 추가 */
+}
+
+.search-bar button:hover {
+    background-color: #0056b3; /* 마우스를 올렸을 때 배경색을 진한 파란색으로 변경 */
+}
+
+.search-bar button:active {
+    background-color: #004494; /* 버튼을 클릭할 때 배경색을 더 진한 파란색으로 변경 */
+}
+
+/* 검색 결과 아이템 스타일 */
+.place-item {
+    display: flex; /* 요소들을 수평으로 나란히 정렬 */
+    align-items: flex-start; /* 아이템들을 상단에 맞춰 정렬 */
+    border: 1px solid #ddd; /* 아이템의 테두리를 밝은 회색으로 설정 */
+    border-radius: 8px; /* 아이템의 모서리를 둥글게 처리 */
+    padding: 16px; /* 아이템 내부에 16px의 여백 추가 */
+    margin-bottom: 16px; /* 아이템 간의 간격을 위해 아래에 16px의 여백 추가 */
+    background-color: white; /* 아이템의 배경색을 흰색으로 설정 */
+}
+
+.place-image {
+    flex-shrink: 0; /* 이미지 크기가 커져도 레이아웃이 깨지지 않도록 설정 */
+    margin-right: 16px; /* 이미지와 정보 사이에 16px의 간격 추가 */
+}
+
+.place-image img {
+    width: 120px; /* 이미지의 너비를 120px로 고정 */
+    height: auto; /* 이미지의 높이를 자동으로 설정하여 비율 유지 */
+    border-radius: 8px; /* 이미지의 모서리를 둥글게 처리 */
+}
+
+.place-info {
+    display: flex; /* 요소들을 수직으로 정렬 */
+    flex-direction: column; /* 아이템들을 수직 방향으로 나열 */
+}
+
+.place-info h3 {
+    margin: 0; /* 제목의 기본 여백 제거 */
+    font-size: 1.2em; /* 제목 텍스트의 크기를 1.2em로 설정 */
+    color: #333; /* 텍스트 색상을 진한 회색으로 설정 */
+}
+
+.place-info p {
+    margin: 4px 0; /* 텍스트 간의 간격을 위해 위아래에 4px 여백 추가 */
+    color: #666; /* 텍스트 색상을 회색으로 설정 */
+}
+
+.place-info p:first-of-type {
+    margin-top: 8px; /* 첫 번째 텍스트의 위쪽에 추가적인 8px의 여백 설정 */
+}
