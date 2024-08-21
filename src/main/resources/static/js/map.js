@@ -6,8 +6,7 @@ createApp({
       facilities: [],
       filteredFacilities: [],
       searchQuery: '',
-      selectedCategory: '카테고리 없음',
-      selectedFacility: '시설 없음',
+      selectedCategory: new Set(), // Set으로 카테고리를 관리하여 중복 선택 가능
       map: null,
       geocoder: null,
       infoWindow: null,
@@ -65,7 +64,7 @@ createApp({
       try {
         const response = await axios.get('/api/facilities');
         this.facilities = response.data;
-        this.filteredFacilities = this.facilities;
+        this.updateFilteredFacilities();
       } catch (error) {
         console.error("시설 정보를 불러오는 데 실패했습니다.", error);
       } finally {
@@ -215,10 +214,32 @@ createApp({
     },
 
     filterByCategory(category) {
-      this.selectedCategory = this.selectedCategory === category ? '카테고리 없음' : category;
-      this.filteredFacilities = this.selectedCategory === '카테고리 없음'
-        ? this.facilities
-        : this.facilities.filter(facility => facility.category === this.selectedCategory);
+      if (this.selectedCategory.has(category)) {
+        this.selectedCategory.delete(category);  // 이미 선택된 카테고리를 클릭하면 해제
+      } else {
+        this.selectedCategory.add(category);     // 새로운 카테고리를 클릭하면 추가
+      }
+
+      this.updateFilteredFacilities();  // 필터링된 시설 목록을 업데이트
+    },
+
+    toggleFilter(filterName) {
+      this.filters[filterName] = !this.filters[filterName];
+      this.updateFilteredFacilities();
+    },
+
+    updateFilteredFacilities() {
+      this.filteredFacilities = this.facilities.filter(facility => {
+        const matchesCategory = this.selectedCategory.size === 0 || this.selectedCategory.has(facility.category);
+        const matchesFilters = Object.keys(this.filters).every(filter => {
+          if (this.filters[filter]) {
+            return facility[filter];
+          }
+          return true;
+        });
+
+        return matchesCategory && matchesFilters;
+      });
 
       this.updateMarkers();
     },
@@ -263,25 +284,6 @@ createApp({
       if (event.key === 'Enter') {
         this.searchPlaces();
       }
-    },
-
-    toggleFilter(filterName) {
-      this.filters[filterName] = !this.filters[filterName];
-      this.filteredFacilities = this.facilities.filter(facility => {
-        return Object.keys(this.filters).every(filter => {
-          if (this.filters[filter]) {
-            return facility[filter];
-          }
-          return true;
-        });
-      });
-      this.updateMarkers();
-    },
-
-    activateButton(event) {
-		const buttons = document.querySelectorAll('.sidebar button');
-		buttons.forEach(btn => btn.classList.remove('active'));
-		event.target.classList.add('active');
     }
   }
 }).mount('#app');

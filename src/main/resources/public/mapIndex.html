@@ -35,11 +35,11 @@
           </div>
           <div>
             <h3>시설 필터링</h3>
-			    <button :class="{ active: filters.kidsZone }" @click="toggleFilter('kidsZone'); activateButton($event)">키즈존</button>
-			    <button :class="{ active: filters.freeParking }" @click="toggleFilter('freeParking'); activateButton($event)">무료 주차</button>
-			    <button :class="{ active: filters.chargedParking }" @click="toggleFilter('chargedParking'); activateButton($event)">유료 주차</button>
-			    <button :class="{ active: filters.nursingRoom }" @click="toggleFilter('nursingRoom'); activateButton($event)">수유실</button>
-			    <button :class="{ active: filters.strollerRental }" @click="toggleFilter('strollerRental'); activateButton($event)">유모차 대여</button>
+			    <button @click="toggleFilter('kidsZone');">키즈존</button>
+			    <button @click="toggleFilter('freeParking');">무료 주차</button>
+			    <button @click="toggleFilter('chargedParking');">유료 주차</button>
+			    <button @click="toggleFilter('nursingRoom');">수유실</button>
+			    <button @click="toggleFilter('strollerRental');">유모차 대여</button>
           </div>
         </div>
         <div id="map" class="map-container">
