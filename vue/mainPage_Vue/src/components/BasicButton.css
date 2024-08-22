@@ -1,0 +1,14 @@
+button {
+    margin: 10px 24px;
+    background-color: #87ceeb;
+    border: 1px solid #87ceeb;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:hover,  
+  button:active {  
+    background-color: #08aaeb;  
+    border-color: #08aaeb;  
+  }
+  

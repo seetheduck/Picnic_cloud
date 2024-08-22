@@ -1,0 +1,143 @@
+/* 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f8f8f8;
+  }
+  
+  /* 공통 컨테이너 설정 */
+  #topBar,
+  #mainBanner,
+  #contentArea,
+  #footerBox {
+    max-width: 1200px; 
+    margin: 0 auto; 
+    width: 100%;
+    min-width: 1200px;
+  }
+  
+  /* 메인 배너 */
+  #mainBanner {
+    height: 420px;
+    padding: 0 4rem; 
+    background-color: grey;
+  }
+  
+  /* 컨텐츠 영역 */
+  #contentArea > article {
+    margin: 3rem 0;
+    padding: 0 4.7rem;  /* 이 패딩은 컨텐츠의 내부 여백 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h3 {
+    text-align: left;
+    width: 100%; 
+    font-size: 1.5rem; 
+  }
+  
+  /* 이미지 영역 */
+  .images {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    width: 100%;
+  }
+  
+  .image {
+    width: 47%;
+    height: 298px;
+    border: 1px solid black;
+  }
+  
+  /* 캘린더 영역 */
+  #body2 {
+    display: flex;
+    margin-top: 1.5rem;
+  }
+  
+  .calendar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    border: 1px solid black;
+  }
+  
+  .thismonth {
+    width: 60%;
+  }
+  
+  .calendarinfo {
+    width: 20%;
+    height: 417px;
+    border: 1px solid red;
+  }
+  
+  /* 책 추천 영역 */
+  .recommend {
+    width: 100%;
+    height: 353px;
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    gap: 2.7rem;
+  }
+  
+  .book {
+    width: 20%;
+    height: 50%;
+    border-radius: 50%;
+    background-color: aqua;
+    transition: transform 0.3s ease; 
+  }
+  
+  .book:hover {
+    transform: scale(1.2);
+  }
+  
+  /* 반응형 디자인 */
+  
+  /* 노트북과 중간 화면 (max-width 1200px) */
+  @media (max-width: 1200px) {
+    #topBar,
+    #mainBanner,
+    #contentArea,
+    #footerBox {
+      max-width: 100%;
+      padding: 0 2rem; 
+    }
+    h3 {
+      font-size: 1.2rem; 
+    }
+  }
+  
+  /* 모바일 화면 (max-width 480px) */
+  @media (max-width: 480px) {
+    #topBar,
+    #mainBanner,
+    #contentArea,
+    #footerBox {
+      max-width: 100%;
+      padding: 0 1rem; 
+    }
+  
+    #mainBanner {
+      height: 200px; 
+    }
+  
+    h3 {
+      font-size: 1rem; 
+    }
+  }
+  
