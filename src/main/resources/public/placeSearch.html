@@ -26,7 +26,10 @@
                 <img :src="getImageUrl(p.pimage)" alt="placeImage"/>
             </div>
             <div class="place-info">
-                <h3>{{p.pname}}</h3>
+                <h3>
+                	<a :href="'placeInfo.html?pNo=' + p.pno">{{p.pname}}</a>
+                </h3>
+                <!-- 시설명에 링크를 걸어 해당 장소의 상세페이지로 이동 -->
                 <p>{{p.paddress}}</p>
                 <p>📞{{p.ptel}}</p>
                 <p>⭐{{p.ppoint.toFixed(1)}} 💛{{p.plikeCnt}}</p>

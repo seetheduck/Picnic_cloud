@@ -1,6 +1,7 @@
 package pack.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,13 @@ public class PlaceService {
 				.collect(Collectors.toList());
 		
 	}
-	
+	//선택한 장소 1곳 상세정보.
+	public Optional<PlaceDto> findPlacesBypNo(int pNo){
+		
+		//entity to dto
+		return placeRepository.findBypNo(pNo)
+				.map(PlaceEntity::toPlaceDto);
+				
+	}
+
 }

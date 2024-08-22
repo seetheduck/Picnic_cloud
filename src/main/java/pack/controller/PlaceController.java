@@ -1,6 +1,7 @@
 package pack.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -29,5 +30,12 @@ public class PlaceController {
 			@RequestParam("pCategory") String pCategory, 
 			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword){
 		return placeService.findPlacesBypCategoryandKeyword(pCategory, keyword);
+	}
+	
+	//특정 장소 상세정보. 
+	@GetMapping("/{pNo}")
+	public Optional<PlaceDto> getPlacesByNo(@PathVariable("pNo") int pNo){
+		
+		return placeService.findPlacesBypNo(pNo);
 	}
 }
