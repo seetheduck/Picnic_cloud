@@ -35,6 +35,7 @@ public class ReviewDto {
     private Boolean rBlocked;
     private Integer rBlockedCnt;
     private String rIp;
+    private int rPno; // db 변동사항에 따라 추가된 부분 
 
     //private List<LikesDto> likes;
 
