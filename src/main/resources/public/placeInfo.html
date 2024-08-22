@@ -1,54 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>상세정보</title>
-<script src="https://unpkg.com/vue@3"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<link rel="stylesheet" href="../css/placeInfo.css">
-<!-- 상단에는 기본정보 출력.하단에는 탭으로 상세정보. 다른탭에는 리뷰CRUD -->
-</head>
-<body>
-	<div id="app">
-		<div v-if="place">
-	        <h1>{{ place.pname }}</h1>
-	        <div class="place-image">
-	            <img :src="getImageUrl(place.pimage)" alt="placeImage"/>
-	        </div>
-	        <p>{{ place.paddress }}</p>
-	        <p>📞{{ place.ptel }}</p>
-	        <p>⭐{{ place.ppoint.toFixed(1) }} 💛{{ place.plikeCnt }}</p>
-	    </div>
-	    <div v-else>
-	        <p>해당 번호의 장소는 존재하지 않습니다</p>
-	    </div>
-	</div>
-	<script>
-const {createApp} = Vue;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>상세정보</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../css/placeInfo.css" />
+  </head>
+  <body>
+    <div id="app" class="container">
+      <div v-if="place">
+        <h1>{{ place.pname }}</h1>
+        <div class="content">
+          <div class="place-image">
+            <img :src="getImageUrl(place.pimage)" alt="placeImage" />
+          </div>
+          <div class="place-details">
+            <p>{{ place.paddress }}</p>
+            <p>📞{{ place.ptel }}</p>
+            <p>⭐{{ place.ppoint.toFixed(1) }}</p>
+            <p>🖤🤍{{place.plike}} {{ place.plikeCnt }}</p>
+            <!-- 좋아요 토글처리 -->
+          </div>
+        </div>
 
-createApp({
-    data(){
-        return{//초기화
-            place: null
-        }
-    },
-    methods: {
-    	showInfo(){
-    		axios.get(`http://localhost:8080/places/${pNo}`)
-    		.then(res => {
-    			this.place = res.data;
-    		})
-    		.catch(err => {
-    			console.log('장소 정보: ', error);
-    		});
-    	},
-    },
-    	mounted(){
-    	this.showInfo(); //페이지가 로드될때 showInfo()를 호출(버튼x)
-    	}  
-}).mount('#app');
-</script>
-
-</body>
+        <!-- 탭 버튼 -->
+        <ul class="tabs">
+          <li
+            class="tab-button"
+            :class="{ active: activeTab === 'tab1' }"
+            @click="activeTab = 'tab1'"
+          >
+            상세정보
+          </li>
+          <li
+            class="tab-button"
+            :class="{ active: activeTab === 'tab2' }"
+            @click="activeTab = 'tab2'"
+          >
+            리뷰
+            <!--리뷰수 ajax-->
+          </li>
+        </ul>
+        <!-- 탭 내용 -->
+        <div class="tab-content">
+          <div
+            id="tab1"
+            class="tab-pane"
+            :class="{ active: activeTab === 'tab1' }"
+          >
+            <p>{{place.pexplain}}</p>
+            <p>{{place.ppay}}</p>
+            <p>{{place.pday}}</p>
+          </div>
+          <div
+            id="tab2"
+            class="tab-pane"
+            :class="{ active: activeTab === 'tab2' }"
+          >
+            <p>리뷰탭내용</p>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <p>해당 번호의 장소는 존재하지 않습니다</p>
+      </div>
+    </div>
+    <script src="../js/placeInfo.js"></script>
+  </body>
 </html>
