@@ -1,34 +1,21 @@
 package pack.dto;
 
-import lombok.*;
-import pack.entity.BookEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class BookDto {
-
-    private Integer bookNo;
-    private String title;
-    private String author;
-    private String publisher;
-    private Integer pyear;
-    private String thumbNail;
-    private String bookUrl;
-
-    // Converts Dto to Entity
-    public BookEntity toEntity() {
-        return BookEntity.builder()
-                .bookNo(this.bookNo)
-                .title(this.title)
-                .author(this.author)
-                .publisher(this.publisher)
-                .pyear(this.pyear)
-                .thumbNail(this.thumbNail)
-                .bookUrl(this.bookUrl)
-                .build();
-    }
+	
+    private String title;         // 책 제목
+    private String[] authors;     // 저자들
+    private String publisher;     // 출판사
+    private String isbn;          // ISBN 코드
+    private String thumbnailUrl;  // 썸네일 이미지 URL
+    private String datetime;      // 출판일 또는 API 응답의 날짜 정보
+    
 }
-
