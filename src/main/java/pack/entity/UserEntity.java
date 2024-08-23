@@ -54,8 +54,8 @@ public class UserEntity{
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FleamarketEntity> fleaMarkets;
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FilesEntity> files;
+//    @OneToMany(mappedBy = "userEntity")
+//    private List<FilesEntity> files;
     
     public static UserDto toDto(UserEntity entity) {
         return UserDto.builder()
@@ -79,10 +79,6 @@ public class UserEntity{
                 .mNo(entity.getFleaMarkets() != null ?
                         entity.getFleaMarkets().stream()
                         .map(FleamarketEntity::getMNo) // 필요한 데이터만 가져오자. 아니면 스택오버플로우가 생김
-                                .collect(Collectors.toList()) : null)
-                .fNo(entity.getFiles() != null ?
-                        entity.getFiles().stream()
-                                .map(FilesEntity::getFNo)
                                 .collect(Collectors.toList()) : null)
                 .build();
     }

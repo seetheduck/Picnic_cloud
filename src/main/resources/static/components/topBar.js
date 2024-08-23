@@ -17,7 +17,7 @@ const TopBar = {
         <nav class="bottom-nav">
           <ul>
             <li><a href="/placeMain.html">테마추천</a></li>
-            <li><router-link to="/market">중고거래</router-link></li>
+            <li><a href="/fleaMarket.html">중고거래</a></li>
             <li><a href="/map.html">지도</a></li>
             <li><router-link to="/calendar">행사일정</router-link></li>
             <li><router-link to="/book">이달의 책</router-link></li>

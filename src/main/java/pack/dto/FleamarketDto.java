@@ -31,8 +31,15 @@ public class FleamarketDto {
 	private Boolean mBlocked; // 관리자) 블락처리 유무
 	private Integer mBlockedCnt; // 관리자) 블락처리 수
 	
-    private List<String> mFilePath; //첨부파일 path
-    private List<Integer> cNo; // 채팅번호
+	//첨부파일 path
+    private String mFilePath;
+    
+    //페이징 처리
+	private int totalPages, currentPage;
+	private Long totalElements;
+
+    // 채팅번호
+//    private List<Integer> cNo; 
 
 	  //dto를 entity로 변환
 	    public static FleamarketEntity toEntity(FleamarketDto dto) {
