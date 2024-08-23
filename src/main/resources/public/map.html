@@ -8,19 +8,16 @@
     <link rel="stylesheet" href="../css/style.css">
     <!-- Kakao 지도 API -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e392e9ebd1fb886ee48a4316ed1647d0&libraries=services,clusterer"></script>
+    <script src="../components/topBar.js"></script>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <div id="app">
       <!-- 헤더 -->
       <header>
-        <h1>Picnic_Cloud</h1>
-        <nav>
-          <a href="#">테마 추천</a>
-          <a href="#">중고거래</a>
-          <a href="#">지도</a>
-          <a href="#">행사 일정</a>
-          <a href="#" class="my-page">my page</a>
-        </nav>
+        <top-bar></top-bar> <!-- 스크립트를 로드한 후 컴포넌트를 사용 -->
       </header>
       
       <!-- 검색 바 및 지도 컨테이너 -->
@@ -55,10 +52,11 @@
         </div>
       </div>
     </div>
-    <!-- Vue 3 CDN -->
-    <script src="https://unpkg.com/vue@3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- JS 파일 링크 -->
     <script src="../js/map.js"></script>
+    <footer>
+    <script src="../components/footerBox.js"></script>
+    </footer>
+    
   </body>
 </html>
