@@ -1,6 +1,7 @@
 package pack.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -98,44 +99,43 @@ public class FleamarketController {
 
 	        FleamarketEntity fleaMarketEntity = FleamarketDto.toEntity(fleamarketDto);
 	        fleaMarketEntity.setUserEntity(userEntity);
-	        System.out.println(file);
-	        if (file != null && !file.isEmpty()) {
-	        	
-	        	// 공백을 언더바로 대체하고, URL 인코딩된 문자들을 제거
-	        	String safeFilename = file.getOriginalFilename().replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_\\.]", "");
-	        	
-	            // 프로젝트의 static/images 디렉토리에 파일 저장 경로 설정
-	            String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/";
-	            Path imagePath = Paths.get(staticDirectory, safeFilename);
-	            File dest = imagePath.toFile();
 
+	        String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/";
+	        Integer newNum = dao.maxBoardNum() + 1;
+	        fleamarketDto.setMNo(newNum);
+
+	        if (file != null && !file.isEmpty()) {
+	            // 공백을 언더바로 대체하고, URL 인코딩된 문자들을 제거
+	            String safeFilename = file.getOriginalFilename().replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_\\.]", "");
+	            Path imagePath = Paths.get(staticDirectory, safeFilename);
+
+	            // 이미지 저장 디렉토리 체크 및 생성
+	            File dest = imagePath.toFile();
 	            if (!dest.getParentFile().exists()) {
 	                dest.getParentFile().mkdirs();
 	            }
 
-	            file.transferTo(dest);
-
-	            // 파일 경로를 fleamarketDto에 설정
+	            // 파일을 저장하기 전에 미리 데이터베이스에 기록
 	            String path = "/images/" + safeFilename;
 	            fleamarketDto.setMFilePath(path);
-
-	            // FleamarketEntity를 데이터베이스에 우선 저장
-	            Integer newNum = dao.maxBoardNum() + 1;
-	            fleamarketDto.setMNo(newNum);
 	            dao.insert(fleamarketDto);
-	            
-	            // 이후 파일 정보 저장
+	            file.transferTo(dest);
+
+	            // 파일 정보 저장
 	            filesService.insertFleaFile(path, newNum);
+
 	        } else {
 	            // 파일이 없는 경우
-	            Integer newNum = dao.maxBoardNum() + 1;
-	            fleamarketDto.setMNo(newNum);
 	            dao.insert(fleamarketDto);
 	        }
 
 	        response.put("isSuccess", true);
 	        response.put("message", "FleaMarket board successfully added");
 
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        response.put("isSuccess", false);
+	        response.put("message", "File processing error occurred: " + e.getMessage());
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        response.put("isSuccess", false);

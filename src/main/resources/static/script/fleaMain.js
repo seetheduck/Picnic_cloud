@@ -30,6 +30,7 @@ createApp({
             for (let i = start; i <= end; i++) {
                 pages.push(i);
             }
+            console.log("Pagination Pages:", pages);
             return pages;
         }
     },
@@ -37,6 +38,7 @@ createApp({
         fetchData() {
             // const url = `fleaMarket?page=${this.pageNumber}&size=${this.size}&category=${encodeURIComponent(this.category)}&search=${encodeURIComponent(this.search)}`;
             // const url = 'http://localhost:80/fleaMarket?page=0&size=9&category=전체&search=';
+            
             const url = `http://localhost:80/fleaMarket?page=${this.pageNumber}&size=${this.size}&category=${encodeURIComponent(this.category)}&search=${encodeURIComponent(this.search)}`;
             fetch(url)
                 .then(response => {
@@ -47,9 +49,9 @@ createApp({
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
                     this.content = data.content;
                     this.page = data.page;
+                    console.log(this.page);
                 })
                 .catch(err => {
                     console.error("fleaMain Fetch error: ", err);

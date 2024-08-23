@@ -51,8 +51,8 @@ public class FleamarketEntity {
 	    @OneToOne(mappedBy = "fleamarketEntity") //하나의 게시판에는 이미지 1개만 
 	    private FilesEntity files;
 	    
-	    @OneToMany(mappedBy = "fleamarketEntity")
-	    private List<ChatEntity> chats;
+//	    @OneToMany(mappedBy = "fleamarketEntity")
+//	    private List<ChatEntity> chats;
 
 //	    @OneToMany(mappedBy = "FleamarketEntity")
 //	    private List<Likes> likes;
@@ -79,11 +79,11 @@ public class FleamarketEntity {
 		                .mId(entity.getUserEntity().getId())  // UserEntity를 UserDto로 변환
 		                .mFilePath(entity.getFiles() != null
 		                	? entity.getFiles().getFPath(): null) //파일의 경로 가져가기
-		                .cNo(entity.getChats() != null ?
-		                        entity.getChats().stream()
-		                        .map(ChatEntity::getCNo) //엔티티클래스 ::해당 엔티티(pk) 
-		                                //.map(ChatEntity::toDto) //전부 가져오면 오류 생긴다.
-		                                .collect(Collectors.toList()) : null)  //ChatDto "리스트"로 변환
+//		                .cNo(entity.getChats() != null ?
+//		                        entity.getChats().stream()
+//		                        .map(ChatEntity::getCNo) //엔티티클래스 ::해당 엔티티(pk) 
+//		                                //.map(ChatEntity::toDto) //전부 가져오면 오류 생긴다.
+//		                                .collect(Collectors.toList()) : null)  //ChatDto "리스트"로 변환
 		                .build();
 		}
 	    

@@ -37,6 +37,7 @@ public class FleamarketService {
 	        pageable.getPageSize(), // 인스턴스 메서드를 호출하여 페이지 크기를 가져옴
 	        Sort.by("mNo").descending() // mNo 필드를 기준으로 내림차순 정렬
 	    );
+	    
 
 	    return repository.findAll(sortedByMnoDesc).map(FleamarketEntity::toDto);
 	}

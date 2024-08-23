@@ -39,7 +39,7 @@ public class FleamarketDto {
 	private Long totalElements;
 
     // 채팅번호
-    private List<Integer> cNo; 
+//    private List<Integer> cNo; 
 
 	  //dto를 entity로 변환
 	    public static FleamarketEntity toEntity(FleamarketDto dto) {
