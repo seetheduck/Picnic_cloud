@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue CDN Example</title>
+  <!-- Vue.js를 CDN을 통해 로드 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0"></script>
+  <!-- Vue Router CDN 추가 -->
+  <script src="https://unpkg.com/vue-router@4"></script>
+  <!-- CSS 파일 로드 -->
+  <link rel="stylesheet" href="./css/mainPage.css">
+  <link rel="stylesheet" href="./css/topBar.css">
+  <link rel="stylesheet" href="./css/footerBox.css">
 </head>
 <body>
-<h2>실험</h2>
+  <div id="app"></div>
+
+  <!-- 컴포넌트 및 라우터 스크립트 파일을 순서대로 로드 -->
+  <script src="./components/topBar.js"></script>
+  <script src="./components/footerBox.js"></script>
+  <script src="./components/mainPage.js"></script>
+  <script src="./js/router.js"></script>
+
+  <script>
+    // Vue 애플리케이션 생성 및 마운트
+    const app = Vue.createApp({
+      template: '<router-view></router-view>' // 라우터를 통해 컴포넌트를 렌더링
+    });
+
+    app.use(router); // Vue 라우터 사용
+    app.component('top-bar', TopBar);
+    app.component('footer-box', FooterBox);
+    
+    app.mount('#app'); // DOM에 마운트
+  </script>
 </body>
 </html>
