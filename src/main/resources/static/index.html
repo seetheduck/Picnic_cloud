@@ -5,6 +5,34 @@
 <title>Insert title here</title>
 </head>
 <body>
+<<<<<<< Updated upstream
 <h2>실험</h2>
+=======
+<<<<<<<< Updated upstream:src/main/resources/public/index.html
+<h2>실험</h2>
+<a href="/fleamarket.html">클릭</a>
+========
+  <div id="app"></div>
+
+  <!-- 컴포넌트 및 라우터 스크립트 파일을 순서대로 로드 -->
+  <script src="./components/topBar.js"></script>
+  <script src="./components/footerBox.js"></script>
+  <script src="./components/mainPage.js"></script>
+  <script src="./js/router.js"></script>
+
+  <script>
+    // Vue 애플리케이션 생성 및 마운트
+    const app = Vue.createApp({
+      template: '<router-view></router-view>' // 라우터를 통해 컴포넌트를 렌더링
+    });
+
+    app.use(router); // Vue 라우터 사용
+    app.component('top-bar', TopBar);
+    app.component('footer-box', FooterBox);
+    
+    app.mount('#app'); // DOM에 마운트
+  </script>
+>>>>>>>> Stashed changes:src/main/resources/static/index.html
+>>>>>>> Stashed changes
 </body>
 </html>
