@@ -10,16 +10,12 @@ import pack.entity.ReviewEntity;
 
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer>{
 
-	//장소의 리뷰조회 /places/{p_no}/reviews
-	@Query("select r from ReviewEntity as r where r.rPno = :pNo")
-	List<ReviewEntity> find(@Param("pNo") int pNo);
+	//장소의 리뷰들 조회
+	List<ReviewEntity> findByrPno(int rPno);
 	
-	//장소의 리뷰생성 /places/{p_no}/reviews
+	//장소의 리뷰 생성, 수정
+	//jpa에서 제공하는 .save()를 사용
 	
-	
-	//장소의 리뷰수정 /review/{r_no}
-	
-	
-	//장소의 리뷰 삭제 /review/{r_no}
+	//리뷰 삭제
 	
 }

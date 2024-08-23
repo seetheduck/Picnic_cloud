@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테마추천</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <link rel="stylesheet" href="../css/placeMain.css">
+</head>
+<body>
+    <div id="app">
+        <div v-if="fiveDayWeather.length" class="weather-container">
+            <!-- 하루치의 날씨씩 반복 렌더링 -->
+            <div class="weather-card" v-for="(day, index) in fiveDayWeather" :key="index">
+            <h3>{{ day.date }}</h3> <!-- 날짜 -->
+            <p><img :src="day.iconUrl" alt="weather icon" /></p> <!-- 아이콘 -->
+            <p>{{day.description}}</p> <!-- 설명 -->
+            <p>평균 {{day.avg.toFixed(1)}}°</p> <!-- 하루 평균 온도 -->
+            <p>{{day.min.toFixed(1)}}°/{{day.max.toFixed(1)}}°</p> <!-- 하루 최저, 최고온도 -->
+            </div>
+        </div>
+        <br><br>
+        <!--이미지 클릭시 카데고리값 쿼리문자열로 전달. 페이지 전환. -->
+        <div class="image-container">
+        <!--실내 테마-->
+        <div class="image-group">
+            <div class="caption">
+                <h3>실내 테마</h3>
+                <p>더위와 비를 피하기 위한 최고의 장소들!</p>
+            </div>
+            <div class="image-items">   
+         <a :href="'placeSearch.html?pCategory=' + 'child bookstore'">
+            <img src="../images/places/googlebird.png" alt="child bookstore">
+         </a>
+         <a :href="'placeSearch.html?pCategory=' + 'public playground'">
+            <img src="../images/places/googlebird.png" alt="public playground">
+         </a>
+        </div>
+        </div>
+        <!-- 실외 테마 -->
+        <div class="image-group">
+        <div class="caption">
+            <h3>실외 테마</h3>
+            <p>무더운 여름 이색놀이를 즐겨봐요!</p>
+        </div>
+        <div class="image-items">  
+         <a :href="'placeSearch.html?pCategory=' + 'waterpark'">
+            <img src="../images/places/googlebird.png" alt="waterpark">
+         </a>
+         <a :href="'placeSearch.html?pCategory=' + 'camping'">
+            <img src="../images/places/googlebird.png" alt="camping">
+         </a>
+        </div>
+        </div>
+        </div>
+    </div>
+<script src="../js/placeMain.js"></script>
+</body>
+</html>
