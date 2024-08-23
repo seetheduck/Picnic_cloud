@@ -25,9 +25,9 @@ public class FilesDto {
 	private Integer fMarketNo;
 	private Integer fChatNo;
 	
-	private UserDto userDto;
+//	private UserDto userDto;
 
-	private MultipartFile multipart;
+//	private MultipartFile multipart;
 
     //dto를 entity로 변환
     public static FilesEntity toEntity (FilesDto dto) {
@@ -37,11 +37,11 @@ public class FilesDto {
     	// DTO의 필드를 사용하여 엔티티를 생성
     	return FilesEntity.builder()
     			.fNo(dto.getFNo())
+    			.fUserId(dto.getFUserId())
     			.fType(dto.getFType())
     			.fPath(dto.getFPath())
     			.fUploadDate(dto.getFUploadDate())
-    			
-    			.userEntity(UserDto.toEntity(dto.getUserDto()))
+//    			.userEntity(UserDto.toEntity(dto.getUserDto()))
     			.build();
     }
     

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fleaMarket</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <link href="./css/fleamarket.css" rel="stylesheet">
+    <!-- 
+    에러 발생 
+    You are running a development build of Vue.
+    Make sure to use the production build (*.prod.js)
+    when deploying for production.
+    Vue의 개발모드에서 실행되는 중이니깐 프로덕션 모드로 바꿔라
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+     >>  무시해도 된다.
+    -->
+</head>
+<body>
+    <!-- 페이징 구현시 js에서 가져오는 데이터명 잘 매핑하기-->
+    <div id="app">
+        <section id="searchSection">
+            <!-- 카테고리 -->
+            <select v-model="category">
+                <option selected>전체</option>
+                <option>베이비의류(0-2세)</option>
+                <option>여아의류(3-6세)</option>
+                <option>남아의류(3-6세)</option>
+                <option>여아 주니어의류(7세 -)</option>
+                <option>남아 주니어의류(7세 -)</option>
+                <option>신발/가방/잡화</option>
+                <option>유아용품</option>
+                <option>일부의류/용품</option>
+                <option>교구/완구/인형</option>
+                <option>수유/이유용품</option>
+            </select>
+            <!-- 검색창 -->
+            <input type="text" v-model="search">
+            <button @click.prevent="searchbtn">검색</button>
+        </section>
+        <!-- 글쓰기 버튼 -->
+        <div>
+            <button @click="create">글쓰기</button>
+        </div>
+        <!-- 게시판-->
+        <div>
+            <div v-if="content.length > 0">
+                <div class="post-container">
+                    <span v-for="(item, index) in content" :key="index" class="onedata">
+                        <form class="oneItem" @click="goToDetail(item.mno)">
+                            <input type="hidden" value={{item.mfilePath}}>
+                            <span>
+                                <img :src="getFirstFilePath(item.mfilePath)" alt="Image description" />
+                            </span>
+                            <span>{{ item.mfileNo }}</span>
+                            <span>
+                                {{ item.mno }}
+                                <h3>{{ item.mtitle }}</h3>
+                                <p>{{ item.mcont }}</p>
+                                <b>{{ item.mprice }}</b></p>
+                                {{ item.mcategory}}
+                            </span>
+                        </form>
+                    </span>
+                </div>
+            </div>
+            <div v-else>
+                <h2>올라온 게시글이 없습니다. 새글을 적어주세요</h2>
+            </div>
+
+
+            <!-- Pagination Controls -->
+            <div v-if="page.totalPages > 1" class="pagination">
+                <button @click="changePage(page.number - 1)" :disabled="page.number === 0">Previous</button>
+                <button v-for="pageNum in paginationPages" @click="changePage(pageNum)" :class="{ active: pageNum === page.number }">
+                    {{ pageNum + 1 }}
+                </button>
+                <button @click="changePage(page.number + 1)" :disabled="page.number === page.totalPages - 1">Next</button>
+            </div>
+        </div>
+    </div>
+    <script src="./script/fleaMain.js"></script>
+</body>
+</html>

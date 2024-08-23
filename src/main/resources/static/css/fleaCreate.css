@@ -1,0 +1,24 @@
+/* Create Page Specific Styles */
+#create {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid var(--primary-color-dark);
+    border-radius: 5px;
+    background-color: var(--primary-color-light);
+}
+
+input[type="submit"], input[type="button"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+}
+
+label {
+    font-weight: bold;
+    color: var(--primary-color-darker);
+}
+
+sup{
+    color: red;
+}
