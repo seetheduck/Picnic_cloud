@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #f8f8f8;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.search-container {
+    display: flex;
+    padding: 20px;
+}
+
+
+.sidebar {
+    width: 30%;
+    padding: 20px;
+    background-color: #f1f1f1;
+}
+
+.sidebar input {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+
+
+.spinner-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.7); /* 스피너 배경 투명도 설정 */
+    z-index: 1000; /* 지도가 아닌 스피너가 우선 표시되도록 설정 */
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #007bff;
+    animation: spin 1s linear infinite;
+}
+
+.spinner-text {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #000; /* 글씨 색상 설정 */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.map-container {
+    position: relative;
+    width: 70%;
+    height: 600px;
+    margin-left: 20px;
+}
+
+#current-location-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#current-location-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* 기본 버튼 스타일 */
+.sidebar button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+footer {
+    background-color: #f8f8f8;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+}
