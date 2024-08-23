@@ -1,0 +1,177 @@
+#content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* 위쪽 정렬 */
+    flex-wrap: wrap; /* 줄바꿈 허용 */
+}
+
+#calendar {
+    width: 55%; /* 초기 로딩 시 달력 크기 */
+    margin: 20px;
+    transition: width 0.3s ease; /* 달력 크기 전환 애니메이션 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 박스 크기 계산 */
+}
+
+#eventList {
+    width: 55%; /* 전시회 정보 영역 너비 */
+    margin: 20px;
+}
+
+.event-item {
+    background: #f9f9f9;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 18px;
+}
+
+.event-item img {
+    max-width: 100px; /* 이미지 크기 제한 */
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+    color: black; /* 슬라이드 화살표 색상 변경 */
+}
+
+/* 버튼 클릭 후, 달력 100% 크기로 확장 */
+#calendar.fullscreen {
+    width: 100%;
+    display: block;
+    margin: 20px auto;
+}
+
+/* 버튼 클릭 후, 전시회 정보 숨기기 */
+#eventList.hidden {
+    display: none;
+}
+
+
+ /* 메뉴 스타일 */
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar a {
+            float: left;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+        .dropdown .dropbtn {
+            font-size: 16px;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 14px 16px;
+            background-color: inherit;
+            font-family: inherit;
+            margin: 0;
+        }
+
+        .navbar a:hover,
+        .dropdown:hover .dropbtn {
+            background-color: #555;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            float: none;
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        #content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        #calendar {
+            width: 55%;
+            margin: 20px;
+            transition: width 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        #eventList {
+            width: 55%;
+            margin: 20px;
+        }
+
+        .event-item {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .event-item img {
+            max-width: 100px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .slick-prev:before,
+        .slick-next:before {
+            color: black;
+        }
+
+        #calendar.fullscreen {
+            width: 100%;
+            display: block;
+            margin: 20px auto;
+        }
+
+        #eventList.hidden {
+            display: none;
+        }
+        .fc-event {
+    color: black !important; /* 텍스트 색상 검은색 */
+    font-weight: bold !important; /* 텍스트 굵게 */
+}
