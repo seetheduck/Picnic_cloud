@@ -44,27 +44,25 @@ public class FleamarketEntity {
 	    private Boolean mBlocked; //관리자) 블락처리 유무
 	    private Integer mBlockedCnt; //관리자) 블락처리 수
 
-	    @ManyToOne(fetch = FetchType.LAZY)
+	    @ManyToOne(fetch = FetchType.EAGER)
 	    @JoinColumn(name = "m_id", referencedColumnName = "id") //글쓴이
 	    private UserEntity userEntity;
 
-	    @OneToMany(mappedBy = "fleamarketEntity")
-	    private List<FilesEntity> files;
+	    @OneToOne(mappedBy = "fleamarketEntity") //하나의 게시판에는 이미지 1개만 
+	    private FilesEntity files;
 	    
-	    @OneToMany(mappedBy = "fleamarketEntity")
-	    private List<ChatEntity> chats;
+//	    @OneToMany(mappedBy = "fleamarketEntity")
+//	    private List<ChatEntity> chats;
 
-//	    @OneToMany(mappedBy = "FleamarketEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+//	    @OneToMany(mappedBy = "FleamarketEntity")
 //	    private List<Likes> likes;
 	    
-//	    @OneToMany(mappedBy = "FleamarketEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+//	    @OneToMany(mappedBy = "FleamarketEntity")
 //	    private List<Report> reports;
 	     
 
 		// entity > dto 변환
 		public static FleamarketDto toDto(FleamarketEntity entity) {
-			// 직접 가져오면 한번에 전체 정보를 가져올 수 있지만 dto 크기가 커져 전송 효율이 낮아질 수 있다.
-			// 채팅방의 전체 정보가 자주 필요할까? 고민 ..
 
 			 return FleamarketDto.builder()
 		                .mNo(entity.getMNo())
@@ -79,10 +77,8 @@ public class FleamarketEntity {
 		                .mBlocked(entity.getMBlocked())
 		                .mBlockedCnt(entity.getMBlockedCnt())
 		                .mId(entity.getUserEntity().getId())  // UserEntity를 UserDto로 변환
-		                .mFilePath(entity.getFiles() != null && !entity.getFiles().isEmpty()
-		                	? entity.getFiles().stream()
-		                		.map(FilesEntity::getFPath)
-		                		.collect(Collectors.toList()): null)
+		                .mFilePath(entity.getFiles() != null
+		                	? entity.getFiles().getFPath(): null) //파일의 경로 가져가기
 //		                .cNo(entity.getChats() != null ?
 //		                        entity.getChats().stream()
 //		                        .map(ChatEntity::getCNo) //엔티티클래스 ::해당 엔티티(pk) 

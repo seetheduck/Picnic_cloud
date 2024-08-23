@@ -29,13 +29,10 @@ public class ChatDto {
 
     private MessageType cMessageType;
 
-
-    private List<FilesDto> Files;
     private List<Integer> fNo;
     
     private FleamarketDto fleamarketDto;
     
-
     public static ChatEntity toEntity(ChatDto dto) {
         if (dto == null) {
             return null;

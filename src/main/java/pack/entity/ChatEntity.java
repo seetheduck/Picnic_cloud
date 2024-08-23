@@ -35,7 +35,6 @@ public class ChatEntity{
     private String cSellerId;
     private Integer cMessageNo; //메시지 번호 (어플리케이션 단 증)
     private String cMessageCont;
-    private Integer cFileNo;
     private LocalDateTime cCreateDate; //시간까지 저장되는 타입
 
     @Enumerated(EnumType.STRING)
@@ -72,7 +71,7 @@ public class ChatEntity{
         			.cMessageCont(entity.getCMessageCont())
         			.cCreateDate(entity.getCCreateDate())
         			.fleamarketDto(FleamarketEntity.toDto(entity.fleamarketEntity)) //플리마켓
-        			.cFleaNo(entity.getCFileNo())
+//        			.cFleaNo(entity.getCFileNo())
 //        			.fNo(entity.getFiles().stream().map(FilesEntity::getFNo).collect(Collectors.toList()))
         			.build();
         }
