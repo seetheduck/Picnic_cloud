@@ -1,5 +1,35 @@
+/* FooterBox.css */
+
+/* FooterBox 기본 스타일 */
 .footer {
-    height: 184px; 
-    border-top: 1px solid #87ceeb; 
-    background-color: #ffff; 
+  max-width: 1200px; 
+  height: 184px;
+  border-top: 1px solid #87ceeb;
+  background-color: #fff;
+  padding: 20px 4rem;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* 반응형 디자인 */
+
+/* 노트북과 중간 화면 (max-width 1200px) */
+@media (max-width: 1200px) {
+  .footer {
+    padding: 20px 2rem;
+    height: auto;
   }
+}
+
+/* 모바일 화면 (max-width 480px) */
+@media (max-width: 480px) {
+  .footer {
+    padding: 20px 1rem;
+    height: auto;
+  }
+}
