@@ -16,7 +16,7 @@ import pack.repository.PlaceRepository;
 public class PlaceService {
 	@Autowired
 	private PlaceRepository placeRepository;
-
+	
 	public List<PlaceDto> findPlacesBypCategoryandKeyword(String pCategory, String keyword) {
 		
 		//entity to dto

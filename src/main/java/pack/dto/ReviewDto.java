@@ -22,7 +22,7 @@ import pack.entity.ReviewEntity;
 @AllArgsConstructor
 @Builder
 public class ReviewDto {
-	@Id
+	
     private Integer rNo;
 
     private String rId;
@@ -55,6 +55,7 @@ public class ReviewDto {
     			.rBlocked(dto.getRBlocked())
     			.rBlockedCnt(dto.getRBlockedCnt())
     			.rIp(dto.getRIp())
+    			.rPno(dto.getRPno())
     			//.likes(dto.getLikes() != null ? 
     			//	dto.getLikes().stream()
     			//		.map(LikesDto::toLikesEntity)

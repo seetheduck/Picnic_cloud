@@ -51,6 +51,7 @@ public class ReviewEntity {
     public static ReviewDto toReviewDto(ReviewEntity entity) {
     	return ReviewDto.builder()
     			.rNo(entity.getRNo())
+    			.rId(entity.getRId())
     			.rCont(entity.getRCont())
     			.rCreateDate(entity.getRCreateDate())
     			.rLike(entity.getRLike())
@@ -60,6 +61,7 @@ public class ReviewEntity {
     			.rBlocked(entity.getRBlocked())
     			.rBlockedCnt(entity.getRBlockedCnt())
     			.rIp(entity.getRIp())
+    			.rPno(entity.getRPno())
     			//.likes(entity.getLikes() != null ?
     			//		entity.getLikes().stream()
     			//		.map(LikesEntity::toLikesDto)
