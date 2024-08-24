@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue CDN Example</title>
+  <!-- Vue.js를 CDN을 통해 로드 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <!-- BaseButton.css 파일 로드 -->
+  <link rel="stylesheet" href="BaseButton.css">
+</head>
+<body>
+  <div id="app">
+    <!-- BaseButton 컴포넌트를 사용 -->
+    <base-button type="button" mode="primary" @click="handleClick">Click Me</base-button>
+  </div>
+
+  <script>
+    // 위에서 변환한 BaseButton 컴포넌트
+    const BaseButton = {
+      template: `
+        <button 
+            :type="type" 
+            :class="mode" 
+            @click="$emit('click')"> 
+            <slot></slot>
+        </button>
+      `,
+      props: {
+        type: {
+          type: String,
+          default: 'button'
+        },
+        mode: {
+          type: String,
+          default: ''
+        }
+      }
+    };
+
+    // Vue 인스턴스 생성
+    new Vue({
+      el: '#app',
+      components: {
+        'base-button': BaseButton
+      },
+      methods: {
+        handleClick() {
+          alert('Button clicked!');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
