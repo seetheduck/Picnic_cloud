@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue CDN Example</title>
+  <!-- Vue.js를 CDN을 통해 로드 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <!-- FooterBox.css 파일 로드 -->
+  <link rel="stylesheet" href="../css/footerBox.css">
+</head>
+<body>
+  <div id="app">
+    <!-- FooterBox 컴포넌트를 사용 -->
+    <footer-box></footer-box>
+  </div>
+
+  <script>
+    // 위에서 변환한 FooterBox 컴포넌트
+    const FooterBox = {
+      template: `
+        <footer class="footer">
+        </footer>
+      `,
+      name: 'FooterBox',
+    };
+
+    // Vue 인스턴스 생성
+    new Vue({
+      el: '#app',
+      components: {
+        'footer-box': FooterBox
+      }
+    });
+  </script>
+</body>
+</html>

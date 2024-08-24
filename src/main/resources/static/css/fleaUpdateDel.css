@@ -1,0 +1,35 @@
+/* Update/Delete Page Specific Styles */
+#update {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: var(--primary-color-light);
+    border-radius: 5px;
+}
+
+form {
+    background-color: var(--primary-color-light);
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-color-dark);
+}
+
+input[type="submit"], input[type="button"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+}
+
+label, select {
+    font-weight: bold;
+    color: var(--primary-color-darker);
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--primary-color-dark);
+    border-radius: 4px;
+    box-sizing: border-box;
+}

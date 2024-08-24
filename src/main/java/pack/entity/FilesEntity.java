@@ -29,16 +29,17 @@ public class FilesEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer fNo;
+    private String fUserId;
     private String fType;
     private String fPath;
     private LocalDateTime fUploadDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "f_user_id", referencedColumnName = "id")
-    private UserEntity userEntity;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "f_user_id", referencedColumnName = "id")
+//    private UserEntity userEntity;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="f_market_no")
+    @JoinColumn(name="f_market_no", referencedColumnName = "mNo")
     private FleamarketEntity fleamarketEntity;
     
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -49,12 +50,13 @@ public class FilesEntity{
 	public static FilesDto toDto(FilesEntity entity) {
 		return FilesDto.builder()
 				.fNo(entity.getFNo())
+				.fUserId(entity.getFUserId())
 				.fType(entity.getFType())
 				.fPath(entity.getFPath())
 				.fUploadDate(entity.getFUploadDate())
-				.fUserId(entity.getUserEntity().getId()) //사용자 아이디
+//				.fUserId(entity.getUserEntity().getId()) //사용자 아이디
 				.fMarketNo(FleamarketEntity.toDto(entity.fleamarketEntity).getMNo())
-				.userDto(UserEntity.toDto(entity.userEntity))
+//				.userDto(UserEntity.toDto(entity.userEntity))
 				.build();
 	}
 }
