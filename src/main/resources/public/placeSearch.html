@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장소검색</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../css/placeSearch.css">
+</head>
+<body>
+<div id="app">
+    <div class="search-bar">
+        <label for="search">검색 : </label> 
+        <input type="text" id="search" class="search" v-model="keyword" 
+        placeholder="시설명 혹은 주소" @keydown.enter="searchFunc"/>
+        <!--검색 가이드 placeholder로 제시-->
+        <!--버튼을 클릭할 때뿐만 아니라, 엔터 키를 눌렀을 때도 검색이 실행되도록 -->
+        <button @click="searchFunc">검색</button>
+    </div>
+    <div v-if="places.length > 0">
+    <!--조건부 렌더링-->
+    <p>검색결과 : {{places.length}}개</p>
+        <div v-for="(p, index) in places" :key="index" class="place-item">
+            <div class="place-image">
+                <img :src="getImageUrl(p.pimage)" alt="placeImage"/>
+            </div>
+            <div class="place-info">
+                <h3>
+                	<a :href="'placeInfo.html?pNo=' + p.pno">{{p.pname}}</a>
+                </h3>
+                <!-- 시설명에 링크를 걸어 해당 장소의 상세페이지로 이동 -->
+                <p>{{p.paddress}}</p>
+                <p>📞{{p.ptel}}</p>
+                <p>⭐{{p.ppoint.toFixed(1)}} 💛{{p.plikeCnt}}</p>
+            </div>
+        </div>
+    </div>
+    <div v-else>
+        <p>결과가 없어요</p>
+    </div>
+</div>
+<script src="../js/placeSearch.js"></script>
+</body>
+</html>

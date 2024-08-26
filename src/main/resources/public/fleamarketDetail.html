@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Page</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="./css/fleaDetail.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="detail">
+        <div v-if="items">
+
+            <!-- 이미지 및 아이템 정보 -->
+            <div class="item-container">
+                <img :src="getFirstFilePath(items.mfilePath)" alt="first Image">
+                <div class="item-info">
+                    <span class="item-title">{{ items.mtitle }}</span>
+                    <span class="item-price">{{ items.mprice | currency }}</span>
+                    
+                    <span class="item-category">{{ items.mcategory }}</span>
+                    <div class="item-buttons">
+                        <button>채팅방</button>
+                    </div>
+                </div>
+            </div>
+
+             <!-- 상단 버튼 (목록보기, 수정, 삭제) -->
+             <div>
+                <!-- 작성자만 보이도록 -->
+                 <button @click="fleaUpdate">수정</button>
+                 <button @click="fleaDelete">삭제</button>
+                 <!-- -------------- -->
+                 <button @click="list">목록보기</button>
+            </div>
+
+            <!-- 하단 상세 정보 -->
+            <div class="item-description">
+                <h3>상품 상세 정보</h3>
+                <p>{{ items.mcont }}</p>
+            </div>
+        </div>
+
+        <div v-else>
+            <h2>Loading...</h2>
+        </div>
+    </div>
+    <script src="./js/fleaDetail.js"></script>
+</body>
+
+</html>
