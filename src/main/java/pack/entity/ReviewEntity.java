@@ -26,19 +26,19 @@ import pack.dto.ReviewDto;
 @Builder
 public class ReviewEntity {
 	@Id
-    private Integer rNo;
+    private Integer no;
 
-    private String rId;
-    private String rCont;
-    private LocalDateTime rCreateDate;
-    private Boolean rLike;
-    private Integer rLikeCnt;
-    private Boolean rDelIs;
-    private LocalDateTime rDelDate;
-    private Boolean rBlocked;
-    private Integer rBlockedCnt;
-    private String rIp;
-    private int rPno; // db 변동사항에 따라 추가된 부분 
+    private String userid;
+    private String contents;
+    private LocalDateTime createDate;
+    private Boolean likeIs;
+    private Integer likeCnt;
+    private Boolean delIs;
+    private LocalDateTime delDate;
+    private Boolean blocked;
+    private Integer blockedCnt;
+    private String ip;
+    private int placeNo; 
 
 
     //@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -50,18 +50,18 @@ public class ReviewEntity {
     //toDto: entity > dto
     public static ReviewDto toReviewDto(ReviewEntity entity) {
     	return ReviewDto.builder()
-    			.rNo(entity.getRNo())
-    			.rId(entity.getRId())
-    			.rCont(entity.getRCont())
-    			.rCreateDate(entity.getRCreateDate())
-    			.rLike(entity.getRLike())
-    			.rLikeCnt(entity.getRLikeCnt())
-    			.rDelIs(entity.getRDelIs())
-    			.rDelDate(entity.getRDelDate())
-    			.rBlocked(entity.getRBlocked())
-    			.rBlockedCnt(entity.getRBlockedCnt())
-    			.rIp(entity.getRIp())
-    			.rPno(entity.getRPno())
+    			.no(entity.getNo())
+    			.userid(entity.getUserid())
+    			.contents(entity.getContents())
+    			.createDate(entity.getCreateDate())
+    			.likeIs(entity.getLikeIs())
+    			.likeCnt(entity.getLikeCnt())
+    			.delIs(entity.getDelIs())
+    			.delDate(entity.getDelDate())
+    			.blocked(entity.getBlocked())
+    			.blockedCnt(entity.getBlockedCnt())
+    			.ip(entity.getIp())
+    			.placeNo(entity.getPlaceNo())
     			//.likes(entity.getLikes() != null ?
     			//		entity.getLikes().stream()
     			//		.map(LikesEntity::toLikesDto)

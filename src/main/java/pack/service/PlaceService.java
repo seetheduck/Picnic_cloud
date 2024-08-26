@@ -5,33 +5,33 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import pack.dto.PlaceDto;
 import pack.entity.PlaceEntity;
 import pack.repository.PlaceRepository;
+import pack.repository.PlaceSpecification;
 
 @Service
 public class PlaceService {
 	@Autowired
 	private PlaceRepository placeRepository;
 	
-	public List<PlaceDto> findPlacesBypCategoryandKeyword(String pCategory, String keyword) {
-		
-		//entity to dto
-		return placeRepository.findBypCategoryandKeyword(pCategory, keyword).stream()
-				.map(PlaceEntity::toPlaceDto)
-				.collect(Collectors.toList());
-		
-	}
+	//테마별 장소 목록. 검색(시설명, 주소)어가 있을경우 조건추가.
+	public List<PlaceDto> findPlacesByTypeAndKeyword(String placeType, String keyword) {
+        Specification<PlaceEntity> spec = PlaceSpecification.hasKeyword(placeType, keyword)
+        														.and(PlaceSpecification.orderByPointAndLikeCnt());
+        return placeRepository.findAll(spec).stream()
+        		.map(PlaceEntity::toPlaceDto)
+        		.collect(Collectors.toList());
+    }
 	//선택한 장소 1곳 상세정보.
-	public Optional<PlaceDto> findPlacesBypNo(int pNo){
+	public Optional<PlaceDto> findPlacesByNo(int no){
 		
 		//entity to dto
-		return placeRepository.findBypNo(pNo)
+		return placeRepository.findByNo(no)
 				.map(PlaceEntity::toPlaceDto);
-				
 	}
 
 }

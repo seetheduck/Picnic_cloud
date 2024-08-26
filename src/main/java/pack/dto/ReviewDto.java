@@ -22,20 +22,20 @@ import pack.entity.ReviewEntity;
 @AllArgsConstructor
 @Builder
 public class ReviewDto {
-	
-    private Integer rNo;
+	@Id
+    private Integer no;
 
-    private String rId;
-    private String rCont;
-    private LocalDateTime rCreateDate;
-    private Boolean rLike;
-    private Integer rLikeCnt;
-    private Boolean rDelIs;
-    private LocalDateTime rDelDate;
-    private Boolean rBlocked;
-    private Integer rBlockedCnt;
-    private String rIp;
-    private int rPno; // db 변동사항에 따라 추가된 부분 
+    private String userid;
+    private String contents;
+    private LocalDateTime createDate;
+    private Boolean likeIs;
+    private Integer likeCnt;
+    private Boolean delIs;
+    private LocalDateTime delDate;
+    private Boolean blocked;
+    private Integer blockedCnt;
+    private String ip;
+    private int placeNo; 
 
     //private List<LikesDto> likes;
 
@@ -44,18 +44,18 @@ public class ReviewDto {
 	//toEntity: dto > entity
     public static ReviewEntity toReviewEntity(ReviewDto dto) {
     	return ReviewEntity.builder()
-    			.rNo(dto.getRNo())
-    			.rId(dto.getRId())
-    			.rCont(dto.getRCont())
-    			.rCreateDate(dto.getRCreateDate())
-    			.rLike(dto.getRLike())
-    			.rLikeCnt(dto.getRLikeCnt())
-    			.rDelIs(dto.getRDelIs())
-    			.rDelDate(dto.getRDelDate())
-    			.rBlocked(dto.getRBlocked())
-    			.rBlockedCnt(dto.getRBlockedCnt())
-    			.rIp(dto.getRIp())
-    			.rPno(dto.getRPno())
+    			.no(dto.getNo())
+    			.userid(dto.getUserid())
+    			.contents(dto.getContents())
+    			.createDate(dto.getCreateDate())
+    			.likeIs(dto.getLikeIs())
+    			.likeCnt(dto.getLikeCnt())
+    			.delIs(dto.getDelIs())
+    			.delDate(dto.getDelDate())
+    			.blocked(dto.getBlocked())
+    			.blockedCnt(dto.getBlockedCnt())
+    			.ip(dto.getIp())
+    			.placeNo(dto.getPlaceNo())
     			//.likes(dto.getLikes() != null ? 
     			//	dto.getLikes().stream()
     			//		.map(LikesDto::toLikesEntity)

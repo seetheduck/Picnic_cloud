@@ -23,26 +23,20 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 	
-	//장소의 리뷰조회 
-	@GetMapping("/{rPno}") 
-	public List<ReviewDto> getReviewsByrPno(@PathVariable("rPno") int rPno){
-		return reviewService.findReviewsByrPno(rPno);
+	//장소의 리뷰조회 /reviews/{placeNo}
+	@GetMapping("/{placeNo}") 
+	public List<ReviewDto> getReviewsByPlaceNo(@PathVariable("placeNo") int placeNo){
+		return reviewService.findReviewsByPlaceNo(placeNo);
 	}
 
-	//장소의 리뷰생성
-	@PostMapping("/{rPno}")
-	public ReviewDto createReview(@PathVariable("rPno") int rPno, @RequestBody ReviewDto reviewDto) {
-		reviewDto.setRPno(rPno); 
-		return reviewService.saveReview(reviewDto);
-	}
-
-	//장소의 리뷰수정 
-	@PutMapping("/{rNo}")
-	public ReviewDto updateReview(@PathVariable("rNo") int rNo, @RequestBody ReviewDto reviewDto) {
-		reviewDto.setRNo(rNo);
-		return reviewService.saveReview(reviewDto);
-	}
+//	//장소의 리뷰생성 /reviews/{placeNo}
+//	@PostMapping("/{no}")
+//	public ReviewDto createReview(@PathVariable("no") int no, @RequestBody ReviewDto reviewDto) {
+//		//reviewDto.setRPno(rPno); 
+//		return reviewService.saveReview(reviewDto);
+//	}
+	//리뷰 수정/reviews/{no}
 		
-	//장소의 리뷰 삭제 
+	//리뷰 삭제 /reviews/{no}
 	
 }

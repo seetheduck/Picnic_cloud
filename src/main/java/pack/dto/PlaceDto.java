@@ -1,5 +1,6 @@
 package pack.dto;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,37 +20,38 @@ import pack.entity.PlaceEntity;
 @Builder
 public class PlaceDto {
 	@Id
-	private int pNo;
+	private int no; 
 	
-	private String pCategory;
-    private String pName;
-    private String pAddress;
-    private Boolean pLike;
-    private Integer pLikeCnt;
-    private float pPoint;
-    private String pImage;
-    private String pExplain;
-    private String pTel;
-    private String pPay;
-    private String pDay;
+	private String placeType;
+    private String name;
+    private String address;
+    private Boolean likeIs;
+    private Integer likeCnt;
+    private float point;
+    private String image;
+    private String description;
+    private String tel;
+    private String entranceFee;
+    private String operationTime;
+
     
    // private List<LikesDto> likes;
     
     //toEntity: dto > entity
     public static PlaceEntity toPlaceEntity(PlaceDto dto) {
     	return PlaceEntity.builder()
-    			.pNo(dto.getPNo())
-    			.pCategory(dto.getPCategory())
-    			.pName(dto.getPName())
-    			.pAddress(dto.getPAddress())
-    			.pLike(dto.getPLike())
-    			.pLikeCnt(dto.getPLikeCnt())
-    			.pPoint(dto.getPPoint())
-    			.pImage(dto.getPImage())
-    			.pExplain(dto.getPExplain())
-    			.pTel(dto.getPTel())
-    			.pPay(dto.getPPay())
-    			.pDay(dto.getPDay())
+    			.no(dto.getNo())
+    			.placeType(dto.getPlaceType())
+    			.name(dto.getName())
+    			.address(dto.getAddress())
+    			.likeIs(dto.getLikeIs())
+    			.likeCnt(dto.getLikeCnt())
+    			.point(dto.getPoint())
+    			.image(dto.getImage())
+    			.description(dto.getDescription())
+    			.tel(dto.getDescription())
+    			.entranceFee(dto.getEntranceFee())
+    			.operationTime(dto.getOperationTime())
     			//.likes(dto.getLikes() != null ? 
     			//	dto.getLikes().stream()
     			//		.map(LikesDto::toLikesEntity)

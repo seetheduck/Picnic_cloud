@@ -25,19 +25,19 @@ import pack.dto.PlaceDto;
 @Table(name="place")
 public class PlaceEntity {
 	@Id
-	private int pNo;
+	private int no; //
 	
-	private String pCategory;
-    private String pName;
-    private String pAddress;
-    private Boolean pLike;
-    private Integer pLikeCnt;
-    private float pPoint;
-    private String pImage;
-    private String pExplain;
-    private String pTel;
-    private String pPay;
-    private String pDay;
+	private String placeType;
+    private String name;
+    private String address;
+    private Boolean likeIs;
+    private Integer likeCnt;
+    private float point;
+    private String image;
+    private String description;
+    private String tel;
+    private String entranceFee;
+    private String operationTime;
 
     //@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
    // private List<LikesEntity> likes;
@@ -45,18 +45,18 @@ public class PlaceEntity {
   //toDto: entity > dto
     public static PlaceDto toPlaceDto(PlaceEntity entity) {
     	return PlaceDto.builder()
-    			.pNo(entity.getPNo())
-    			.pCategory(entity.getPCategory())
-    			.pName(entity.getPName())
-    			.pAddress(entity.getPAddress())
-    			.pLike(entity.getPLike())
-    			.pLikeCnt(entity.getPLikeCnt())
-    			.pPoint(entity.getPPoint())
-    			.pImage(entity.getPImage())
-    			.pExplain(entity.getPExplain())
-    			.pTel(entity.getPTel())
-    			.pPay(entity.getPPay())
-    			.pDay(entity.getPDay())
+    			.no(entity.getNo())
+    			.placeType(entity.getPlaceType())
+    			.name(entity.getName())
+    			.address(entity.getAddress())
+    			.likeIs(entity.getLikeIs())
+    			.likeCnt(entity.getLikeCnt())
+    			.point(entity.getPoint())
+    			.image(entity.getImage())
+    			.description(entity.getDescription())
+    			.tel(entity.getTel())
+    			.entranceFee(entity.getEntranceFee())
+    			.operationTime(entity.getOperationTime())
     			//.likes(entity.getLikes() != null ?
     			//	entity.getLikes().stream()
     			//	.map(LikesEntity::toLikesDto)
