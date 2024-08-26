@@ -29,7 +29,7 @@
 <script>
 //import { computed } from 'vue';
 // import { isLoggedIn, login, logout, goToChat} from '../store/auth';
-import './TopBar.css';
+import './topBar.css';
 
 export default {
   setup() {

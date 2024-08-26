@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import FooterBox from './components/FooterBox.vue';
-import TopBar from './components/TopBar.vue';
-import './MainPage.css';
+import FooterBox from './components/footerBox.vue';
+import TopBar from './components/topBar.vue';
+import './mainPage.css';
 
 export default {
   components: {

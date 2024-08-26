@@ -10,4 +10,4 @@
   };
   </script>
   
-  <style src="./FooterBox.css"></style>
+  <style src="./footerBox.css"></style>

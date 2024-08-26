@@ -12,9 +12,9 @@
     
     <script>
     export default{
-        name:"BaseButton",
+        name:"BasicButton",
         props:['type', 'mode']
     }
     </script>
     
-    <style src="./BaseButton.css"></style>
+    <style src="./basicButton.css"></style>
