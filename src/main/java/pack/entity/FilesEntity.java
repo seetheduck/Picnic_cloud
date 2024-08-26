@@ -54,7 +54,6 @@ public class FilesEntity{
 				.fType(entity.getFType())
 				.fPath(entity.getFPath())
 				.fUploadDate(entity.getFUploadDate())
-//				.fUserId(entity.getUserEntity().getId()) //사용자 아이디
 				.fMarketNo(FleamarketEntity.toDto(entity.fleamarketEntity).getMNo())
 //				.userDto(UserEntity.toDto(entity.userEntity))
 				.build();
