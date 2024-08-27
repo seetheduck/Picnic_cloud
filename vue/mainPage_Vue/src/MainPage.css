@@ -73,16 +73,18 @@ h3 {
   display: flex;
   justify-content: center;
   margin-top: 1.5rem;
-  border: 1px solid black;
+  
+  width: 100%;
   min-width: 200px;
 }
 
 .thismonth {
-  flex: 3;
+  flex: 75%;
+  border: 1px solid black;
 }
 
 .calendarinfo {
-  flex: 1;
+  flex: 25%;
   height: 417px;
   border: 1px solid red;
 }
@@ -98,7 +100,7 @@ h3 {
 
 .book {
   flex: 1;
-  min-width: 150px;
+  width: 150px;
   height: 150px;
   border-radius: 50%;
   background-color: aqua;
@@ -142,6 +144,12 @@ h3 {
       flex-direction: column;
   }
 
+  .book {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+
   h3 {
       font-size: 1.2rem; 
   }
@@ -174,12 +182,19 @@ h3 {
       flex-direction: column;
   }
 
-  .calendar, .calendarinfo {
-      width: 100%;
-  }
+  .calendar, .calendarinfo, .thismonth {
+    width: 100%;
+    flex-direction: column;
+}
 
   .recommend {
       flex-direction: column;
+  }
+
+  .book {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
   }
 
   h3 {

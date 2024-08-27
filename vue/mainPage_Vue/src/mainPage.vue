@@ -1,7 +1,8 @@
 <template>
-  <div id="topBar">
-    <TopBar />
-  </div>
+  <header id="topBar">
+     <TopBar />
+    </header>
+    <main>
   <div id="mainBanner">
     메인배너 자리에요
   </div>
@@ -31,6 +32,7 @@
       </div>
     </article>
   </section>
+</main>
   <footer id="footerBox">
     <FooterBox />
   </footer>
