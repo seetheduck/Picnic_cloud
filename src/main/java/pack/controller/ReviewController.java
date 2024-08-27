@@ -29,14 +29,24 @@ public class ReviewController {
 		return reviewService.findReviewsByPlaceNo(placeNo);
 	}
 
-//	//장소의 리뷰생성 /reviews/{placeNo}
-//	@PostMapping("/{no}")
-//	public ReviewDto createReview(@PathVariable("no") int no, @RequestBody ReviewDto reviewDto) {
-//		//reviewDto.setRPno(rPno); 
-//		return reviewService.saveReview(reviewDto);
-//	}
+	//장소의 리뷰생성 /reviews/{placeNo}
+	@PostMapping("/{placeNo}")
+	public ReviewDto createReview(@PathVariable("placeNo") int placeNo, @RequestBody ReviewDto reviewDto) {
+		reviewDto.setPlaceNo(placeNo);
+		return reviewService.saveReview(reviewDto);
+	}
+	
 	//리뷰 수정/reviews/{no}
-		
+	@PutMapping("/{no}")
+	public ReviewDto updateReview(@PathVariable("no") int no, @RequestBody ReviewDto reviewDto) {
+		reviewDto.setNo(no); 
+		return reviewService.saveReview(reviewDto);
+	}
+	
 	//리뷰 삭제 /reviews/{no}
+	@DeleteMapping("/{no}")
+	public void deleteReview(@PathVariable("no") int no) {
+		reviewService.deleteReview(no);
+	}
 	
 }

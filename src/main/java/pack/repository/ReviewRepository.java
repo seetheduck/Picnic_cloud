@@ -14,8 +14,9 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer>{
 	List<ReviewEntity> findByPlaceNo(int placeNo);
 	
 	//장소의 리뷰 생성, 수정
-	//jpa에서 제공하는 .save()를 사용. 메
+	//jpa에서 제공하는 .save()를 사용.
 	
 	//리뷰 삭제
+	//
 	
 }
