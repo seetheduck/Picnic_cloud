@@ -1,15 +1,16 @@
 package pack.dto;
 
-import jakarta.persistence.*;
-import lombok.*;
-import pack.entity.FilesEntity;
-import pack.entity.FleamarketEntity;
-import pack.entity.UserEntity;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import pack.entity.UserEntity;
 
 @Getter
 @Setter
@@ -26,23 +27,9 @@ public class UserDto{
 
     private String pw;
     private String name;
-    private Boolean gender;
-    private String email;
-    private String address;
-    private Integer childAge;
-    private Boolean userStat;
     private Boolean signoutIs;
-    private LocalDateTime signUpDate;
-
-    @Column(unique = true)
-    private Integer kakaoNo;
-
-    private String kakaoEmail;
-    private String profileImageUrl;
-    private String accessToken;
-    private String refreshToken;
-    private LocalDateTime tokenExpiration;
-
+    private LocalDateTime signupDate;
+    
     private List<Integer> mNo; //마켓 번호
     private List<Integer> fNo; //파일 번호
     
@@ -57,19 +44,8 @@ public class UserDto{
                 .id(dto.getId())
                 .pw(dto.getPw())
                 .name(dto.getName())
-                .gender(dto.getGender())
-                .email(dto.getEmail())
-                .address(dto.getAddress())
-                .childAge(dto.getChildAge())
-                .userStat(dto.getUserStat())
                 .signoutIs(dto.getSignoutIs())
-                .signUpDate(dto.getSignUpDate())
-                .kakaoNo(dto.getKakaoNo())
-                .kakaoEmail(dto.getKakaoEmail())
-                .profileImageUrl(dto.getProfileImageUrl())
-                .accessToken(dto.getAccessToken())
-                .refreshToken(dto.getRefreshToken())
-                .tokenExpiration(dto.getTokenExpiration())
+                .signupDate(dto.getSignupDate())
                 .build();
         return userEnti;
     }

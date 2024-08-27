@@ -13,19 +13,19 @@
         <form @submit.prevent="update" method="post" enctype="multipart/form-data">
             <span>
                 제목 : 
-                <input type="text" name="mTitle" v-model="datas.mtitle"/></br>
+                <input type="text" name="title" v-model="datas.title"/></br>
             </span>
             <span>
                 가격 :
-                <input type="text" name="mPrice" v-model="datas.mprice"></br>
+                <input type="text" name="price" v-model="datas.price"></br>
             </span>
             <span>
                 설명 :
-                <input type="textarea" name="mCont" v-model="datas.mcont"></br>
+                <input type="textarea" name="contents" v-model="datas.contents"></br>
             </span>
             <span>
                 <!-- 카테고리 -->
-                <select name="category" v-model="datas.mcategory">
+                <select name="category" v-model="datas.category">
                     <option>전체</option>
                     <option>베이비의류(0-2세)</option>
                     <option>여아의류(3-6세)</option>

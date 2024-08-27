@@ -30,7 +30,7 @@ public class LikesDto {
 		return LikesEntity.builder()
 				.no(dto.getNo())
 				.userEntity(UserEntity.builder().id(dto.getUserid()).build())
-				.fleamarketEntity(FleamarketEntity.builder().mNo(dto.getFleaMarketNo()).build())
+				.fleamarketEntity(FleamarketEntity.builder().no(dto.getFleaMarketNo()).build())
 				.build();
 	}
 }

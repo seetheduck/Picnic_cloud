@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -26,36 +24,33 @@ import pack.dto.FilesDto;
 @Builder
 public class FilesEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer fNo;
-    private String fUserId;
-    private String fType;
-    private String fPath;
-    private LocalDateTime fUploadDate;
+	 @Id
+    private Integer no; 
+    private String userid;
+    private String path;
+    private LocalDateTime uploadDate;
+
 
 //    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "f_user_id", referencedColumnName = "id")
-//    private UserEntity userEntity;
+//    @JoinColumn(name = "userid", referencedColumnName = "id")
+//    private UserMasterEntity userMasterEntity;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="f_market_no", referencedColumnName = "mNo")
-    private FleamarketEntity fleamarketEntity;
+    @JoinColumn(name="flea_market_no", referencedColumnName = "no")
+    private FleamarketEntity fleamarketEntity;;
     
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name="f_chat_no")
 //    private ChatEntity chatEntity;
     
 	// entity > dto 변환
-	public static FilesDto toDto(FilesEntity entity) {
-		return FilesDto.builder()
-				.fNo(entity.getFNo())
-				.fUserId(entity.getFUserId())
-				.fType(entity.getFType())
-				.fPath(entity.getFPath())
-				.fUploadDate(entity.getFUploadDate())
-				.fMarketNo(FleamarketEntity.toDto(entity.fleamarketEntity).getMNo())
-//				.userDto(UserEntity.toDto(entity.userEntity))
-				.build();
-	}
+    public static FilesDto toDto(FilesEntity entity) {
+        return FilesDto.builder()
+                .no(entity.getNo())
+                .userid(entity.getUserid())
+                .path(entity.getPath())
+                .uploadDate(entity.getUploadDate())
+                .marketNo(FleamarketEntity.toDto(entity.fleamarketEntity).getNo())
+                .build();
+    }
 }

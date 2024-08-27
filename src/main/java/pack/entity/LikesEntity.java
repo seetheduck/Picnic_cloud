@@ -35,17 +35,16 @@ public class LikesEntity {
 	private Integer reviewNo;
 	
 	//플리마켓 좋아요
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="flea_market_no")
 	private FleamarketEntity fleamarketEntity;
-	
 	
 	//toDto
 	public static LikesDto toDto(LikesEntity entity) {
 		return LikesDto.builder()
 				.no(entity.getNo())
 				.userid(entity.getUserEntity().getId())
-				.fleaMarketNo(entity.getFleamarketEntity().getMNo())
+				.fleaMarketNo(entity.getFleamarketEntity().getNo())
 				.build();
 	}
 }

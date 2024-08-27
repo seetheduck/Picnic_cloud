@@ -61,15 +61,15 @@ createApp({
             this.pageNumber = pageNumber;
             this.fetchData(); //메서드 재실행
         },
-        getFirstFilePath(mfilePath) {
+        getFirstFilePath(filePath) {
             // mfilePath(배열) 첫 번째 요소 반환
-            return Array.isArray(mfilePath) ? mfilePath[0] : mfilePath;
+            return Array.isArray(filePath) ? filePath[0] : filePath;
         },
-        goToDetail(mno) {
+        goToDetail(no) {
             // restful하게 만들고 싶은데
-            // window.location.href = `fleamarketDetail/${mno}`;
-            // window.location.href = `FleaMarket/${mno}`;
-            window.location.href = `http://localhost:80/fleamarketDetail.html?mno=${mno}`;
+            // window.location.href = `fleamarketDetail/${no}`;
+            // window.location.href = `FleaMarket/${no}`;
+            window.location.href = `http://localhost:80/fleamarketDetail.html?no=${no}`;
         },
         create(){
             window.location.href=`http://localhost:80/fleamarketCreate.html`;

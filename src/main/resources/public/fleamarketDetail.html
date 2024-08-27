@@ -16,12 +16,12 @@
 
             <!-- 이미지 및 아이템 정보 -->
             <div class="item-container">
-                <img :src="getFirstFilePath(items.mfilePath)" alt="first Image">
+                <img :src="getFirstFilePath(items.filePath)" alt="first Image">
                 <div class="item-info">
-                    <span class="item-title">{{ items.mtitle }}</span>
-                    <span class="item-price">{{ items.mprice | currency }}</span>
+                    <span class="item-title">{{ items.title }}</span>
+                    <span class="item-price">{{ items.price | currency }}</span>
                     
-                    <span class="item-category">{{ items.mcategory }}</span>
+                    <span class="item-category">{{ items.category }}</span>
                     <div class="item-buttons">
                         <button>채팅방</button>
                     </div>
@@ -40,7 +40,7 @@
             <!-- 하단 상세 정보 -->
             <div class="item-description">
                 <h3>상품 상세 정보</h3>
-                <p>{{ items.mcont }}</p>
+                <p>{{ items.contents }}</p>
             </div>
         </div>
 

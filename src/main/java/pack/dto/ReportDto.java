@@ -31,7 +31,7 @@ public class ReportDto {
     private static ReportEntity toEntity(ReportDto dto) {
     	return ReportEntity.builder()
     			.no(dto.getNo())
-    			.fleamarketEntity(FleamarketEntity.builder().mNo(dto.getFleaMarketNo()).build())
+    			.fleamarketEntity(FleamarketEntity.builder().no(dto.getFleaMarketNo()).build())
     			.date(dto.getDate())
     			.code(dto.getCode())
     			.userEntity(UserEntity.builder().no(dto.getUserNo()).build())

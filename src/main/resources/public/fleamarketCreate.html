@@ -12,25 +12,25 @@
         <form @submit.prevent="fleamarketInput" method="post" enctype="multipart/form-data">
             <span>
                 <sup>*</sup>
-                <label for="mTitle">제목 :</label>
-                <input type="text" v-model="mTitle" name="mTitle" id="mTitle"/>
-                <span v-if="errors.mTitle" class="error">{{ errors.mTitle }}</span></br>
+                <label for="Title">제목 :</label>
+                <input type="text" v-model="Title" name="Title" id="Title"/>
+                <span v-if="errors.Title" class="error">{{ errors.title }}</span></br>
             </span>
             <span>
                 <sup>*</sup>
                 <label for="mPrice">가격 :</label>
-                <input type="text" v-model="mPrice" name="mPrice" id="mPrice"/>
-                <span v-if="errors.mPrice" class="error">{{ errors.mPrice }}</span></br>
+                <input type="text" v-model="Price" name="Price" id="Price"/>
+                <span v-if="errors.Price" class="error">{{ errors.price }}</span></br>
             </span>
             <span>
                 <sup>*</sup>
-                <label for="mCont">설명 :</label>
-                <textarea v-model="mCont" name="mCont" id="mCont"></textarea>
-                <span v-if="errors.mCont" class="error">{{ errors.mCont }}</span></br>
+                <label for="Contents">설명 :</label>
+                <textarea v-model="Contents" name="Contents" id="Contents"></textarea>
+                <span v-if="errors.Contents" class="error">{{ errors.contents }}</span></br>
             </span>
             <span>
                 <!-- 카테고리 -->
-                <select v-model="mCategory" name="mCategory">
+                <select v-model="Category" name="Category">
                     <option value="전체">전체</option>
                     <option value="베이비의류(0-2세)">베이비의류(0-2세)</option>
                     <option value="여아의류(3-6세)">여아의류(3-6세)</option>
@@ -43,11 +43,11 @@
                     <option value="교구/완구/인형">교구/완구/인형</option>
                     <option value="수유/이유용품">수유/이유용품</option>
                 </select>
-                <span v-if="errors.mCategory" class="error">{{ errors.mCategory }}</span></br>
+                <span v-if="errors.Category" class="error">{{ errors.category }}</span></br>
             </span>
             <span>
                 <sup>*</sup>
-                <input type="file" name="mfilePath" id="file" @change="handleFileUpload">
+                <input type="file" name="filePath" id="file" @change="handleFileUpload">
                 <span v-if="errors.filePath" class="error">{{ errors.filePath }}</span>
             </span>
             

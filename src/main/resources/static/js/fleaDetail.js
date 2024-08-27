@@ -4,7 +4,7 @@ createApp({
     data() {
         return {
             items : [],
-            mno : null
+            no : null
         }
     },
     // TypeError: Cannot read properties of undefined (reading 'mfilePath')
@@ -21,10 +21,10 @@ createApp({
             // ?category=764998"    window.location.search
             const url = new URLSearchParams(window.location.search);
             // const mno = url.get('mno'); > 이 메서드에서만 사용할게 아니기에 전역으로 넘김
-            this.mno = url.get('mno');
+            this.no = url.get('no');
 
-            if(this.mno){
-                axios.get(`http://localhost/fleaMarket/${this.mno}`)
+            if(this.no){
+                axios.get(`http://localhost/fleaMarket/${this.no}`)
                 .then(response => {
                     this.items = response.data;
                 })
@@ -35,25 +35,25 @@ createApp({
                 console.log("url에 번호 없음");
             }
         },
-        getFirstFilePath(mfilePath) {
-            return Array.isArray(mfilePath) ? mfilePath[0] : mfilePath;
+        getFirstFilePath(filePath) {
+            return Array.isArray(filePath) ? filePath[0] : filePath;
         },
         fleaUpdate(){ //수정 버튼
-            window.location.href=`fleamarketUpdate.html?mno=${this.mno}`
+            window.location.href=`fleamarketUpdate.html?no=${this.no}`
         },
         fleaDelete(){ //삭제 버튼
             res = confirm('다시 되돌릴 수 없습니다. 삭제하시겠습니까?');
             if(!res){
                 console.log('취소하였습니다.');
             }else{
-                axios.delete(`http://localhost/fleaMarket/${this.mno}`)
+                axios.delete(`http://localhost/fleaMarket/${this.no}`)
                 .then(response=>{
                     console.log(response);
                     alert('삭제되었습니다.');
                     window.location.href = `http://localhost/fleamarket.html`;
                 })
                 .catch(err =>{
-                    alert('삭제가 실패했습니다.');
+                    alert('삭제에 실패했습니다.');
                     window.location.href = `http://localhost/fleamarket.html`;
                 });
             }
