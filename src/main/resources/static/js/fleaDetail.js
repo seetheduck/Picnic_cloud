@@ -14,6 +14,10 @@ createApp({
         this.detailOne();
     },
     methods: {
+		//로그인
+		getUserId(){
+			return 'user01';
+		},
         detailOne(){
             //window.location (Location 객체) 가져오기
             // ""                   window.location.port
@@ -60,6 +64,41 @@ createApp({
         },
         list(){
             window.location.href = `fleamarket.html`;
-        }
+        },
+		//좋아요--
+		toggleFavorite(item) {
+		       // 좋아요 상태를 토글
+		       item.favorite = !item.favorite;
+		       // 서버에 좋아요 상태를 업데이트할 필요가 있는 경우
+		       if (item.favorite) {
+		           // 좋아요 추가 요청
+		           this.addFavorite(item.no);
+		       } else {
+		           // 좋아요 취소 요청
+		           this.removeFavorite(item.no);
+		       }
+		   },
+		   addFavorite(itemNo) {
+		       // 서버에 좋아요 추가 요청을 보내는 로직
+		       axios.patch(`/fleaMarket/favorite/${this.no}`,{userid: this.getUserId()})
+		           .then(response => {
+			   			console.log(response);
+		               console.log("좋아요 추가됨");
+		           })
+		           .catch(error => {
+		               console.error("좋아요 추가 실패", error);
+		           });
+		   },
+		   removeFavorite(itemNo) {
+		       // 서버에 좋아요 취소 요청을 보내는 로직
+		       axios.patch(`/fleaMarket/favorite/${this.no}`,{userid: this.getUserId()})
+		           .then(response => {
+		               console.log("좋아요 취소됨");
+		           })
+		           .catch(error => {
+		               console.error("좋아요 취소 실패", error);
+		           });
+		   }
+		   //----------
     },
 }).mount("#detail");

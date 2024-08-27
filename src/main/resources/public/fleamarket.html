@@ -56,14 +56,11 @@
                             <span>
                                 {{ item.no }}
                                 <h3>{{ item.title }}</h3>
-                                <p>{{ item.cont }}</p>
-                                <b>{{ item.price }}</b></p>
-                                {{ item.category }}
+                                <p>{{ item.contents }}</p>
+                                <p><b>{{ item.price }}</b></p>
+                                <!-- {{ item.category }} -->
                             </span>
                         </form>
-                        <button @click="favorite(item.no)">
-                        	<img alt="" src="">
-                        </button>
                     </span>
                 </div>
             </div>

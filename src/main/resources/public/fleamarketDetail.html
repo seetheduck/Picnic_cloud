@@ -20,7 +20,6 @@
                 <div class="item-info">
                     <span class="item-title">{{ items.title }}</span>
                     <span class="item-price">{{ items.price | currency }}</span>
-                    
                     <span class="item-category">{{ items.category }}</span>
                     <div class="item-buttons">
                         <button>채팅방</button>
@@ -34,6 +33,9 @@
                  <button @click="fleaUpdate">수정</button>
                  <button @click="fleaDelete">삭제</button>
                  <!-- -------------- -->
+                 <button @click="toggleFavorite(items)">
+					<img :src="items.favorite ? './images/icon/liked-icon.png' : './images/icon/unliked-icon.png'" alt="Favorite">
+				 </button>
                  <button @click="list">목록보기</button>
             </div>
 

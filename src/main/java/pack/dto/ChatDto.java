@@ -3,14 +3,13 @@ package pack.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pack.entity.ChatEntity;
-import pack.entity.FilesEntity;
 import pack.entity.ChatEntity.MessageType;
-import pack.entity.FleamarketEntity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
 
 @Getter
 @Setter
