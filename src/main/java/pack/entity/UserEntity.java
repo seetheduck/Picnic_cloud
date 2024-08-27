@@ -18,7 +18,7 @@ import lombok.Setter;
 import pack.dto.UserDto;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_master")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,22 +34,8 @@ public class UserEntity{
 
     private String pw;
     private String name;
-    private Boolean gender;
-    private String email;
-    private String address;
-    private Integer childAge;
-    private Boolean userStat;
     private Boolean signoutIs;
-    private LocalDateTime signUpDate;
-
-    @Column(unique = true)
-    private Integer kakaoNo;
-
-    private String kakaoEmail;
-    private String profileImageUrl;
-    private String accessToken;
-    private String refreshToken;
-    private LocalDateTime tokenExpiration;
+    private LocalDateTime signupDate;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FleamarketEntity> fleaMarkets;
@@ -63,22 +49,11 @@ public class UserEntity{
                 .id(entity.getId())
                 .pw(entity.getPw())
                 .name(entity.getName())
-                .gender(entity.getGender())
-                .email(entity.getEmail())
-                .address(entity.getAddress())
-                .childAge(entity.getChildAge())
-                .userStat(entity.getUserStat())
                 .signoutIs(entity.getSignoutIs())
-                .signUpDate(entity.getSignUpDate())
-                .kakaoNo(entity.getKakaoNo())
-                .kakaoEmail(entity.getKakaoEmail())
-                .profileImageUrl(entity.getProfileImageUrl())
-                .accessToken(entity.getAccessToken())
-                .refreshToken(entity.getRefreshToken())
-                .tokenExpiration(entity.getTokenExpiration())
+                .signupDate(entity.getSignupDate())
                 .mNo(entity.getFleaMarkets() != null ?
                         entity.getFleaMarkets().stream()
-                        .map(FleamarketEntity::getMNo) // 필요한 데이터만 가져오자. 아니면 스택오버플로우가 생김
+                        .map(FleamarketEntity::getNo) // 필요한 데이터만 가져오자. 아니면 스택오버플로우가 생김
                                 .collect(Collectors.toList()) : null)
                 .build();
     }

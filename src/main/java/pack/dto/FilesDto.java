@@ -17,13 +17,13 @@ import pack.entity.FilesEntity;
 @AllArgsConstructor
 @Builder
 public class FilesDto {
-	private Integer fNo;
-	private String fUserId;
-	private String fType; // 파일 타입
-	private String fPath; // 파일 경로
-	private LocalDateTime fUploadDate;
-	private Integer fMarketNo;
-	private Integer fChatNo;
+	 private Integer no;
+	    private String userid;
+	    private String type;
+	    private String path;
+	    private LocalDateTime uploadDate;
+	    private Integer marketNo;
+	    private Integer chatNo;
 	
 //	private UserDto userDto;
 
@@ -36,11 +36,10 @@ public class FilesDto {
         }
     	// DTO의 필드를 사용하여 엔티티를 생성
     	return FilesEntity.builder()
-    			.fNo(dto.getFNo())
-    			.fUserId(dto.getFUserId())
-    			.fType(dto.getFType())
-    			.fPath(dto.getFPath())
-    			.fUploadDate(dto.getFUploadDate())
+                .no(dto.getNo())
+                .userid(dto.getUserid())
+                .path(dto.getPath())
+                .uploadDate(dto.getUploadDate())
 //    			.userEntity(UserDto.toEntity(dto.getUserDto()))
     			.build();
     }

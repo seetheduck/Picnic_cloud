@@ -15,21 +15,21 @@ public interface FleamarketRepository extends JpaRepository<FleamarketEntity,Int
 	Page<FleamarketEntity> findAll(Pageable page);
 
 	//추가시 증가용) 게시판 가장 큰 번호 //FleamarketEntity findTopByOrderByMNoDesc();
-	@Query("select Max(f.mNo) from FleamarketEntity f ")
-	Integer findbyMaxmNo();
+	@Query("select Max(f.no) from FleamarketEntity f")
+	Integer findbyMaxNo();
 	
 	//검색)카테고리가 전체인 경우
 //		List<FleamarketEntity> findByMTitleContainingOrMContContaining(String input);
-	@Query("select f from FleamarketEntity f where f.mTitle like %:input% or f.mCont like %:input% order by f.mNo desc")
+	@Query("select f from FleamarketEntity f where f.title like %:input% or f.contents like %:input% order by f.no desc")
 	Page<FleamarketEntity> searchByTitleOrContent(@Param("input") String input, Pageable page);
 	
 	//검색)카테고리 선택된 경우
 //		List<FleamarketEntity> findBymCategoryAndmTitleOrmConContaining(String category,String input);
-	@Query("select f from FleamarketEntity f where f.mCategory = :category and (f.mTitle like :input or f.mCont like :input) order by f.mNo desc")
-	Page<FleamarketEntity> searchCategory(@Param("category") String category, @Param("input") String input, Pageable page);
+	@Query("select f from FleamarketEntity f where f.category = :category and (f.title like :input or f.contents like :input) order by f.no desc")
+    Page<FleamarketEntity> searchCategory(@Param("category") String category, @Param("input") String input, Pageable page);
 	
 	//특정 게시물 반환
-	FleamarketEntity findBymNo(Integer mNo);
+	FleamarketEntity findByNo(Integer no);
 	
 	//@Modifying(clearAutomatically = true)
 	// 상세보기 할 때 조회수 증가

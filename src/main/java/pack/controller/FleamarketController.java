@@ -90,10 +90,10 @@ public class FleamarketController {
 	        ObjectMapper objectMapper = new ObjectMapper();
 	        FleamarketDto fleamarketDto = objectMapper.readValue(dtoJson, FleamarketDto.class);
 
-	        UserEntity userEntity = userService.findById(fleamarketDto.getMId());
+	        UserEntity userEntity = userService.findById(fleamarketDto.getUserid());
 	        if (userEntity == null) {
 	            response.put("isSuccess", false);
-	            response.put("message", "User not found with id: " + fleamarketDto.getMId());
+	            response.put("message", "User not found with id: " + fleamarketDto.getUserid());
 	            return response;
 	        }
 
@@ -102,7 +102,7 @@ public class FleamarketController {
 
 	        String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/";
 	        Integer newNum = dao.maxBoardNum() + 1;
-	        fleamarketDto.setMNo(newNum);
+	        fleamarketDto.setNo(newNum);
 
 	        if (file != null && !file.isEmpty()) {
 	            // 공백을 언더바로 대체하고, URL 인코딩된 문자들을 제거
@@ -117,7 +117,7 @@ public class FleamarketController {
 
 	            // 파일을 저장하기 전에 미리 데이터베이스에 기록
 	            String path = "/images/" + safeFilename;
-	            fleamarketDto.setMFilePath(path);
+	            fleamarketDto.setFilePath(path);
 	            dao.insert(fleamarketDto);
 	            file.transferTo(dest);
 
@@ -150,7 +150,7 @@ public class FleamarketController {
 	public Map<String,Object> putOne(@PathVariable("no") Integer no,@RequestBody FleamarketDto dto) {
 		Map<String,Object> updatemap = new HashMap<String, Object>();
 		try {
-			dto.setMNo(no);
+			dto.setNo(no);
 			String putResult= dao.putOne(dto);
 			updatemap.put(putResult, true);
 			updatemap.put("message", "fleamarket successfully updated");
