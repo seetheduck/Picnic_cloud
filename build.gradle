@@ -36,12 +36,16 @@ dependencies {
 	  // (선택 사항) WebDriverManager를 사용해 드라이버를 자동 관리
     implementation 'io.github.bonigarcia:webdrivermanager:5.5.3'
     
+    // Apache Commons CSV 의존성 추가
+    implementation 'org.apache.commons:commons-csv:1.8'
+    
+    // MariaDB JDBC 드라이버 의존성 추가
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
+    
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-	
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

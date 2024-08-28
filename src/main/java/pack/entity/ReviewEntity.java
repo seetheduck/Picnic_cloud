@@ -28,7 +28,7 @@ public class ReviewEntity {
 	@Id
     private Integer no;
 
-    private String userid;
+    private String id;
     private String contents;
     private LocalDateTime createDate;
     private Boolean likeIs;
@@ -51,7 +51,7 @@ public class ReviewEntity {
     public static ReviewDto toReviewDto(ReviewEntity entity) {
     	return ReviewDto.builder()
     			.no(entity.getNo())
-    			.userid(entity.getUserid())
+    			.id(entity.getId())
     			.contents(entity.getContents())
     			.createDate(entity.getCreateDate())
     			.likeIs(entity.getLikeIs())

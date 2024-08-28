@@ -46,8 +46,8 @@ public class FleamarketEntity {
     @OneToOne(mappedBy = "fleamarketEntity")
     private FilesEntity files;
 
-    @OneToMany(mappedBy = "fleamarketEntity")
-    private List<LikesEntity> likes;
+    //@OneToMany(mappedBy = "fleamarketEntity")
+    //private List<LikesEntity> likes;
 
     public static FleamarketDto toDto(FleamarketEntity entity) {
         return FleamarketDto.builder()

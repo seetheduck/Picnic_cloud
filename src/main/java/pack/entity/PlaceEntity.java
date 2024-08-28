@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -25,7 +27,8 @@ import pack.dto.PlaceDto;
 @Table(name="place")
 public class PlaceEntity {
 	@Id
-	private int no; //
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동 증가 설정
+	private int no; 
 	
 	private String placeType;
     private String name;
