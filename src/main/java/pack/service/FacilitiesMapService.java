@@ -1,5 +1,6 @@
 package pack.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pack.dto.FacilitiesMapDto;
@@ -11,12 +12,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class FacilitiesMapService {
-
+	@Autowired
     private FacilitiesMapRepository facilitiesMapRepository;
-
-    public FacilitiesMapService(FacilitiesMapRepository facilitiesMapRepository) {
-        this.facilitiesMapRepository = facilitiesMapRepository;
-    }
 
     @Transactional(readOnly = true)
     public List<FacilitiesMapDto> getAllFacilities() {

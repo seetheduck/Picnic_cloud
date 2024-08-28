@@ -15,18 +15,8 @@ public class FacilitiesMapController {
 	@Autowired
     private FacilitiesMapService facilitiesMapService;
 
-    public FacilitiesMapController(FacilitiesMapService facilitiesMapService) {
-        this.facilitiesMapService = facilitiesMapService;
-    }
-
-    // 뷰를 반환하는 메서드
-    @GetMapping("/map")
-    public String toMap() {
-        return "redirect:/mapIndex.html";
-    }
-
     // API 데이터를 반환하는 메서드
-    @GetMapping("/api/facilities")
+    @GetMapping("/facilities-map")
     @ResponseBody
     public List<FacilitiesMapDto> getAllFacilities() {
         return facilitiesMapService.getAllFacilities();

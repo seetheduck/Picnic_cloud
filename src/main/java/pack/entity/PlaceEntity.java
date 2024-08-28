@@ -1,13 +1,7 @@
 package pack.entity;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
