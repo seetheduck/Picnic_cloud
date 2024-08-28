@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- 모달 HTML 추가 -->
+	<div id="reportModal" class="modal">
+		<div class="modal-content">
+			<span class="close-button" @click="closeModal">&times;</span>
+			<h2>신고유형</h2>
+			<form @submit.prevent="submitReport">
+                <div class="select">
+                    <input type="radio" name="report_code" id="cbRepo1" value="1" v-model="reportCode">
+                    <label for="cbRepo1"> 불쾌한 표현 사용</label><br>
+                    <input type="radio" name="report_code" id="cbRepo2" value="2" v-model="reportCode">
+                    <label for="cbRepo2"> 관련없는 리뷰</label><br>
+                    <input type="radio" name="report_code" id="cbRepo3" value="3" v-model="reportCode">
+                    <label for="cbRepo3"> 스팸/홍보 글</label><br>
+                    <input type="radio" name="report_code" id="cbRepo4" value="4" v-model="reportCode">
+                    <label for="cbRepo4"> 음란물</label><br>
+                    <input type="radio" name="report_code" id="cbRepo5" value="5" v-model="reportCode">
+                    <label for="cbRepo5"> 청소년에게 유해한 내용</label><br>
+                    <div class="repo">
+                        <button type="submit">신고</button>
+                    </div>
+                </div>
+            </form>
+		</div>
+	</div>
+
+</body>
+</html>

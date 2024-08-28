@@ -21,19 +21,12 @@
     <div id="app">
         <section id="searchSection">
             <!-- 카테고리 -->
-            <select v-model="category">
-                <option selected>전체</option>
-                <option>베이비의류(0-2세)</option>
-                <option>여아의류(3-6세)</option>
-                <option>남아의류(3-6세)</option>
-                <option>여아 주니어의류(7세 -)</option>
-                <option>남아 주니어의류(7세 -)</option>
-                <option>신발/가방/잡화</option>
-                <option>유아용품</option>
-                <option>일부의류/용품</option>
-                <option>교구/완구/인형</option>
-                <option>수유/이유용품</option>
-            </select>
+            <select v-model="selectCategory" @change="fetchData">
+	            <option value="전체">전체</option>
+	            <option v-for="cate in category" :key="cate.no" :value="cate.no">
+	                {{ cate.category_name }}
+	            </option>
+        	</select>
             <!-- 검색창 -->
             <input type="text" v-model="search">
             <button @click.prevent="searchbtn">검색</button>
@@ -48,7 +41,7 @@
                 <div class="post-container">
                     <span v-for="(item, index) in content" :key="index" class="onedata">
                         <form class="oneItem" @click="goToDetail(item.no)">
-                            <input type="hidden" value={{item.filePath}}/>
+                            <input type="hidden" :value="item.filePath"/>
                             <span>
                                 <img :src="getFirstFilePath(item.filePath)" alt="Image description" />
                             </span>
@@ -58,7 +51,7 @@
                                 <h3>{{ item.title }}</h3>
                                 <p>{{ item.contents }}</p>
                                 <p><b>{{ item.price }}</b></p>
-                                <!-- {{ item.category }} -->
+                                {{ item.category }}
                             </span>
                         </form>
                     </span>
@@ -67,7 +60,6 @@
             <div v-else>
                 <h2>올라온 게시글이 없습니다. 새글을 적어주세요</h2>
             </div>
-
 
             <!-- Pagination Controls -->
             <div v-if="page.totalPages > 1" class="pagination">

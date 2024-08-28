@@ -27,8 +27,8 @@ import pack.dto.ReportDto;
 public class ReportEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer no; 
-    private Integer reviewNo;
+	private int no; 
+    private int reviewNo;
 
 	//플리마켓 신고
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -36,7 +36,7 @@ public class ReportEntity {
 	private FleamarketEntity fleamarketEntity;
 	
     private LocalDateTime date;
-    private Integer code;
+    private int code;
     
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_no")

@@ -46,14 +46,14 @@ createApp({
                 id: this.id,
                 title: this.title,
                 price: this.price,
-                content: this.content,
+                contents: this.contents,
                 category: this.category
             };
             
              // dto를 JSON 문자열로 변환하여 FormData에 추가
-             formData.append("dto", JSON.stringify(dto));
+             formData.append("dto", JSON.stringify(dto));c
             
-             if (this.mFilePath) { //파일이 첨부된 경우
+             if (this.FilePath) { //파일이 첨부된 경우
                  formData.append("file", this.filePath);
              }
 
@@ -76,7 +76,7 @@ createApp({
         },
         handleFileUpload(event) {
             // 단일 파일을 선택한 경우, 파일 객체를 this.mFilePath에 저장
-            this.mFilePath = event.target.files[0]; 
+            this.FilePath = event.target.files[0]; 
         },
         back(){
             window.location.href = 'fleamarket.html';

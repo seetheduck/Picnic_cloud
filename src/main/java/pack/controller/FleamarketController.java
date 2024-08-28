@@ -50,7 +50,7 @@ public class FleamarketController {
 	public ResponseEntity<Page<FleamarketDto>> getListAll(
 			@RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "9") int size,
-			@RequestParam(value ="category", required = false) String category,
+			@RequestParam(value ="category", required = false) Integer category,
 			@RequestParam(value="search", required = false) String search
 			) {
 		

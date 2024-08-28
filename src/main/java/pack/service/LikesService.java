@@ -3,6 +3,7 @@ package pack.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import pack.entity.FleamarketEntity;
 import pack.entity.LikesEntity;
 import pack.entity.UserEntity;
@@ -19,9 +20,10 @@ public class LikesService {
 	UserRepository userRepository;
 
 	// 좋아요 토글
+	@Transactional
 	public int toggleFleaMarketLike(String userid, int fleaBoardNo) {
 //		System.out.println("********** "+fleaBoardNo);
-		UserEntity userEntity = userRepository.findById(userid); //해당 아이디가 있는지 ;
+		UserEntity userEntity = userRepository.findByUserId(userid); //해당 아이디가 있는지 ;
 		LikesEntity existingLike = repository.findByUserEntity_IdAndFleamarketEntity_No(userEntity.getId(),
 				fleaBoardNo);
 
@@ -44,7 +46,7 @@ public class LikesService {
 
 	// 좋아요 여부
 	public boolean checkLikes(String userid, Integer fleaMarketNo) {
-		UserEntity userEntity = userRepository.findById(userid); //해당 아이디가 있는지 검사
+		UserEntity userEntity = userRepository.findByUserId(userid); //해당 아이디가 있는지 검사
 		LikesEntity existingLike = repository.findByUserEntity_IdAndFleamarketEntity_No(userEntity.getId(),
 				fleaMarketNo);
 

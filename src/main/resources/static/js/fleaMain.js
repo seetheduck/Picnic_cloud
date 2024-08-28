@@ -6,7 +6,8 @@ createApp({
     data() {
         return {
             content: [],  // 데이터(리스트)
-            category: "전체",
+            category:[], //카테고리 데이터
+			selectCategory:"전체",
             search: "",
             page: {       // 페이지네이션 정보
                 size: 0,
@@ -15,11 +16,12 @@ createApp({
                 totalPages: 0
             },
             pageNumber: 0,  // 현재 페이지 번호
-            size: 9         // 페이지당 아이템 수
+            size: 9         // 페이지당 아이템 수(9개)
         };
     },
     mounted() {
-        this.fetchData();
+        this.fetchData(); //게시판 데이터
+		this.fetchCategories(); // 카테고리 데이터
     },
     computed: {
         paginationPages() {
@@ -55,6 +57,22 @@ createApp({
                 })
                 .catch(err => {
                     console.error("fleaMain Fetch error: ", err);
+                });
+        },
+		fetchCategories() {
+            const url = 'http://localhost:80/categories'; // 카테고리 API URL
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Ajax error: " + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    this.category = data;
+                })
+                .catch(err => {
+                    console.error("fetchCategories error: ", err);
                 });
         },
         changePage(pageNumber) {//번호 들어온 페이지

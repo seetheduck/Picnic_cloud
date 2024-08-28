@@ -44,7 +44,7 @@ public class FleamarketService {
 
 	
 	//검색(페이징 처리)
-	public Page<FleamarketDto> search(String category, String input,Pageable page) {
+	public Page<FleamarketDto> search(Integer category, String input,Pageable page) {
 	    // 입력값에 와일드카드를 추가 > jpql로 입력시 오류
 	    String searchPattern = "%" + input + "%";
 	    if (category.equals("전체")) {
@@ -69,7 +69,7 @@ public class FleamarketService {
 	public String insert(FleamarketDto dto) {
 		try {
 			 // UserEntity를 데이터베이스에서 로드
-			UserEntity userEntity = userRepository.findById(dto.getUserid());
+			UserEntity userEntity = userRepository.findByUserId(dto.getUserid());
             if (userEntity == null) {
                 return "입력 오류 : User not found with id: " + dto.getUserid();
             }

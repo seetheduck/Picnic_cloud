@@ -36,6 +36,7 @@
                  <button @click="toggleFavorite(items)">
 					<img :src="items.favorite ? './images/icon/liked-icon.png' : './images/icon/unliked-icon.png'" alt="Favorite">
 				 </button>
+				 <button @click="report(items.no)">신고</button>
                  <button @click="list">목록보기</button>
             </div>
 

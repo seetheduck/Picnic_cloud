@@ -13,4 +13,5 @@ public class LikeCountDto {
     private int fleaMarketNo;
     private int likeCount;
     private boolean likedUser;  // 사용자 좋아요 여부 추가
+    
 }

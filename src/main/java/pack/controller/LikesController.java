@@ -29,7 +29,7 @@ public class LikesController {
 	//플리마켓 좋아요 토글
 	@PatchMapping("/fleaMarket/favorite/{no}")
 	public LikeCountDto toggleLike(@RequestBody UserRequestDto dto, @PathVariable("no") Integer fleaBoardNo) {
-//		System.out.println(dto +"  -----  "+ fleaBoardNo);
+		System.out.println(dto +"  -----  "+ fleaBoardNo);
 		String userId = dto.getUserid();
 		int newLikeCount = service.toggleFleaMarketLike(userId, fleaBoardNo);
         boolean likedByUser = service.checkLikes(userId, fleaBoardNo);

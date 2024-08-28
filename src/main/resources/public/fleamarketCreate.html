@@ -12,25 +12,25 @@
         <form @submit.prevent="fleamarketInput" method="post" enctype="multipart/form-data">
             <span>
                 <sup>*</sup>
-                <label for="Title">제목 :</label>
-                <input type="text" v-model="Title" name="Title" id="Title"/>
+                <label for="title">제목 :</label>
+                <input type="text" v-model="title" name="title" id="title"/>
                 <span v-if="errors.Title" class="error">{{ errors.title }}</span></br>
             </span>
             <span>
                 <sup>*</sup>
-                <label for="mPrice">가격 :</label>
-                <input type="text" v-model="Price" name="Price" id="Price"/>
+                <label for="price">가격 :</label>
+                <input type="text" v-model="price" name="price" id="rice"/>
                 <span v-if="errors.Price" class="error">{{ errors.price }}</span></br>
             </span>
             <span>
                 <sup>*</sup>
-                <label for="Contents">설명 :</label>
-                <textarea v-model="Contents" name="Contents" id="Contents"></textarea>
-                <span v-if="errors.Contents" class="error">{{ errors.contents }}</span></br>
+                <label for="contents">설명 :</label>
+                <textarea v-model="contents" name="contents" id="contents"></textarea>
+                <span v-if="errors.contents" class="error">{{ errors.contents }}</span></br>
             </span>
             <span>
                 <!-- 카테고리 -->
-                <select v-model="Category" name="Category">
+                <select v-model="category" name="category">
                     <option value="전체">전체</option>
                     <option value="베이비의류(0-2세)">베이비의류(0-2세)</option>
                     <option value="여아의류(3-6세)">여아의류(3-6세)</option>
@@ -43,11 +43,11 @@
                     <option value="교구/완구/인형">교구/완구/인형</option>
                     <option value="수유/이유용품">수유/이유용품</option>
                 </select>
-                <span v-if="errors.Category" class="error">{{ errors.category }}</span></br>
+                <span v-if="errors.category" class="error">{{ errors.category }}</span></br>
             </span>
             <span>
                 <sup>*</sup>
-                <input type="file" name="filePath" id="file" @change="handleFileUpload">
+                <input type="file" name="filePath" id="filePath" @change="handleFileUpload">
                 <span v-if="errors.filePath" class="error">{{ errors.filePath }}</span>
             </span>
             

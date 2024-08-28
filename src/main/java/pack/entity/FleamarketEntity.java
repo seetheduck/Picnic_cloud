@@ -2,6 +2,7 @@ package pack.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,7 +36,6 @@ public class FleamarketEntity {
     private LocalDateTime updatedate;
     private Boolean favorite;
     private Integer favoriteCnt;
-    private String category; 
     private Boolean blocked;
     private Integer blockedCnt;
 
@@ -43,11 +43,16 @@ public class FleamarketEntity {
     @JoinColumn(name = "userid", referencedColumnName = "id")
     private UserEntity userEntity;
 
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="category",referencedColumnName = "marketNo")
+    private CategoryEntity categoryEntity;
+    
     @OneToOne(mappedBy = "fleamarketEntity")
     private FilesEntity files;
 
     @OneToMany(mappedBy = "fleamarketEntity")
     private List<LikesEntity> likes;
+    
 
     public static FleamarketDto toDto(FleamarketEntity entity) {
         return FleamarketDto.builder()
@@ -59,11 +64,12 @@ public class FleamarketEntity {
                 .updatedate(entity.getUpdatedate())
                 .favorite(entity.getFavorite())
                 .favoriteCnt(entity.getFavoriteCnt())
-                .category(entity.getCategory())
                 .blocked(entity.getBlocked())
                 .blockedCnt(entity.getBlockedCnt())
                 .userid(entity.getUserEntity().getId())
                 .filePath(entity.getFiles() != null ? entity.getFiles().getPath() : null)
+                .category(entity.getCategoryEntity() != null ? entity.getCategoryEntity().getMarketNo() : null)
+                .categoryName(entity.getCategoryEntity() != null ? entity.getCategoryEntity().getCategoryName() : null)
                 .build();
     }
 }

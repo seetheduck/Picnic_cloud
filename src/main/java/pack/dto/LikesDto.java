@@ -16,7 +16,6 @@ import pack.entity.UserEntity;
 @Builder
 public class LikesDto {
 	private Integer no;
-	
 	private String userid;
 	private Integer placeNo;
 	private Integer reviewNo;
