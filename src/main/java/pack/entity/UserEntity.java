@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pack.dto.UserDto;
+import pack.dto.UserdetailDto;
 
 @Entity
 @Table(name = "user")
@@ -51,36 +53,43 @@ public class UserEntity{
     private String refreshToken;
     private LocalDateTime tokenExpiration;
 
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserdetailEntity userDetail;
+    
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FleamarketEntity> fleaMarkets;
 
 //    @OneToMany(mappedBy = "userEntity")
 //    private List<FilesEntity> files;
     
+ // DTO 변환 메서드
     public static UserDto toDto(UserEntity entity) {
-        return UserDto.builder()
-                .no(entity.getNo())
-                .id(entity.getId())
-                .pw(entity.getPw())
-                .name(entity.getName())
-                .gender(entity.getGender())
-                .email(entity.getEmail())
-                .address(entity.getAddress())
-                .childAge(entity.getChildAge())
-                .userStat(entity.getUserStat())
-                .signoutIs(entity.getSignoutIs())
-                .signUpDate(entity.getSignUpDate())
-                .kakaoNo(entity.getKakaoNo())
-                .kakaoEmail(entity.getKakaoEmail())
-                .profileImageUrl(entity.getProfileImageUrl())
-                .accessToken(entity.getAccessToken())
-                .refreshToken(entity.getRefreshToken())
-                .tokenExpiration(entity.getTokenExpiration())
-                .mNo(entity.getFleaMarkets() != null ?
-                        entity.getFleaMarkets().stream()
-                        .map(FleamarketEntity::getMNo) // 필요한 데이터만 가져오자. 아니면 스택오버플로우가 생김
-                                .collect(Collectors.toList()) : null)
+     	return UserDto.builder()
+                 .no(entity.getNo())
+                 .id(entity.getId())
+                 .pw(entity.getPw())
+                 .name(entity.getName())
+                 .signoutIs(entity.getSignoutIs())
+                 .signUpDate(entity.getSignUpDate())
+                 .mNo(entity.getFleaMarkets() != null ?
+                         entity.getFleaMarkets().stream()
+                         .map(FleamarketEntity::getMNo) // FleamarketEntity의 no를 가져옴
+                         .collect(Collectors.toList()) : null)
+                 .fNo(null) // 필요한 경우 수정
+                  .build();
+     }
+    // UserDetail DTO 변환 메서드
+
+    public UserdetailDto getUserDetailDto() {
+        if (userDetail == null) {
+            return null;
+        }
+        return UserdetailDto.builder()
+                .address(userDetail.getAddress())
+                .gender(userDetail.getGender())
+                .email(userDetail.getEmail())
+                .childAge(userDetail.getChildAge())
+                .userStat(userDetail.getUserStat())
                 .build();
-    }
-    
+    }   
 }
