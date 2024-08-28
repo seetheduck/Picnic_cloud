@@ -3,8 +3,8 @@ package pack.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import pack.entity.ChatEntity;
+import pack.entity.ChatRoomEntity;
 
-public interface ChatRepository extends JpaRepository<ChatEntity,Integer> {
+public interface ChatRepository extends JpaRepository<ChatRoomEntity,Integer> {
 
 }
