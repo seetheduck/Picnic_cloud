@@ -47,20 +47,23 @@
             <div v-if="content.length > 0">
                 <div class="post-container">
                     <span v-for="(item, index) in content" :key="index" class="onedata">
-                        <form class="oneItem" @click="goToDetail(item.mno)">
-                            <input type="hidden" value={{item.mfilePath}}>
+                        <form class="oneItem" @click="goToDetail(item.no)">
+                            <input type="hidden" value={{item.filePath}}/>
                             <span>
-                                <img :src="getFirstFilePath(item.mfilePath)" alt="Image description" />
+                                <img :src="getFirstFilePath(item.filePath)" alt="Image description" />
                             </span>
-                            <span>{{ item.mfileNo }}</span>
+                            <span>{{ item.fileNo }}</span>
                             <span>
-                                {{ item.mno }}
-                                <h3>{{ item.mtitle }}</h3>
-                                <p>{{ item.mcont }}</p>
-                                <b>{{ item.mprice }}</b></p>
-                                {{ item.mcategory}}
+                                {{ item.no }}
+                                <h3>{{ item.title }}</h3>
+                                <p>{{ item.cont }}</p>
+                                <b>{{ item.price }}</b></p>
+                                {{ item.category }}
                             </span>
                         </form>
+                        <button @click="favorite(item.no)">
+                        	<img alt="" src="">
+                        </button>
                     </span>
                 </div>
             </div>

@@ -1,7 +1,6 @@
 package pack.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,21 +17,20 @@ import pack.entity.UserEntity;
 @Builder
 public class FleamarketDto {
 
-	private Integer mNo;
-	private String mId;
-	private String mTitle;
-	private Integer mPrice;
-	private String mCont;
-	private LocalDateTime mCreateDate;
-	private LocalDateTime mUpdateDate;
-	private Boolean mLike; // 좋아요 유무
-	private Integer mLikeCnt; // 좋아요 수
-	private String mCategory; // 게시물 카테고리
-	private Boolean mBlocked; // 관리자) 블락처리 유무
-	private Integer mBlockedCnt; // 관리자) 블락처리 수
-	
-	//첨부파일 path
-    private String mFilePath;
+	 private Integer no;
+	    private String userid; 
+	    private String title;
+	    private Integer price;
+	    private String contents; 
+	    private LocalDateTime createdate;
+	    private LocalDateTime updatedate; 
+	    private Boolean favorite;
+	    private Integer favoriteCnt;
+	    private String category;
+	    private Boolean blocked;
+	    private Integer blockedCnt;
+
+	    private String filePath;
     
     //페이징 처리
 	private int totalPages, currentPage;
@@ -48,18 +46,18 @@ public class FleamarketDto {
 	        }
 	        
 	        return FleamarketEntity.builder()
-	                .mNo(dto.getMNo())
-	                .mTitle(dto.getMTitle())
-	                .mPrice(dto.getMPrice())
-	                .mCont(dto.getMCont())
-	                .mCreateDate(dto.getMCreateDate())
-	                .mUpdateDate(dto.getMUpdateDate())
-	                .mLike(dto.getMLike())
-	                .mLikeCnt(dto.getMLikeCnt())
-	                .mCategory(dto.getMCategory())
-	                .mBlocked(dto.getMBlocked())
-	                .mBlockedCnt(dto.getMBlockedCnt())
-	                .userEntity(dto.getMId() != null ? UserEntity.builder().id(dto.getMId()).build() : null)
+	                .no(dto.getNo())
+	                .title(dto.getTitle())
+	                .price(dto.getPrice())
+	                .contents(dto.getContents())
+	                .createdate(dto.getCreatedate())
+	                .updatedate(dto.getUpdatedate())
+	                .favorite(dto.getFavorite())
+	                .favoriteCnt(dto.getFavoriteCnt())
+	                .category(dto.getCategory())
+	                .blocked(dto.getBlocked())
+	                .blockedCnt(dto.getBlockedCnt())
+	                .userEntity(dto.getUserid() != null ? UserEntity.builder().id(dto.getUserid()).build() : null)
 	                .build();
 	        
 	    }

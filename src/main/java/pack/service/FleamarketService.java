@@ -32,14 +32,14 @@ public class FleamarketService {
 	//전체보기 (페이징 처리)
 	public Page<FleamarketDto> findAll(Pageable pageable) {
 	    // Pageable 객체에서 페이지 번호와 크기를 가져와서 새로운 Pageable 객체 생성
-	    Pageable sortedByMnoDesc = PageRequest.of(
+	    Pageable sortedByNoDesc = PageRequest.of(
 	        pageable.getPageNumber(), // 인스턴스 메서드를 호출하여 페이지 번호를 가져옴
 	        pageable.getPageSize(), // 인스턴스 메서드를 호출하여 페이지 크기를 가져옴
-	        Sort.by("mNo").descending() // mNo 필드를 기준으로 내림차순 정렬
+	        Sort.by("no").descending() // no 필드를 기준으로 내림차순 정렬
 	    );
 	    
 
-	    return repository.findAll(sortedByMnoDesc).map(FleamarketEntity::toDto);
+	    return repository.findAll(sortedByNoDesc).map(FleamarketEntity::toDto);
 	}
 
 	
@@ -57,7 +57,7 @@ public class FleamarketService {
 	
 	//가장 마지막게시판 번호
 	public Integer maxBoardNum() {
-		return repository.findbyMaxmNo();
+		return repository.findbyMaxNo();
 	}
 	
 //	//가장 마지막파일 번호
@@ -69,9 +69,9 @@ public class FleamarketService {
 	public String insert(FleamarketDto dto) {
 		try {
 			 // UserEntity를 데이터베이스에서 로드
-            UserEntity userEntity = userRepository.findById(dto.getMId());
+			UserEntity userEntity = userRepository.findById(dto.getUserid());
             if (userEntity == null) {
-                return "입력 오류 : User not found with id: " + dto.getMId();
+                return "입력 오류 : User not found with id: " + dto.getUserid();
             }
 
             // FleamarketEntity 생성
@@ -79,7 +79,7 @@ public class FleamarketService {
             insertEntity.setUserEntity(userEntity);  // 로드된 UserEntity를 설정
 
             // 생성 날짜 설정
-            insertEntity.setMCreateDate(LocalDateTime.now());
+            insertEntity.setCreatedate(LocalDateTime.now());
             
             // 데이터베이스에 저장
             repository.save(insertEntity);
@@ -92,20 +92,20 @@ public class FleamarketService {
 	
 	//상세보기
 	public FleamarketDto getOne(Integer no) {
-		return FleamarketEntity.toDto(repository.findBymNo(no));
+		return FleamarketEntity.toDto(repository.findByNo(no));
 	}
 	
 	//수정
 	public String putOne(FleamarketDto dto) {
 		try {
 			//특정 번호의 데이터 가져오기
-			FleamarketEntity oneEntity= repository.findBymNo(dto.getMNo());
+			FleamarketEntity oneEntity = repository.findByNo(dto.getNo());
 			//수정된 정보 넣기
-			oneEntity.setMTitle(dto.getMTitle());
-			oneEntity.setMPrice(dto.getMPrice());
-			oneEntity.setMCont(dto.getMCont());
-			oneEntity.setMUpdateDate(LocalDateTime.now());
-			repository.save(oneEntity);
+			oneEntity.setTitle(dto.getTitle());
+            oneEntity.setPrice(dto.getPrice());
+            oneEntity.setContents(dto.getContents());
+            oneEntity.setUpdatedate(LocalDateTime.now());
+            repository.save(oneEntity);
 			
 			return "isSuccess";
 			
@@ -118,7 +118,7 @@ public class FleamarketService {
 	public String deleteOne(Integer no) {
 		try {
 			//특정 번호의 데이터
-			FleamarketEntity entity = repository.findBymNo(no);
+			FleamarketEntity entity = repository.findByNo(no);
 			repository.delete(entity);
 			return "isSuccess";
 			
