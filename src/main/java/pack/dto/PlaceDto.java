@@ -19,7 +19,7 @@ import pack.entity.PlaceEntity;
 @AllArgsConstructor
 @Builder
 public class PlaceDto {
-	@Id
+
 	private int no; 
 	
 	private String placeType;
@@ -35,7 +35,7 @@ public class PlaceDto {
     private String operationTime;
 
     
-   // private List<LikesDto> likes;
+    private List<LikesPlaceDto> likes; // 좋아요 목록
     
     //toEntity: dto > entity
     public static PlaceEntity toPlaceEntity(PlaceDto dto) {
@@ -52,10 +52,10 @@ public class PlaceDto {
     			.tel(dto.getDescription())
     			.entranceFee(dto.getEntranceFee())
     			.operationTime(dto.getOperationTime())
-    			//.likes(dto.getLikes() != null ? 
-    			//	dto.getLikes().stream()
-    			//		.map(LikesDto::toLikesEntity)
-    			//		.collect(Collectors.toList()) : Collections.emptyList())
+//    			.likes(dto.getLikes() != null ? 
+//    				dto.getLikes().stream()
+//    					.map(LikesPlaceDto::toLikesPlaceEntity)
+//    					.collect(Collectors.toList()) : Collections.emptyList())
     			.build();
     			
     }
