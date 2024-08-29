@@ -3,7 +3,6 @@ package pack.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -11,37 +10,14 @@ import java.util.Date;
 @Service
 public class LoginService {
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    private String secretKey = "mySecretKey"; // 비밀 키 (실제 프로젝트에서는 안전하게 관리해야 함)
+    private long validityInMilliseconds = 3600000; // 1시간
 
-    @Value("${jwt.expiration}")
-    private long expiration;
+    // 토큰 생성
+    public String generateToken(String username) {
+        Claims claims = Jwts.claims().setSubject(username); // JWT의 claims (사용자 이름 저장)
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMilliseconds); // 유효 기간 설정
 
-    public String createToken(String userId) {
-        return Jwts.builder()
-                .setSubject(userId)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
-    }
-
-    public Claims getClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    public String getUserId(String token) {
-        return getClaims(token).getSubject();
-    }
-
-    public boolean isTokenExpired(String token) {
-        return getClaims(token).getExpiration().before(new Date());
-    }
-
-    public boolean validateToken(String token, String userId) {
-        return (userId.equals(getUserId(token)) && !isTokenExpired(token));
     }
 }

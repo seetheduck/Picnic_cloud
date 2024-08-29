@@ -20,7 +20,7 @@ import pack.dto.UserDto;
 import pack.dto.UserdetailDto;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_master")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,22 +36,8 @@ public class UserEntity{
 
     private String pw;
     private String name;
-    private Boolean gender;
-    private String email;
-    private String address;
-    private Integer childAge;
-    private Boolean userStat;
     private Boolean signoutIs;
-    private LocalDateTime signUpDate;
-
-    @Column(unique = true)
-    private Integer kakaoNo;
-
-    private String kakaoEmail;
-    private String profileImageUrl;
-    private String accessToken;
-    private String refreshToken;
-    private LocalDateTime tokenExpiration;
+    private LocalDateTime signupDate;
 
     @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserdetailEntity userDetail;
@@ -64,16 +50,17 @@ public class UserEntity{
     
  // DTO 변환 메서드
     public static UserDto toDto(UserEntity entity) {
+
      	return UserDto.builder()
                  .no(entity.getNo())
                  .id(entity.getId())
                  .pw(entity.getPw())
                  .name(entity.getName())
                  .signoutIs(entity.getSignoutIs())
-                 .signUpDate(entity.getSignUpDate())
+                 .signupDate(entity.getSignupDate())
                  .mNo(entity.getFleaMarkets() != null ?
                          entity.getFleaMarkets().stream()
-                         .map(FleamarketEntity::getMNo) // FleamarketEntity의 no를 가져옴
+                         .map(FleamarketEntity::getNo) // FleamarketEntity의 no를 가져옴
                          .collect(Collectors.toList()) : null)
                  .fNo(null) // 필요한 경우 수정
                   .build();

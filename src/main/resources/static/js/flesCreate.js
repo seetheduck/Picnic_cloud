@@ -3,12 +3,12 @@ const {createApp} = Vue;
 createApp({
     data() {
         return {
-            mId:"user01",
-            mTitle:"",
-            mPrice:"",
-            mCont:"",
-            mCategory:"",
-            mfilePath : null,
+            id:"user01",
+            title:"",
+            price:"",
+            contents:"",
+            category:"",
+            filePath : null,
             errors: {},
         }
     },
@@ -16,20 +16,20 @@ createApp({
         validateForm() {
             this.errors = {};
 
-            if (!this.mTitle) {
-                this.errors.mTitle = '제목을 입력해 주세요.';
+            if (!this.title) {
+                this.errors.title = '제목을 입력해 주세요.';
             }
-            if (!this.mPrice) {
-                this.errors.mPrice = '가격을 입력해 주세요.';
+            if (!this.price) {
+                this.errors.price = '가격을 입력해 주세요.';
             }
-            if (!this.mCont) {
-                this.errors.mCont = '설명을 입력해 주세요.';
+            if (!this.contents) {
+                this.errors.contents = '설명을 입력해 주세요.';
             }
-            if (!this.mCategory) {
-                this.errors.mCategory = '카테고리를 선택해 주세요.';
+            if (!this.category) {
+                this.errors.category = '카테고리를 선택해 주세요.';
             }
-            if (!this.mFilePath) {
-                this.errors.mfilePath = '사진을 선택해 주세요.';
+            if (!this.filePath) {
+                this.errors.filePath = '사진을 선택해 주세요.';
             }
 
             return Object.keys(this.errors).length === 0;
@@ -43,18 +43,18 @@ createApp({
             
             // JSON 형태로 변환할 dto 객체
             const dto = {
-                mid: this.mId,
-                mtitle: this.mTitle,
-                mprice: this.mPrice,
-                mcont: this.mCont,
-                mcategory: this.mCategory
+                id: this.id,
+                title: this.title,
+                price: this.price,
+                content: this.content,
+                category: this.category
             };
             
              // dto를 JSON 문자열로 변환하여 FormData에 추가
              formData.append("dto", JSON.stringify(dto));
             
              if (this.mFilePath) { //파일이 첨부된 경우
-                 formData.append("mfile", this.mFilePath);
+                 formData.append("file", this.filePath);
              }
 
             await fetch("http://localhost:80/fleaMarket",{
