@@ -34,7 +34,7 @@ public class BookEntity {
     private byte[] thumbnail;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_no", referencedColumnName = "book_no")
+    @JoinColumn(name = "book_no", referencedColumnName = "no")
     private CategoryEntity category;
     
     public static BookDto toDto(BookEntity bookEntity) {
