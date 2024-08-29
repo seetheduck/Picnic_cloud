@@ -44,7 +44,7 @@ public class PlaceController {
 	            }
 	            
 	        case "publicKidsCafe":
-	            filePath = "C:/work2/team/공공형키즈카페.csv";
+	            filePath = "C:/work2/team/publicKidsCafe.csv";
 	            try (InputStream inputStream = new FileInputStream(filePath)) {
 	                csvService.publicKidsCafeCsv(inputStream);
 	                return "Public Kids Cafe CSV import completed successfully!";
@@ -54,7 +54,7 @@ public class PlaceController {
 	            }
 	            
 	        case "camping":
-	            filePath = "C:/work2/team/캠핑장.csv";
+	            filePath = "C:/work2/team/camping.csv";
 	            try (InputStream inputStream = new FileInputStream(filePath)) {
 	                csvService.campingCsv(inputStream);
 	                return "Camping CSV import completed successfully!";
@@ -64,7 +64,7 @@ public class PlaceController {
 	            }
 	            
 	        case "forest":
-	            filePath = "C:/work2/team/자연휴양림.csv";
+	            filePath = "C:/work2/team/forest.csv";
 	            try (InputStream inputStream = new FileInputStream(filePath)) {
 	                csvService.forestCsv(inputStream);
 	                return "Forest CSV import completed successfully!";
