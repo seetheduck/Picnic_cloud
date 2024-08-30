@@ -29,12 +29,12 @@ public class BookEntity {
     private String author;
     private String publisher;
     private String publicationYear;
-
+    
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] thumbnail;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_no", referencedColumnName = "no")
+    @JoinColumn(name = "category_no", referencedColumnName = "bookNo")
     private CategoryEntity category;
     
     public static BookDto toDto(BookEntity bookEntity) {
@@ -50,6 +50,7 @@ public class BookEntity {
                 .publicationYear(bookEntity.getPublicationYear())
                 .thumbnail(bookEntity.getThumbnail())
                 .categoryNo(bookEntity.getCategory() != null ? bookEntity.getCategory().getNo() : null)
+                .categoryName(bookEntity.getCategory() != null ? bookEntity.getCategory().getCategoryName() : null)  // 조인된 엔티티에서 가져오기
                 .build();
     }
 }

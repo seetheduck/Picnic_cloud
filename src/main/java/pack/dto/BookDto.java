@@ -21,6 +21,7 @@ public class BookDto {
     private String publicationYear;
     private byte[] thumbnail;
     private int categoryNo;
+    private String categoryName;
 
     public static BookEntity toEntity(BookDto bookDto) {
         if (bookDto == null) {
