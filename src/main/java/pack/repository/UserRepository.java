@@ -16,6 +16,6 @@ public interface UserRepository extends JpaRepository<UserMasterEntity, Integer>
 	@Query("SELECT COALESCE(MAX(u.no), 0) FROM UserMasterEntity u")
     int findMaxNo();
 	
-	
+	boolean existsById(String id);
 	
 }

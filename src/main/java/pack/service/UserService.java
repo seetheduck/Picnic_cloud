@@ -26,14 +26,24 @@ public class UserService {
 
     private final CustomPasswordEncoder passwordEncoder = new CustomPasswordEncoder();
 
+    public void checkDuplicateId(String id) {
+        if (userRepository.existsById(id)) {
+            throw new IllegalArgumentException("ID already exists");
+        }
+    }
+    
     public void signup(UserMasterDto userDto, UserDetailDto detailDto) {
+    	
+    	// ID 중복 검사
+        checkDuplicateId(userDto.getId());
+    	
         // 비밀번호 해시화
         userDto.setPw(passwordEncoder.encode(userDto.getPw()));
-
+        
         // 현재 가장 큰 no 값 조회
         int maxNo = userRepository.findMaxNo();
         int newNo = maxNo + 1;
-
+        
         // UserMaster에 no 값 설정
         userDto.setNo(newNo);
         UserMasterEntity userMaster = userDto.toEntity();
