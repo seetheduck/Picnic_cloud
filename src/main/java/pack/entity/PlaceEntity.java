@@ -34,13 +34,14 @@ public class PlaceEntity {
     private String name;
     private String address;
     private Boolean likeIs;
-    private Integer likeCnt;
-    private float point;
+    private Integer likeCnt;// 좋아요 
+    private float point; //평점
     private String image;
     private String description;
     private String tel;
     private String entranceFee;
     private String operationTime;
+    private int reviewCount; // 리뷰수 
 
     //@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
    // private List<LikesEntity> likes;
@@ -60,6 +61,7 @@ public class PlaceEntity {
     			.tel(entity.getTel())
     			.entranceFee(entity.getEntranceFee())
     			.operationTime(entity.getOperationTime())
+    			.reviewCount(entity.getReviewCount())
     			//.likes(entity.getLikes() != null ?
     			//	entity.getLikes().stream()
     			//	.map(LikesEntity::toLikesDto)

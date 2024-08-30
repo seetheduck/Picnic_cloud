@@ -36,6 +36,7 @@ public class ReviewDto {
     private Integer blockedCnt;
     private String ip;
     private int placeNo; 
+    private float point;
 
     //private List<LikesDto> likes;
 
@@ -56,6 +57,7 @@ public class ReviewDto {
     			.blockedCnt(dto.getBlockedCnt())
     			.ip(dto.getIp())
     			.placeNo(dto.getPlaceNo())
+    			.point(dto.getPoint())
     			//.likes(dto.getLikes() != null ? 
     			//	dto.getLikes().stream()
     			//		.map(LikesDto::toLikesEntity)

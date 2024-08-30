@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -32,13 +33,16 @@ public class ReviewEntity {
     private String contents;
     private LocalDateTime createDate;
     private Boolean likeIs;
-    private Integer likeCnt;
+    private Integer likeCnt; //좋아요 
     private Boolean delIs;
     private LocalDateTime delDate;
     private Boolean blocked;
-    private Integer blockedCnt;
+    private Integer blockedCnt; //신고
     private String ip;
     private int placeNo; 
+    
+    @Column(nullable = false) // 평점은 필수 입력으로 설정
+    private float point; // 별점 필드 (평점)
 
 
     //@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)

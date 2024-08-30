@@ -33,6 +33,7 @@ public class PlaceDto {
     private String tel;
     private String entranceFee;
     private String operationTime;
+    private int reviewCount;
 
     
     private List<LikesPlaceDto> likes; // 좋아요 목록
@@ -52,6 +53,7 @@ public class PlaceDto {
     			.tel(dto.getDescription())
     			.entranceFee(dto.getEntranceFee())
     			.operationTime(dto.getOperationTime())
+    			.reviewCount(dto.getReviewCount())
 //    			.likes(dto.getLikes() != null ? 
 //    				dto.getLikes().stream()
 //    					.map(LikesPlaceDto::toLikesPlaceEntity)
