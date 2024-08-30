@@ -38,7 +38,7 @@ public class ReviewDto {
     private int placeNo; 
     private float point;
 
-    //private List<LikesDto> likes;
+    private List<LikesReviewDto> likes; // 좋아요 정보 추가
 
     //private List<ReportDto> reports;
 	
@@ -58,10 +58,10 @@ public class ReviewDto {
     			.ip(dto.getIp())
     			.placeNo(dto.getPlaceNo())
     			.point(dto.getPoint())
-    			//.likes(dto.getLikes() != null ? 
-    			//	dto.getLikes().stream()
-    			//		.map(LikesDto::toLikesEntity)
-    			///		.collect(Collectors.toList()) : Collections.emptyList())
+    			.likes(dto.getLikes() != null ? 
+    				dto.getLikes().stream()
+    					.map(LikesReviewDto::toLikesReviewEntity)
+    					.collect(Collectors.toList()) : Collections.emptyList())
     			//.reports(dto.getReports() != null ?
     			//	dto.getReports().stream()
     			//		.map(ReportDto::toReportEntity)

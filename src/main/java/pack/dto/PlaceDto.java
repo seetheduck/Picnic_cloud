@@ -36,10 +36,10 @@ public class PlaceDto {
     private int reviewCount;
 
     
-    private List<LikesPlaceDto> likes; // 좋아요 목록
+    //private List<LikesPlaceDto> likes; // 좋아요 목록
     
     //toEntity: dto > entity
-    public static PlaceEntity toPlaceEntity(PlaceDto dto) {
+    public static PlaceEntity toPlaceEntity(PlaceDto dto, PlaceEntity placeEntity) {
     	return PlaceEntity.builder()
     			.no(dto.getNo())
     			.placeType(dto.getPlaceType())
@@ -50,13 +50,13 @@ public class PlaceDto {
     			.point(dto.getPoint())
     			.image(dto.getImage())
     			.description(dto.getDescription())
-    			.tel(dto.getDescription())
+    			.tel(dto.getTel())
     			.entranceFee(dto.getEntranceFee())
     			.operationTime(dto.getOperationTime())
     			.reviewCount(dto.getReviewCount())
 //    			.likes(dto.getLikes() != null ? 
 //    				dto.getLikes().stream()
-//    					.map(LikesPlaceDto::toLikesPlaceEntity)
+//    				 .map(likeDto -> LikesPlaceDto.toLikesPlaceEntity(likeDto, placeEntity))
 //    					.collect(Collectors.toList()) : Collections.emptyList())
     			.build();
     			

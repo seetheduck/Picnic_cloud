@@ -27,6 +27,9 @@ public interface PlaceRepository extends JpaRepository<PlaceEntity, Integer>, Jp
 	
 	//선택한 장소 1곳 상세정보. 
 	Optional<PlaceEntity> findByNo(@Param("no") int no);
+	
+	//좋아요 처리를 위한 메소드
+	Optional<PlaceEntity> findByNo(Integer no);
 
 	
 }

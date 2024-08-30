@@ -48,5 +48,6 @@ public class ReviewController {
 	public void deleteReview(@PathVariable("no") int no) {
 		reviewService.deleteReview(no);
 	}
+	//리뷰 조회와 좋아요 정보를 통합하여 반환
 	
 }

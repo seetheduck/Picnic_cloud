@@ -43,8 +43,13 @@ public class PlaceEntity {
     private String operationTime;
     private int reviewCount; // 리뷰수 
 
-    //@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
-   // private List<LikesEntity> likes;
+//    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+//   private List<LikesPlaceEntity> likes;
+    
+ // 추가된 생성자
+    public PlaceEntity(Integer no) {
+        this.no = no;
+    }
     
   //toDto: entity > dto
     public static PlaceDto toPlaceDto(PlaceEntity entity) {
@@ -62,10 +67,10 @@ public class PlaceEntity {
     			.entranceFee(entity.getEntranceFee())
     			.operationTime(entity.getOperationTime())
     			.reviewCount(entity.getReviewCount())
-    			//.likes(entity.getLikes() != null ?
-    			//	entity.getLikes().stream()
-    			//	.map(LikesEntity::toLikesDto)
-    			//	.collect(Collectors.toList()) : Collections.emptyList())
+//    			.likes(entity.getLikes() != null ?
+//    				entity.getLikes().stream()
+//    				.map(LikesPlaceEntity::toLikesPlaceDto)
+//    				.collect(Collectors.toList()) : Collections.emptyList())
     			.build();
     	
     }

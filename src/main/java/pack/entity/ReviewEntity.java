@@ -32,12 +32,12 @@ public class ReviewEntity {
     private String id;
     private String contents;
     private LocalDateTime createDate;
-    private Boolean likeIs;
-    private Integer likeCnt; //좋아요 
+    private Boolean likeIs; //좋아요 토글
+    private Integer likeCnt; //좋아요 수
     private Boolean delIs;
     private LocalDateTime delDate;
     private Boolean blocked;
-    private Integer blockedCnt; //신고
+    private Integer blockedCnt; //신고 수
     private String ip;
     private int placeNo; 
     
@@ -45,10 +45,10 @@ public class ReviewEntity {
     private float point; // 별점 필드 (평점)
 
 
-    //@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<LikesEntity> likes;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LikesReviewEntity> likes;  // 좋아요 연관 관계
 
-   // @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+   //@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     //private List<ReportEntity> reports;
     
     //toDto: entity > dto
@@ -66,10 +66,10 @@ public class ReviewEntity {
     			.blockedCnt(entity.getBlockedCnt())
     			.ip(entity.getIp())
     			.placeNo(entity.getPlaceNo())
-    			//.likes(entity.getLikes() != null ?
-    			//		entity.getLikes().stream()
-    			//		.map(LikesEntity::toLikesDto)
-    				//	.collect(Collectors.toList()) : Collections.emptyList())
+                .likes(entity.getLikes() != null ?
+                        entity.getLikes().stream()
+                        .map(LikesReviewEntity::toLikesReviewDto)
+                        .collect(Collectors.toList()) : Collections.emptyList())
     			//.reports(entity.getReports() != null ?
     			//		entity.getReports().stream()
     			//		.map(ReportEntity::toReportDto)

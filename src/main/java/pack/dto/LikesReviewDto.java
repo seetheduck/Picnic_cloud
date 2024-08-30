@@ -5,28 +5,25 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pack.entity.LikesPlaceEntity;
+import pack.entity.LikesReviewEntity;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LikesPlaceDto {
+public class LikesReviewDto {
 	private Integer no;
 	
 	private String userId;
 	private Integer placeNo;
-	//private int likeCount; // db에는없는칼럼. 
-	//클라이언트에게 데이터를 전송하기 위해 선언.
 	
-	// toEntity: dto > entity
-	public static LikesPlaceEntity toLikesPlaceEntity(LikesPlaceDto dto) {
-		return LikesPlaceEntity.builder()
+	//dto to entity
+	public static LikesReviewEntity toLikesReviewEntity(LikesReviewDto dto) {
+		return LikesReviewEntity.builder()
 				.no(dto.getNo())
 				.userId(dto.getUserId())
 				.placeNo(dto.getPlaceNo())
 				.build();
-				
 	}
 }
