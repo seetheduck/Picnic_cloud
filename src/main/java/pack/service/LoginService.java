@@ -18,6 +18,6 @@ public class LoginService {
         Claims claims = Jwts.claims().setSubject(username); // JWT의 claims (사용자 이름 저장)
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds); // 유효 기간 설정
-
+        return "";
     }
 }
