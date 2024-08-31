@@ -39,7 +39,7 @@ public class UserDto{
             return null;
         }
 
-        UserEntity userEnti = UserEntity.builder()
+        UserEntity userEntity = UserEntity.builder()
                 .no(dto.getNo())
                 .id(dto.getId())
                 .pw(dto.getPw())
@@ -47,7 +47,18 @@ public class UserDto{
                 .signoutIs(dto.getSignoutIs())
                 .signupDate(dto.getSignupDate())
                 .build();
-        return userEnti;
+        return userEntity;
+    }
+
+    public UserEntity toEntity() {
+        return UserEntity.builder()
+                .no(this.no)
+                .id(this.id)
+                .pw(this.pw)
+                .name(this.name)
+                .signoutIs(this.signoutIs)
+                .signupDate(this.signupDate != null ? this.signupDate : LocalDateTime.now())
+                .build();
     }
     
 }

@@ -1,28 +1,35 @@
 package pack.repository;
 
-import java.util.List;
+
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import pack.entity.PlaceEntity;
 
-public interface PlaceRepository extends JpaRepository<PlaceEntity, Integer>{
+public interface PlaceRepository extends JpaRepository<PlaceEntity, Integer>, JpaSpecificationExecutor<PlaceEntity> {
 	
-	//해당 테마의 장소목록을 평점순, 좋아요순으로 보여주기. 키워드검색할경우 키워드까지. 
-	@Query("select p from PlaceEntity as p where p.pCategory = :pCategory "//테마별 장소
-			+ "and (:keyword is null or :keyword = '' " //키워드없을수도 있다.
-			+ "or p.pName like concat('%', :keyword, '%') " //검색키워드가있다면 시설명, 주소에서 필터링
-			+ "or p.pAddress like concat('%', :keyword, '%')) "
-			+ "order by p.pPoint desc, p.pLikeCnt desc") //평점순, 같은평점일경우 좋아요 순
-	List<PlaceEntity> findBypCategoryandKeyword(@Param("pCategory") String pCategory, 
-													@Param("keyword") String keyword);
+	//테마별 장소목록. 검색어 있을경우 검색어 필터링 결과값으로.
+	//jpa기본제공메소드 사용하기에 생략.
+	//차라리 복잡한 쿼리문을 작성하는게, specification보다 낫지 않을까...
+//select p from PlaceEntity as p where p.placeType = :placeType
+//	+ "and (:keyword is null or :keyword = '' " 
+//	+ "or p.name like concat('%', :keyword, '%') " 
+//	+ "or p.address like concat('%', :keyword, '%')) "
+//	+ "order by p.point desc, p.likeCnt desc")
+	
+	//장소 페이징처리
+	Page<PlaceEntity> findByPlaceType(String placeType, Pageable pageable);
 	
 	//선택한 장소 1곳 상세정보. 
-	Optional<PlaceEntity> findBypNo(@Param("pNo") int pNo);
+	Optional<PlaceEntity> findByNo(@Param("no") int no);
+	
+	//좋아요 처리를 위한 메소드
+	Optional<PlaceEntity> findByNo(Integer no);
 
-
+	
 }

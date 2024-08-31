@@ -80,70 +80,70 @@ public class FleamarketController {
 	}
 	
 	//생성하기
-	@PostMapping("/fleaMarket")
-	public Map<String, Object> postOne(
-	        @RequestPart("dto") String dtoJson,
-	        @RequestPart(value = "mfile", required = false) MultipartFile file) {
-	    Map<String, Object> response = new HashMap<>();
-
-	    try {
-	        ObjectMapper objectMapper = new ObjectMapper();
-	        FleamarketDto fleamarketDto = objectMapper.readValue(dtoJson, FleamarketDto.class);
-
-	        UserEntity userEntity = userService.findById(fleamarketDto.getUserid());
-	        if (userEntity == null) {
-	            response.put("isSuccess", false);
-	            response.put("message", "User not found with id: " + fleamarketDto.getUserid());
-	            return response;
-	        }
-
-	        FleamarketEntity fleaMarketEntity = FleamarketDto.toEntity(fleamarketDto);
-	        fleaMarketEntity.setUserEntity(userEntity);
-
-	        String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/";
-	        Integer newNum = dao.maxBoardNum() + 1;
-	        fleamarketDto.setNo(newNum);
-
-	        if (file != null && !file.isEmpty()) {
-	            // 공백을 언더바로 대체하고, URL 인코딩된 문자들을 제거
-	            String safeFilename = file.getOriginalFilename().replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_\\.]", "");
-	            Path imagePath = Paths.get(staticDirectory, safeFilename);
-
-	            // 이미지 저장 디렉토리 체크 및 생성
-	            File dest = imagePath.toFile();
-	            if (!dest.getParentFile().exists()) {
-	                dest.getParentFile().mkdirs();
-	            }
-
-	            // 파일을 저장하기 전에 미리 데이터베이스에 기록
-	            String path = "/images/" + safeFilename;
-	            fleamarketDto.setFilePath(path);
-	            dao.insert(fleamarketDto);
-	            file.transferTo(dest);
-
-	            // 파일 정보 저장
-	            filesService.insertFleaFile(path, newNum);
-
-	        } else {
-	            // 파일이 없는 경우
-	            dao.insert(fleamarketDto);
-	        }
-
-	        response.put("isSuccess", true);
-	        response.put("message", "FleaMarket board successfully added");
-
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        response.put("isSuccess", false);
-	        response.put("message", "File processing error occurred: " + e.getMessage());
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        response.put("isSuccess", false);
-	        response.put("message", "Server error occurred: " + e.getMessage());
-	    }
-
-	    return response;
-	}
+//	@PostMapping("/fleaMarket")
+//	public Map<String, Object> postOne(
+//	        @RequestPart("dto") String dtoJson,
+//	        @RequestPart(value = "mfile", required = false) MultipartFile file) {
+//	    Map<String, Object> response = new HashMap<>();
+//
+//	    try {
+//	        ObjectMapper objectMapper = new ObjectMapper();
+//	        FleamarketDto fleamarketDto = objectMapper.readValue(dtoJson, FleamarketDto.class);
+//
+//	        UserEntity userEntity = userService.findById(fleamarketDto.getUserid());
+//	        if (userEntity == null) {
+//	            response.put("isSuccess", false);
+//	            response.put("message", "User not found with id: " + fleamarketDto.getUserid());
+//	            return response;
+//	        }
+//
+//	        FleamarketEntity fleaMarketEntity = FleamarketDto.toEntity(fleamarketDto);
+//	        fleaMarketEntity.setUserEntity(userEntity);
+//
+//	        String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/";
+//	        Integer newNum = dao.maxBoardNum() + 1;
+//	        fleamarketDto.setNo(newNum);
+//
+//	        if (file != null && !file.isEmpty()) {
+//	            // 공백을 언더바로 대체하고, URL 인코딩된 문자들을 제거
+//	            String safeFilename = file.getOriginalFilename().replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_\\.]", "");
+//	            Path imagePath = Paths.get(staticDirectory, safeFilename);
+//
+//	            // 이미지 저장 디렉토리 체크 및 생성
+//	            File dest = imagePath.toFile();
+//	            if (!dest.getParentFile().exists()) {
+//	                dest.getParentFile().mkdirs();
+//	            }
+//
+//	            // 파일을 저장하기 전에 미리 데이터베이스에 기록
+//	            String path = "/images/" + safeFilename;
+//	            fleamarketDto.setFilePath(path);
+//	            dao.insert(fleamarketDto);
+//	            file.transferTo(dest);
+//
+//	            // 파일 정보 저장
+//	            filesService.insertFleaFile(path, newNum);
+//
+//	        } else {
+//	            // 파일이 없는 경우
+//	            dao.insert(fleamarketDto);
+//	        }
+//
+//	        response.put("isSuccess", true);
+//	        response.put("message", "FleaMarket board successfully added");
+//
+//	    } catch (IOException e) {
+//	        e.printStackTrace();
+//	        response.put("isSuccess", false);
+//	        response.put("message", "File processing error occurred: " + e.getMessage());
+//	    } catch (Exception e) {
+//	        e.printStackTrace();
+//	        response.put("isSuccess", false);
+//	        response.put("message", "Server error occurred: " + e.getMessage());
+//	    }
+//
+//	    return response;
+//	}
 
 	//수정
 	@PutMapping("/fleaMarket/{no}")

@@ -16,8 +16,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pack.dto.UserDetailDto;
 import pack.dto.UserDto;
-import pack.dto.UserdetailDto;
 
 @Entity
 @Table(name = "user_master")
@@ -38,16 +38,10 @@ public class UserEntity{
     private String name;
     private Boolean signoutIs;
     private LocalDateTime signupDate;
-
-    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserdetailEntity userDetail;
     
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FleamarketEntity> fleaMarkets;
 
-//    @OneToMany(mappedBy = "userEntity")
-//    private List<FilesEntity> files;
-    
  // DTO 변환 메서드
     public static UserDto toDto(UserEntity entity) {
 
@@ -65,18 +59,16 @@ public class UserEntity{
                  .fNo(null) // 필요한 경우 수정
                   .build();
      }
-    // UserDetail DTO 변환 메서드
 
-    public UserdetailDto getUserDetailDto() {
-        if (userDetail == null) {
-            return null;
-        }
-        return UserdetailDto.builder()
-                .address(userDetail.getAddress())
-                .gender(userDetail.getGender())
-                .email(userDetail.getEmail())
-                .childAge(userDetail.getChildAge())
-                .userStat(userDetail.getUserStat())
+    public UserDto toDto() {
+        return UserDto.builder()
+                .no(this.no)
+                .id(this.id)
+                .pw(this.pw)
+                .name(this.name)
+                .signoutIs(this.signoutIs)
+                .signupDate(this.signupDate)
                 .build();
-    }   
+    }
+
 }

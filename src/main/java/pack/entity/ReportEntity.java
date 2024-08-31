@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -18,7 +16,7 @@ import lombok.Setter;
 import pack.dto.ReportDto;
 
 @Entity
-@Table(name = "reports")
+@Table(name = "report")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,17 +24,16 @@ import pack.dto.ReportDto;
 @Builder
 public class ReportEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer no; 
+	private int no; 
     private Integer reviewNo;
 
 	//플리마켓 신고
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="flea_market_no")
+	@JoinColumn(name="flea_market_no", nullable = true)
 	private FleamarketEntity fleamarketEntity;
 	
     private LocalDateTime date;
-    private Integer code;
+    private int code;
     
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_no")

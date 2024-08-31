@@ -1,10 +1,5 @@
 package pack.dto;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,42 +13,45 @@ import pack.entity.PlaceEntity;
 @AllArgsConstructor
 @Builder
 public class PlaceDto {
-	@Id
-	private int pNo;
+
+	private int no; 
 	
-	private String pCategory;
-    private String pName;
-    private String pAddress;
-    private Boolean pLike;
-    private Integer pLikeCnt;
-    private float pPoint;
-    private String pImage;
-    private String pExplain;
-    private String pTel;
-    private String pPay;
-    private String pDay;
+	private String placeType;
+    private String name;
+    private String address;
+    private Boolean likeIs;
+    private Integer likeCnt;
+    private float point;
+    private String image;
+    private String description;
+    private String tel;
+    private String entranceFee;
+    private String operationTime;
+    private int reviewCount;
+
     
-   // private List<LikesDto> likes;
+    //private List<LikesPlaceDto> likes; // 좋아요 목록
     
     //toEntity: dto > entity
-    public static PlaceEntity toPlaceEntity(PlaceDto dto) {
+    public static PlaceEntity toPlaceEntity(PlaceDto dto, PlaceEntity placeEntity) {
     	return PlaceEntity.builder()
-    			.pNo(dto.getPNo())
-    			.pCategory(dto.getPCategory())
-    			.pName(dto.getPName())
-    			.pAddress(dto.getPAddress())
-    			.pLike(dto.getPLike())
-    			.pLikeCnt(dto.getPLikeCnt())
-    			.pPoint(dto.getPPoint())
-    			.pImage(dto.getPImage())
-    			.pExplain(dto.getPExplain())
-    			.pTel(dto.getPTel())
-    			.pPay(dto.getPPay())
-    			.pDay(dto.getPDay())
-    			//.likes(dto.getLikes() != null ? 
-    			//	dto.getLikes().stream()
-    			//		.map(LikesDto::toLikesEntity)
-    			//		.collect(Collectors.toList()) : Collections.emptyList())
+    			.no(dto.getNo())
+    			.placeType(dto.getPlaceType())
+    			.name(dto.getName())
+    			.address(dto.getAddress())
+    			.likeIs(dto.getLikeIs())
+    			.likeCnt(dto.getLikeCnt())
+    			.point(dto.getPoint())
+    			.image(dto.getImage())
+    			.description(dto.getDescription())
+    			.tel(dto.getTel())
+    			.entranceFee(dto.getEntranceFee())
+    			.operationTime(dto.getOperationTime())
+    			.reviewCount(dto.getReviewCount())
+//    			.likes(dto.getLikes() != null ? 
+//    				dto.getLikes().stream()
+//    				 .map(likeDto -> LikesPlaceDto.toLikesPlaceEntity(likeDto, placeEntity))
+//    					.collect(Collectors.toList()) : Collections.emptyList())
     			.build();
     			
     }

@@ -1,15 +1,17 @@
 package pack.entity;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,23 +33,29 @@ public class FleamarketEntity {
     private String title;
     private Integer price; 
     private String contents;
+    @Column(name="create_date")
     private LocalDateTime createdate;
+    @Column(name="update_date")
     private LocalDateTime updatedate;
     private Boolean favorite;
     private Integer favoriteCnt;
-    private String category; 
     private Boolean blocked;
     private Integer blockedCnt;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userid", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity userEntity;
 
-    @OneToOne(mappedBy = "fleamarketEntity")
-    private FilesEntity files;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="category_no")
+    private CategoryEntity categoryEntity;
+    
+    @OneToMany(mappedBy = "fleamarketEntity")
+    private List<FilesEntity> files;
 
     @OneToMany(mappedBy = "fleamarketEntity")
     private List<LikesEntity> likes;
+    
 
     public static FleamarketDto toDto(FleamarketEntity entity) {
         return FleamarketDto.builder()
@@ -59,11 +67,14 @@ public class FleamarketEntity {
                 .updatedate(entity.getUpdatedate())
                 .favorite(entity.getFavorite())
                 .favoriteCnt(entity.getFavoriteCnt())
-                .category(entity.getCategory())
                 .blocked(entity.getBlocked())
                 .blockedCnt(entity.getBlockedCnt())
                 .userid(entity.getUserEntity().getId())
-                .filePath(entity.getFiles() != null ? entity.getFiles().getPath() : null)
+                .category(entity.getCategoryEntity() != null ? entity.getCategoryEntity().getMarketNo() : null)
+                .categoryName(entity.getCategoryEntity() != null ? entity.getCategoryEntity().getCategoryName() : null)
+                .files(entity.getFiles() != null
+	                ? entity.getFiles().stream().map(FilesEntity::getPath).collect(Collectors.toList())
+	                : Collections.emptyList())
                 .build();
     }
 }

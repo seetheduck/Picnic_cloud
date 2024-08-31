@@ -1,13 +1,9 @@
 package pack.entity;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,42 +21,50 @@ import pack.dto.PlaceDto;
 @Table(name="place")
 public class PlaceEntity {
 	@Id
-	private int pNo;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동 증가 설정
+	private int no; 
 	
-	private String pCategory;
-    private String pName;
-    private String pAddress;
-    private Boolean pLike;
-    private Integer pLikeCnt;
-    private float pPoint;
-    private String pImage;
-    private String pExplain;
-    private String pTel;
-    private String pPay;
-    private String pDay;
+	private String placeType;
+    private String name;
+    private String address;
+    private Boolean likeIs;
+    private Integer likeCnt;// 좋아요 
+    private float point; //평점
+    private String image;
+    private String description;
+    private String tel;
+    private String entranceFee;
+    private String operationTime;
+    private int reviewCount; // 리뷰수 
 
-    //@OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
-   // private List<LikesEntity> likes;
+//    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+//   private List<LikesPlaceEntity> likes;
+    
+ // 추가된 생성자
+    public PlaceEntity(Integer no) {
+        this.no = no;
+    }
     
   //toDto: entity > dto
     public static PlaceDto toPlaceDto(PlaceEntity entity) {
     	return PlaceDto.builder()
-    			.pNo(entity.getPNo())
-    			.pCategory(entity.getPCategory())
-    			.pName(entity.getPName())
-    			.pAddress(entity.getPAddress())
-    			.pLike(entity.getPLike())
-    			.pLikeCnt(entity.getPLikeCnt())
-    			.pPoint(entity.getPPoint())
-    			.pImage(entity.getPImage())
-    			.pExplain(entity.getPExplain())
-    			.pTel(entity.getPTel())
-    			.pPay(entity.getPPay())
-    			.pDay(entity.getPDay())
-    			//.likes(entity.getLikes() != null ?
-    			//	entity.getLikes().stream()
-    			//	.map(LikesEntity::toLikesDto)
-    			//	.collect(Collectors.toList()) : Collections.emptyList())
+    			.no(entity.getNo())
+    			.placeType(entity.getPlaceType())
+    			.name(entity.getName())
+    			.address(entity.getAddress())
+    			.likeIs(entity.getLikeIs())
+    			.likeCnt(entity.getLikeCnt())
+    			.point(entity.getPoint())
+    			.image(entity.getImage())
+    			.description(entity.getDescription())
+    			.tel(entity.getTel())
+    			.entranceFee(entity.getEntranceFee())
+    			.operationTime(entity.getOperationTime())
+    			.reviewCount(entity.getReviewCount())
+//    			.likes(entity.getLikes() != null ?
+//    				entity.getLikes().stream()
+//    				.map(LikesPlaceEntity::toLikesPlaceDto)
+//    				.collect(Collectors.toList()) : Collections.emptyList())
     			.build();
     	
     }

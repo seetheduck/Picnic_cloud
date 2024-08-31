@@ -1,39 +1,37 @@
 package pack.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pack.entity.UserEntity;
-import pack.entity.UserdetailEntity;
+import pack.entity.UserDetailEntity;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserdetailDto {
-
+public class UserDetailDto {
+	private int no;
     private String address;
-    private Boolean gender;
+    private boolean gender;
     private String email;
-    private Integer childAge;
-    private Boolean userStat;
+    private int childAge;
+    private boolean userstat;
+    private LocalDateTime signoutDate;
 
-    // UserDetailDto를 UserDetail로 변환하는 메서드
-    public static UserdetailEntity toEntity(UserdetailDto dto, UserEntity userEntity) {
-        if (dto == null) {
-            return null;
-        }
-
-        return UserdetailEntity.builder()
-                .userEntity(userEntity) // userEntity와 연관짓기
-                .address(dto.getAddress())
-                .gender(dto.getGender())
-                .email(dto.getEmail())
-                .childAge(dto.getChildAge())
-                .userStat(dto.getUserStat())
+    public UserDetailEntity toEntity() {
+        return UserDetailEntity.builder()
+                .no(this.no)
+                .address(this.address)
+                .gender(this.gender)
+                .email(this.email)
+                .childAge(this.childAge)
+                .userstat(this.userstat)
+                .signoutDate(this.signoutDate)
                 .build();
     }
 }
