@@ -14,7 +14,7 @@ public class UserService {
     
     // id를 기반으로 UserEntity를 조회하여 반환하는 메서드
     public UserEntity findById(String id) {
-        UserEntity userEntity = userRepository.findByUserId(id);
+        UserEntity userEntity = userRepository.findById(id);
         
         if (userEntity != null) {
             return userEntity;

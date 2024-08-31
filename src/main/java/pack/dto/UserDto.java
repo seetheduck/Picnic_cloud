@@ -31,7 +31,6 @@ public class UserDto{
     private LocalDateTime signupDate;
     
     private List<Integer> mNo; //마켓 번호
-    private List<Integer> fNo; //파일 번호
     
  // UserDto를 UserEntity로 변환하는 메서드
     public static UserEntity toEntity(UserDto dto) {
@@ -39,15 +38,13 @@ public class UserDto{
             return null;
         }
 
-        UserEntity userEnti = UserEntity.builder()
+        return UserEntity.builder()
                 .no(dto.getNo())
                 .id(dto.getId())
                 .pw(dto.getPw())
                 .name(dto.getName())
                 .signoutIs(dto.getSignoutIs())
-                .signupDate(dto.getSignupDate())
                 .build();
-        return userEnti;
     }
     
 }

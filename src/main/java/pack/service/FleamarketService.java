@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import pack.dto.FleamarketDto;
 import pack.entity.FleamarketEntity;
@@ -24,10 +25,8 @@ public class FleamarketService {
 	@Autowired
     private UserRepository userRepository;
 	
-	//전체보기
-//	public List<FleamarketDto> findAll() {
-//		return repository.findAll().stream().map(FleamarketEntity::toDto).collect(Collectors.toList());
-//	}
+	@Autowired
+	private FilesService filesService;
 	
 	//전체보기 (페이징 처리)
 	public Page<FleamarketDto> findAll(Pageable pageable) {
@@ -55,40 +54,38 @@ public class FleamarketService {
                 .map(FleamarketEntity::toDto);
 	}
 	
-	//가장 마지막게시판 번호
-	public Integer maxBoardNum() {
-		return repository.findbyMaxNo();
-	}
-	
-//	//가장 마지막파일 번호
-//	public Integer maxfileNum() {
-//		return repository.findbyMaxfNo();
-//	}
-	
-	//생성
-	public String insert(FleamarketDto dto) {
-		try {
-			 // UserEntity를 데이터베이스에서 로드
-			UserEntity userEntity = userRepository.findByUserId(dto.getUserid());
-            if (userEntity == null) {
-                return "입력 오류 : User not found with id: " + dto.getUserid();
-            }
+	 //생성
+	   public String insert(FleamarketDto dto,MultipartFile file) {
+	      try {
+	          // UserEntity를 데이터베이스에서 로드
+	            UserEntity userEntity = userRepository.findById(dto.getUserid());
+	            if (userEntity == null) {
+	                return "오류 : User not found with id: " + dto.getUserid();
+	            }
 
-            // FleamarketEntity 생성
-            FleamarketEntity insertEntity = FleamarketDto.toEntity(dto);
-            insertEntity.setUserEntity(userEntity);  // 로드된 UserEntity를 설정
-
-            // 생성 날짜 설정
-            insertEntity.setCreatedate(LocalDateTime.now());
-            
-            // 데이터베이스에 저장
-            repository.save(insertEntity);
-            return "isSuccess";
-			
-		} catch (Exception e) {
-			return "입력 오류 : insert" +e.getMessage();
-		}
-	}
+	            // FleamarketEntity 생성
+	            FleamarketEntity insertEntity = FleamarketDto.toEntity(dto);
+	            insertEntity.setUserEntity(userEntity);  // 로드된 UserEntity를 설정
+	            
+	            //마지막 번호 + 1
+	            Integer newNum = repository.findbyMaxNo() + 1;
+	            insertEntity.setNo(newNum);
+	            
+	            // 생성 날짜 설정
+	            insertEntity.setCreatedate(LocalDateTime.now());
+	            
+	            // 데이터베이스에 저장
+	            repository.save(insertEntity);
+	            
+	            //파일 저장 영역
+	            filesService.insertFleaFile(newNum,file);
+	            
+	            return "isSuccess";
+	         
+	      } catch (Exception e) {
+	         return "입력 오류 : insert" +e.getMessage();
+	      }
+	   }
 	
 	//상세보기
 	public FleamarketDto getOne(Integer no) {

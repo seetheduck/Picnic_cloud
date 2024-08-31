@@ -1,8 +1,12 @@
 package pack.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,19 +23,24 @@ import pack.dto.MessageDto;
 @AllArgsConstructor
 @Builder
 public class MessageEntity {
-	private int no;
-    private int chatRoomId;
-    private int senderId;
+    @Id
+    private Integer no;
+    private Integer chatRoomId;
+    private Integer senderId;
     private String messageContents;
-    private Date createDate;
+    private LocalDateTime createDate;
 
-    public MessageDto toDto() {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "chatRoomId", referencedColumnName = "no", insertable = false, updatable = false)
+    private ChatRoomEntity chatRoomEntity;
+
+    public static MessageDto toDto(MessageEntity entity) {
         return MessageDto.builder()
-                .no(this.no)
-                .chatRoomId(this.chatRoomId)
-                .senderId(this.senderId)
-                .messageContents(this.messageContents)
-                .createDate(this.createDate)
+                .no(entity.getNo())
+                .chatRoomId(entity.getChatRoomId())
+                .senderId(entity.getSenderId())
+                .messageContents(entity.getMessageContents())
+                .createDate(entity.getCreateDate())
                 .build();
     }
 }

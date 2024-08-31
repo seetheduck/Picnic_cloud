@@ -39,9 +39,6 @@ public class UserEntity{
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FleamarketEntity> fleaMarkets;
-
-//    @OneToMany(mappedBy = "userEntity")
-//    private List<FilesEntity> files;
     
     public static UserDto toDto(UserEntity entity) {
         return UserDto.builder()

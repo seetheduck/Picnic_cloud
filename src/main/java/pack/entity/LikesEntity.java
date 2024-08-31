@@ -25,10 +25,9 @@ public class LikesEntity {
 	private Integer no;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="userid")
+	@JoinColumn(name="user_id")
 	private UserEntity userEntity;
 	
-	private Integer placeNo;
 	private Integer reviewNo;
 	
 	//플리마켓 좋아요

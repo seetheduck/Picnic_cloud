@@ -1,6 +1,7 @@
 package pack.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +32,7 @@ public class FleamarketDto {
 	private Boolean blocked;
 	private Integer blockedCnt;
 
-	private String filePath;
+	private List<String> files;
 	
 	private String categoryName;
 
@@ -48,20 +49,19 @@ public class FleamarketDto {
 			return null;
 		}
 
-		return FleamarketEntity.builder()
-				.no(dto.getNo())
-				.title(dto.getTitle())
-				.price(dto.getPrice())
-				.contents(dto.getContents())
-				.createdate(dto.getCreatedate())
-				.updatedate(dto.getUpdatedate())
-				.favorite(dto.getFavorite())
-				.favoriteCnt(dto.getFavoriteCnt())
-				.blocked(dto.getBlocked())
-				.blockedCnt(dto.getBlockedCnt())
-				.userEntity(dto.getUserid() != null ? UserEntity.builder().id(dto.getUserid()).build() : null)
-				.categoryEntity(dto.getCategory() != null ? CategoryEntity.builder().marketNo(dto.getCategory()).build(): null)
-				.build();
-
+		return  FleamarketEntity.builder()
+                .no(dto.getNo())
+                .title(dto.getTitle())
+                .price(dto.getPrice())
+                .contents(dto.getContents())
+                .createdate(dto.getCreatedate())
+                .updatedate(dto.getUpdatedate())
+                .favorite(dto.getFavorite())
+                .favoriteCnt(dto.getFavoriteCnt())
+                .blocked(dto.getBlocked())
+                .blockedCnt(dto.getBlockedCnt())
+                .userEntity(UserEntity.builder().id(dto.getUserid()).build())
+                .categoryEntity(CategoryEntity.builder().no(dto.getCategory()).build())
+                .build();
 	}
 }

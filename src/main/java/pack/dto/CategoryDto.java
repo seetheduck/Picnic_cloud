@@ -15,7 +15,6 @@ import pack.entity.CategoryEntity;
 public class CategoryDto {
     private int no;
     private int marketNo;
-    private int bookNo;
     private String categoryName;
 
     public static CategoryEntity toEntity(CategoryDto categoryDto) {
@@ -26,7 +25,6 @@ public class CategoryDto {
         return CategoryEntity.builder()
                 .no(categoryDto.getNo())
                 .marketNo(categoryDto.getMarketNo())
-                .bookNo(categoryDto.getBookNo())
                 .categoryName(categoryDto.getCategoryName())
                 .build();
     }

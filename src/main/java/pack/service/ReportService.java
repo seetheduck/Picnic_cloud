@@ -1,7 +1,6 @@
 package pack.service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,26 +21,20 @@ public class ReportService {
 	@Autowired
 	UserRepository userRepository;
 
-	// 신고하기 토글
+	// 신고하기
 	@Transactional
-	public int toggleReport(Integer userNo, int fleaBoardNo, int code) {
+	public int report(String userId, int fleaBoardNo, int code) {
 		// 고객 조회
-		Optional<UserEntity> optionalUser = userRepository.findById(userNo);
-
-		// UserEntity가 존재하지 않는 경우
-		if (!optionalUser.isPresent()) {
-			throw new RuntimeException("존재하지 않는 사용자입니다.");
-		}
-
-		UserEntity userEntity = optionalUser.get(); // 존재하는 경우, 해당 user 받기
+		UserEntity user = userRepository.findById(userId);
 
 		// 신고한 상태인지 확인
-		ReportEntity existingReport = repository.findByUserEntity_NoAndFleamarketEntity_No(userNo, fleaBoardNo);
+		ReportEntity existingReport = repository.findByUserEntity_IdAndFleamarketEntity_No(userId, fleaBoardNo);
 		if (existingReport == null) {
 			// 신고가 없는 상태인 경우
 			ReportEntity report = ReportEntity.builder().no(repository.maxReportNum() + 1) // 새로운 신고
+					.reviewNo(null)
 					.fleamarketEntity(FleamarketEntity.builder().no(fleaBoardNo).build()).date(LocalDateTime.now())
-					.code(code).userEntity(userEntity) // 신고한 유저 등록
+					.code(code).userEntity(user) // 신고한 유저 등록
 					.build();
 			//신고 저장
 			repository.save(report);
@@ -51,18 +44,10 @@ public class ReportService {
 	}
 
 	// 신고 여부
-	public boolean checkReport(Integer userNo, int fleaBoardNo) {
-		// 고객 조회
-		Optional<UserEntity> optionalUser = userRepository.findById(userNo);
-
-		// UserEntity가 존재하지 않는 경우
-		if (!optionalUser.isPresent()) {
-		}
-
-		// 신고한 상태인지 확인
-		ReportEntity existingReport = repository.findByUserEntity_NoAndFleamarketEntity_No(userNo, fleaBoardNo);
-		
-		//신고된 상태인 경우 true
-		return existingReport != null;
+	public boolean checkReport(String userId, int fleaBoardNo) {
+	    // 신고한 상태인지 확인
+	    ReportEntity existingReport = repository.findByUserEntity_IdAndFleamarketEntity_No(userId, fleaBoardNo);
+	    //신고된 상태인 경우 true
+	    return existingReport != null;
 	}
 }

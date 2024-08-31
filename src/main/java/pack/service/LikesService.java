@@ -23,7 +23,8 @@ public class LikesService {
 	@Transactional
 	public int toggleFleaMarketLike(String userid, int fleaBoardNo) {
 //		System.out.println("********** "+fleaBoardNo);
-		UserEntity userEntity = userRepository.findByUserId(userid); //해당 아이디가 있는지 ;
+		UserEntity userEntity = userRepository.findById(userid); //해당 아이디가 있는지 ;
+		//좋아요 상태 확인
 		LikesEntity existingLike = repository.findByUserEntity_IdAndFleamarketEntity_No(userEntity.getId(),
 				fleaBoardNo);
 
@@ -46,7 +47,7 @@ public class LikesService {
 
 	// 좋아요 여부
 	public boolean checkLikes(String userid, Integer fleaMarketNo) {
-		UserEntity userEntity = userRepository.findByUserId(userid); //해당 아이디가 있는지 검사
+		UserEntity userEntity = userRepository.findById(userid); //해당 아이디가 있는지 검사
 		LikesEntity existingLike = repository.findByUserEntity_IdAndFleamarketEntity_No(userEntity.getId(),
 				fleaMarketNo);
 

@@ -13,7 +13,7 @@ public interface FleamarketRepository extends JpaRepository<FleamarketEntity,Int
 	//전체 목록값 불러오기(페이징)
 	Page<FleamarketEntity> findAll(Pageable page);
 
-	//추가시 증가용) 게시판 가장 큰 번호 //FleamarketEntity findTopByOrderByMNoDesc();
+	//추가시 증가용) 게시판 가장 큰 번호
 	@Query("select Max(f.no) from FleamarketEntity f")
 	Integer findbyMaxNo();
 	
@@ -28,9 +28,5 @@ public interface FleamarketRepository extends JpaRepository<FleamarketEntity,Int
 
 	//특정 게시물 반환
 	FleamarketEntity findByNo(Integer no);
-	
-	//@Modifying(clearAutomatically = true)
-	// 상세보기 할 때 조회수 증가
-	// @Modifying은 @Query로 작성된 INSERT, UPDATE, DELETE 쿼리를 사용
 	
 }

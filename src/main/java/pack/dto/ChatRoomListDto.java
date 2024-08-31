@@ -13,19 +13,15 @@ import pack.entity.ChatRoomListEntity;
 @AllArgsConstructor
 @Builder
 public class ChatRoomListDto {
-	private int no;
-    private int userId;
-    private int chatRoomId;
+    private Integer no;
+    private Integer userId;
+    private Integer chatRoomId;
 
-    public static ChatRoomListEntity toEntity(ChatRoomListDto chatRoomListDto) {
-        if (chatRoomListDto == null) {
-            return null;
-        }
-
+    public static ChatRoomListEntity toEntity(ChatRoomListDto dto) {
         return ChatRoomListEntity.builder()
-                .no(chatRoomListDto.getNo())
-                .userId(chatRoomListDto.getUserId())
-                .chatRoomId(chatRoomListDto.getChatRoomId())
+                .no(dto.getNo())
+                .userId(dto.getUserId())
+                .chatRoomId(dto.getChatRoomId())
                 .build();
     }
 }

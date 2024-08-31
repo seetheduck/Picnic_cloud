@@ -41,7 +41,6 @@ public class CategoryEntity {
         return CategoryDto.builder()
                 .no(categoryEntity.getNo())
                 .marketNo(categoryEntity.getMarketNo())
-                .bookNo(categoryEntity.getBookNo())
                 .categoryName(categoryEntity.getCategoryName())
                 .build();
     }
