@@ -1,4 +1,4 @@
-package pack.service;
+package pack.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,8 +8,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import pack.entity.UserDetailEntity;
-import pack.repository.UserDetailRepository;
-import pack.repository.UserRepository;
 
 @Component
 public class AccountDeletionScheduler {

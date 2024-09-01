@@ -9,6 +9,7 @@ import pack.dto.UserDetailDto;
 import pack.dto.UserDto;
 import pack.entity.UserDetailEntity;
 import pack.entity.UserEntity;
+import pack.repository.CustomPasswordEncoder;
 import pack.repository.UserDetailRepository;
 import pack.repository.UserRepository;
 
@@ -24,7 +25,8 @@ public class UserService {
     @Autowired
     private JwtService jwtService;
 
-    private final CustomPasswordEncoder passwordEncoder = new CustomPasswordEncoder();
+    @Autowired
+    private  CustomPasswordEncoder passwordEncoder;
 
     public void checkDuplicateId(String id) {
         if (userRepository.existsById(id)) {
