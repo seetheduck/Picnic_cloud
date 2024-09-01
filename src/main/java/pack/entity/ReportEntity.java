@@ -24,22 +24,26 @@ import pack.dto.ReportDto;
 @Builder
 public class ReportEntity {
 	@Id
-	private int no;
-	private int userNo;
-	private Integer reviewNo;
-	private Integer fleaMarketNo;
+	private int no; 
+    private Integer reviewNo;
+
+	//플리마켓 신고
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="flea_market_no", nullable = true)
+	private FleamarketEntity fleamarketEntity;
+	
     private LocalDateTime date;
     private int code;
+    
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="user_no")
+	private UserEntity userEntity;
 	
 	//toDto
 	public static ReportDto toDto(ReportEntity entity) {
 		return ReportDto.builder()
-				.no(entity.getNo())
-				.userNo(entity.getUserNo())
-				.reviewNo(entity.getReviewNo())
-				.fleaMarketNo(entity.getFleaMarketNo())
-				.date(LocalDateTime.now()) // 현재 시간으로 설정
-				.code(entity.getCode())
+				.userNo(entity.getUserEntity().getNo())
+				.fleaMarketNo(entity.getFleamarketEntity().getNo())
 				.build();
 	}
 	

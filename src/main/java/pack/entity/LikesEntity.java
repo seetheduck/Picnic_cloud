@@ -22,17 +22,25 @@ import pack.dto.LikesDto;
 @Builder
 public class LikesEntity {
 	@Id
-	private int no;
-	private String userId;
+	private Integer no;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="user_id")
+	private UserEntity userEntity;
+	
 	private Integer reviewNo;
-	private Integer fleaMarketNo;
+	
+	//플리마켓 좋아요
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="flea_market_no")
+	private FleamarketEntity fleamarketEntity;
 	
 	//toDto
 	public static LikesDto toDto(LikesEntity entity) {
 		return LikesDto.builder()
 				.no(entity.getNo())
-				.userId(entity.getUserId())
-				.fleaMarketNo(entity.getFleaMarketNo())
+				.userid(entity.getUserEntity().getId())
+				.fleaMarketNo(entity.getFleamarketEntity().getNo())
 				.build();
 	}
 }

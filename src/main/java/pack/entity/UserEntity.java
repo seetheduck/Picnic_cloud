@@ -29,17 +29,36 @@ import pack.dto.UserDto;
 public class UserEntity{
 
     @Id
-    private int no;
+    private Integer no;
 
     @Column(unique = true)
     private String id;
 
     private String pw;
     private String name;
-    private Boolean accountDeleteIs;
+    private Boolean signoutIs;
     private LocalDateTime signupDate;
+    
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FleamarketEntity> fleaMarkets;
 
  // DTO 변환 메서드
+    public static UserDto toDto(UserEntity entity) {
+
+     	return UserDto.builder()
+                 .no(entity.getNo())
+                 .id(entity.getId())
+                 .pw(entity.getPw())
+                 .name(entity.getName())
+                 .signoutIs(entity.getSignoutIs())
+                 .signupDate(entity.getSignupDate())
+                 .mNo(entity.getFleaMarkets() != null ?
+                         entity.getFleaMarkets().stream()
+                         .map(FleamarketEntity::getNo) // FleamarketEntity의 no를 가져옴
+                         .collect(Collectors.toList()) : null)
+                 .fNo(null) // 필요한 경우 수정
+                  .build();
+     }
 
     public UserDto toDto() {
         return UserDto.builder()
@@ -47,7 +66,7 @@ public class UserEntity{
                 .id(this.id)
                 .pw(this.pw)
                 .name(this.name)
-                .accountDeleteIs(this.accountDeleteIs)
+                .signoutIs(this.signoutIs)
                 .signupDate(this.signupDate)
                 .build();
     }

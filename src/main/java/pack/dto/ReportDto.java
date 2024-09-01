@@ -17,22 +17,24 @@ import pack.entity.UserEntity;
 @AllArgsConstructor
 @Builder
 public class ReportDto {
-	private int no;
-    private Integer reviewNo;
+	private Integer no; 
+//    private Integer reviewNo;
     private Integer fleaMarketNo;
     private LocalDateTime date;
-    private int code;
-    private int userNo;
+    private Integer code;
+    private Integer userNo;
+    
+    private UserDto user;
+    private FleamarketDto fleamarket;
     
     //toEntity
     private static ReportEntity toEntity(ReportDto dto) {
     	return ReportEntity.builder()
     			.no(dto.getNo())
-                .reviewNo(dto.getReviewNo())
-    			.fleaMarketNo(dto.getFleaMarketNo())
+    			.fleamarketEntity(FleamarketEntity.builder().no(dto.getFleaMarketNo()).build())
     			.date(dto.getDate())
     			.code(dto.getCode())
-    			.userNo(dto.getUserNo())
+    			.userEntity(UserEntity.builder().no(dto.getUserNo()).build())
     			.build();
     }
 }

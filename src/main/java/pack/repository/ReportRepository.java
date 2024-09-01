@@ -9,9 +9,9 @@ public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
 
 	// 신고 max번호
 	@Query("select Max(r.no) from ReportEntity r")
-	int maxReportNum();
+	Integer maxReportNum();
 
 	// 특정 유저가 특정 플리마켓에 신고하기를 눌렀는지 확인
-	ReportEntity findByUserNoAndFleaMarketNo(int userNo, Integer fleaMarketNo);
-
+	ReportEntity findByUserEntity_IdAndFleamarketEntity_No(String userId, Integer fleaMarketNo);
+	
 }
