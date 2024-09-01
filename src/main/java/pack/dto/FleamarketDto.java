@@ -3,6 +3,7 @@ package pack.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,12 +20,14 @@ import pack.entity.UserEntity;
 @Builder
 public class FleamarketDto {
 
-	private Integer no;
+	private int no;
 	private String userid;
 	private String title;
-	private Integer price;
+	private int price;
 	private String contents;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime createdate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime updatedate;
 	private Boolean favorite;
 	private Integer favoriteCnt;

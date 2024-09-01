@@ -11,28 +11,26 @@ import org.springframework.web.bind.annotation.RestController;
 import pack.dto.LikeCountDto;
 import pack.service.LikesService;
 
-
-
 @RestController
 @RequestMapping("/fleaMarket")
 public class LikesController {
-	
+
 	@Autowired
-	LikesService service;
-	
-	//좋아요 갯수 가져오기
-	@GetMapping("/likes/{no}")
-	public LikeCountDto getLikes(@PathVariable("fleaBoardNo") int fleaBoardNo) {
+	private LikesService service;
+
+	// 좋아요 갯수 가져오기
+	@GetMapping("/likes/{fleaBoardNo}")
+	public LikeCountDto getLikes(@PathVariable int fleaBoardNo) {
 		int count = service.countFleaLikes(fleaBoardNo);
-		return new LikeCountDto(fleaBoardNo,count,false); //false 는 좋아요 여부 확인 없이 보낸다.
+		return new LikeCountDto(fleaBoardNo, count, false); // false는 좋아요 여부 확인 없이 반환
 	}
-	
-	//좋아요 토글 
+
+	// 좋아요 토글
 	@PatchMapping("/likes")
-	public LikeCountDto toggleLike(@RequestParam("userId") String userId, @RequestParam("fleaBoardNo") Integer fleaBoardNo) {
+	public LikeCountDto toggleLike(@RequestParam String userId, @RequestParam int fleaBoardNo) {
 		int newLikeCount = service.toggleFleaMarketLike(userId, fleaBoardNo);
-        boolean likedByUser = service.checkLikes(userId, fleaBoardNo);
-        return new LikeCountDto(fleaBoardNo, newLikeCount, likedByUser);
-    }
-	
+		boolean likedByUser = service.checkLikes(userId, fleaBoardNo);
+		return new LikeCountDto(fleaBoardNo, newLikeCount, likedByUser);
+	}
+
 }

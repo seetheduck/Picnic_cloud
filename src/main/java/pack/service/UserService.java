@@ -81,7 +81,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User details not found"));
 
         // 계정 비활성화
-        user.setSignoutIs(true);
+        user.setAccountDeleteIs(true);
         userDetail.setSignoutDate(LocalDateTime.now());  // 비활성화 날짜 설정
         userRepository.save(user);
         userDetailRepository.save(userDetail);

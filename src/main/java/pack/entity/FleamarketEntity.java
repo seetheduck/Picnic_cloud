@@ -29,7 +29,7 @@ import pack.dto.FleamarketDto;
 @Builder
 public class FleamarketEntity {
     @Id
-    private Integer no;
+    private int no;
     private String title;
     private Integer price; 
     private String contents;
@@ -50,12 +50,6 @@ public class FleamarketEntity {
     @JoinColumn(name="category_no")
     private CategoryEntity categoryEntity;
     
-    @OneToMany(mappedBy = "fleamarketEntity")
-    private List<FilesEntity> files;
-
-    @OneToMany(mappedBy = "fleamarketEntity")
-    private List<LikesEntity> likes;
-    
 
     public static FleamarketDto toDto(FleamarketEntity entity) {
         return FleamarketDto.builder()
@@ -72,9 +66,6 @@ public class FleamarketEntity {
                 .userid(entity.getUserEntity().getId())
                 .category(entity.getCategoryEntity() != null ? entity.getCategoryEntity().getMarketNo() : null)
                 .categoryName(entity.getCategoryEntity() != null ? entity.getCategoryEntity().getCategoryName() : null)
-                .files(entity.getFiles() != null
-	                ? entity.getFiles().stream().map(FilesEntity::getPath).collect(Collectors.toList())
-	                : Collections.emptyList())
                 .build();
     }
 }

@@ -51,13 +51,13 @@ public class FilesService {
 		        file.transferTo(dest);
 				
 		        // 파일 테이블에 저장
-		        Integer maxfileNum = repository.findbyMaxNo();
-				FilesEntity entity = new FilesEntity();
-				entity.setUserEntity(fleamarketEntity.getUserEntity());
-				entity.setNo(maxfileNum+1);
-				entity.setPath(path);
-				entity.setUploadDate(LocalDateTime.now());
-				entity.setFleamarketEntity(fleamarketEntity);
+				FilesEntity entity = FilesEntity.builder()
+						.no(repository.findbyMaxNo() + 1)
+						.userId(fleamarketEntity.getUserEntity().getId())
+						.path(path)
+						.uploadDate(LocalDateTime.now())
+						.fleamarketEntity(fleamarketEntity)  // 단방향 조인 설정
+						.build();
 				repository.save(entity);
 				
 			} catch (IOException e) {
