@@ -19,6 +19,8 @@ public class QUserDetailEntity extends EntityPathBase<UserDetailEntity> {
 
     public static final QUserDetailEntity userDetailEntity = new QUserDetailEntity("userDetailEntity");
 
+    public final DateTimePath<java.time.LocalDateTime> accountDeleteDate = createDateTime("accountDeleteDate", java.time.LocalDateTime.class);
+
     public final StringPath address = createString("address");
 
     public final NumberPath<Integer> childAge = createNumber("childAge", Integer.class);
@@ -28,8 +30,6 @@ public class QUserDetailEntity extends EntityPathBase<UserDetailEntity> {
     public final BooleanPath gender = createBoolean("gender");
 
     public final NumberPath<Integer> no = createNumber("no", Integer.class);
-
-    public final DateTimePath<java.time.LocalDateTime> signoutDate = createDateTime("signoutDate", java.time.LocalDateTime.class);
 
     public final BooleanPath userstat = createBoolean("userstat");
 

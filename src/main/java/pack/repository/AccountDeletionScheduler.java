@@ -24,7 +24,7 @@ public class AccountDeletionScheduler {
         LocalDateTime thresholdDate = LocalDateTime.now().minusMonths(3);  // 3개월 전
 
         // 비활성화된 계정 중에서 3개월이 지난 계정을 삭제
-        List<UserDetailEntity> inactiveUsers = userDetailRepository.findBySignoutDateBefore(thresholdDate);
+        List<UserDetailEntity> inactiveUsers = userDetailRepository.findByAccountDeleteDateBefore(thresholdDate);
         
         for (UserDetailEntity detail : inactiveUsers) {
             userRepository.deleteById(detail.getNo());  // UserMasterEntity 삭제

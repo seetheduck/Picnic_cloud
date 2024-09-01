@@ -27,7 +27,7 @@ public class UserDto{
 
     private String pw;
     private String name;
-    private Boolean signoutIs;
+    private Boolean accountDeleteIs;
     private LocalDateTime signupDate;
     
     private List<Integer> mNo; //마켓 번호
@@ -44,7 +44,7 @@ public class UserDto{
                 .id(dto.getId())
                 .pw(dto.getPw())
                 .name(dto.getName())
-                .signoutIs(dto.getSignoutIs())
+                .accountDeleteIs(dto.getAccountDeleteIs())
                 .signupDate(dto.getSignupDate())
                 .build();
         return userEntity;
@@ -56,7 +56,7 @@ public class UserDto{
                 .id(this.id)
                 .pw(this.pw)
                 .name(this.name)
-                .signoutIs(this.signoutIs)
+                .accountDeleteIs(this.accountDeleteIs)
                 .signupDate(this.signupDate != null ? this.signupDate : LocalDateTime.now())
                 .build();
     }

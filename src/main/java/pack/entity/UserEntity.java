@@ -36,7 +36,7 @@ public class UserEntity{
 
     private String pw;
     private String name;
-    private Boolean signoutIs;
+    private Boolean accountDeleteIs;
     private LocalDateTime signupDate;
     
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -50,7 +50,7 @@ public class UserEntity{
                  .id(entity.getId())
                  .pw(entity.getPw())
                  .name(entity.getName())
-                 .signoutIs(entity.getSignoutIs())
+                 .accountDeleteIs(entity.getAccountDeleteIs())
                  .signupDate(entity.getSignupDate())
                  .mNo(entity.getFleaMarkets() != null ?
                          entity.getFleaMarkets().stream()
@@ -66,7 +66,7 @@ public class UserEntity{
                 .id(this.id)
                 .pw(this.pw)
                 .name(this.name)
-                .signoutIs(this.signoutIs)
+                .accountDeleteIs(this.accountDeleteIs)
                 .signupDate(this.signupDate)
                 .build();
     }

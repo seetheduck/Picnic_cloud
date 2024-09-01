@@ -13,6 +13,6 @@ public interface UserDetailRepository extends JpaRepository<UserDetailEntity, In
 	
 	UserDetailEntity findByNo(int no);
 	
-	List<UserDetailEntity> findBySignoutDateBefore(LocalDateTime thresholdDate);
+	List<UserDetailEntity> findByAccountDeleteDateBefore(LocalDateTime thresholdDate);
 	
 }
