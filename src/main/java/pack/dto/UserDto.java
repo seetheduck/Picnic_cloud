@@ -1,16 +1,12 @@
 package pack.dto;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pack.entity.UserEntity;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter

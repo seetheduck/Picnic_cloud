@@ -1,10 +1,7 @@
 package pack.service;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import pack.dto.UserDetailDto;
 import pack.dto.UserDto;
 import pack.entity.UserDetailEntity;
@@ -12,6 +9,8 @@ import pack.entity.UserEntity;
 import pack.repository.CustomPasswordEncoder;
 import pack.repository.UserDetailRepository;
 import pack.repository.UserRepository;
+
+import java.time.LocalDateTime;
 
 @Service
 public class UserService {
@@ -56,7 +55,6 @@ public class UserService {
         UserDetailEntity userDetail = detailDto.toEntity();
         userDetailRepository.save(userDetail);
     }
-
     public String login(String id, String pw) {
         UserEntity user = userRepository.findById(id);
 
