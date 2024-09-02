@@ -15,21 +15,17 @@ import pack.entity.UserEntity;
 @AllArgsConstructor
 @Builder
 public class LikesDto {
-	private Integer no;
-	private String userid;
-	private Integer placeNo;
+	private int no;
+	private String userId;
 	private Integer reviewNo;
 	private Integer fleaMarketNo;
-	
-	private UserDto user;
-	private FleamarketDto fleaMarket;
-	
-	
+
+
 	public static LikesEntity toEntity(LikesDto dto) {
 		return LikesEntity.builder()
 				.no(dto.getNo())
-				.userEntity(UserEntity.builder().id(dto.getUserid()).build())
-				.fleamarketEntity(FleamarketEntity.builder().no(dto.getFleaMarketNo()).build())
+				.userId(dto.getUserId())
+				.reviewNo(dto.getReviewNo())
 				.build();
 	}
 }

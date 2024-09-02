@@ -24,31 +24,21 @@ import pack.dto.FilesDto;
 @Builder
 public class FilesEntity{
 
-	 @Id
+    @Id
     private Integer no;
-	
-//    private String userid;
+    private String userId;
     private String path;
     private LocalDateTime uploadDate;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserEntity userEntity;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="flea_market_no", referencedColumnName = "no")
     private FleamarketEntity fleamarketEntity;
-    
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="f_chat_no")
-//    private ChatEntity chatEntity;
-    
-	// entity > dto 변환
+
+    // entity > dto 변환
     public static FilesDto toDto(FilesEntity entity) {
         return FilesDto.builder()
                 .no(entity.getNo())
-                .userid(entity.getUserEntity() != null ? entity.getUserEntity().getId() : null)
+                .userId(entity.getUserId())
                 .path(entity.getPath())
                 .uploadDate(entity.getUploadDate())
                 .marketNo(entity.getFleamarketEntity().getNo())
