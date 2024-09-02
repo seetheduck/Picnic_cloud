@@ -28,7 +28,7 @@ public class UserDetailEntity {
     private String email;
     private int childAge;
     private boolean userstat;
-    private LocalDateTime signoutDate;
+    private LocalDateTime accountDeleteDate ;
 
     public UserDetailDto toDto() {
         return UserDetailDto.builder()
@@ -38,7 +38,7 @@ public class UserDetailEntity {
                 .email(this.email)
                 .childAge(this.childAge)
                 .userstat(this.userstat)
-                .signoutDate(this.signoutDate)
+                .accountDeleteDate(this.accountDeleteDate)
                 .build();
     }
 }

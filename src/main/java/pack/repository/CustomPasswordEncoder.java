@@ -1,7 +1,9 @@
-package pack.service;
+package pack.repository;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomPasswordEncoder {
 	 // 비밀번호를 SHA-256으로 해시화
     public String encode(String rawPassword) {

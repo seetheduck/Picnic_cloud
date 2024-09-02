@@ -1,16 +1,16 @@
 package pack.service;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import pack.dto.UserDetailDto;
 import pack.dto.UserDto;
 import pack.entity.UserDetailEntity;
 import pack.entity.UserEntity;
+import pack.repository.CustomPasswordEncoder;
 import pack.repository.UserDetailRepository;
 import pack.repository.UserRepository;
+
+import java.time.LocalDateTime;
 
 @Service
 public class UserService {
@@ -24,7 +24,8 @@ public class UserService {
     @Autowired
     private JwtService jwtService;
 
-    private final CustomPasswordEncoder passwordEncoder = new CustomPasswordEncoder();
+    @Autowired
+    private  CustomPasswordEncoder passwordEncoder;
 
     public void checkDuplicateId(String id) {
         if (userRepository.existsById(id)) {
@@ -54,7 +55,6 @@ public class UserService {
         UserDetailEntity userDetail = detailDto.toEntity();
         userDetailRepository.save(userDetail);
     }
-
     public String login(String id, String pw) {
         UserEntity user = userRepository.findById(id);
 
@@ -81,8 +81,8 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User details not found"));
 
         // 계정 비활성화
-        user.setSignoutIs(true);
-        userDetail.setSignoutDate(LocalDateTime.now());  // 비활성화 날짜 설정
+        user.setAccountDeleteIs(true);
+        userDetail.setAccountDeleteDate(LocalDateTime.now());  // 비활성화 날짜 설정
         userRepository.save(user);
         userDetailRepository.save(userDetail);
     }

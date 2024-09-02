@@ -1,4 +1,4 @@
-package pack.service;
+package pack.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,8 +8,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import pack.entity.UserDetailEntity;
-import pack.repository.UserDetailRepository;
-import pack.repository.UserRepository;
 
 @Component
 public class AccountDeletionScheduler {
@@ -26,7 +24,7 @@ public class AccountDeletionScheduler {
         LocalDateTime thresholdDate = LocalDateTime.now().minusMonths(3);  // 3개월 전
 
         // 비활성화된 계정 중에서 3개월이 지난 계정을 삭제
-        List<UserDetailEntity> inactiveUsers = userDetailRepository.findBySignoutDateBefore(thresholdDate);
+        List<UserDetailEntity> inactiveUsers = userDetailRepository.findByAccountDeleteDateBefore(thresholdDate);
         
         for (UserDetailEntity detail : inactiveUsers) {
             userRepository.deleteById(detail.getNo());  // UserMasterEntity 삭제
