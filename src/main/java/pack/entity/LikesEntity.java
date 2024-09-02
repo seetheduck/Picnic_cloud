@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pack.dto.LikesDto;
+import pack.dto.LikesReviewDto;
 
 @Entity
 @Table(name = "likes")
@@ -26,6 +27,7 @@ public class LikesEntity {
 	private String userId;
 	private Integer reviewNo;
 	private Integer fleaMarketNo;
+	private Integer placeNo;
 
 	//toDto
 	public static LikesDto toDto(LikesEntity entity) {
@@ -34,5 +36,19 @@ public class LikesEntity {
 				.userId(entity.getUserId())
 				.fleaMarketNo(entity.getFleaMarketNo())
 				.build();
+	}
+
+	// to LikesReviewDto
+	public static LikesReviewDto toLikesReviewDto(LikesEntity entity) {
+		if (entity == null) {
+			return null;
+		}
+		return LikesReviewDto.builder()
+				.no(entity.getNo())
+				.userId(entity.getUserId())
+				.reviewNo(entity.getReviewNo())
+				.build();
+
+
 	}
 }

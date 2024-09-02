@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import pack.dto.ReportDto;
 import pack.dto.ReportRequestDto;
+import pack.dto.ReportReviewDto;
 import pack.service.ReportService;
 
 @RestController
@@ -28,4 +30,23 @@ public class ReportController {
 			return "잘못된 입력입니다.";
 		}
 	}
+
+	@PostMapping("/review/report")
+	public String reportReview(@RequestBody ReportReviewDto reportReviewDto) {
+		try {
+			int userNo = reportReviewDto.getUserNo();
+			Integer reviewNo = reportReviewDto.getReviewNo();
+			int code = reportReviewDto.getCode();
+
+			// 리뷰 신고 처리
+			int result = reportService.reportReview(userNo, reviewNo, code);
+			return result == 1 ? "신고 성공" : "이미 신고됨";
+		} catch (NumberFormatException e) {
+			return "잘못된 입력입니다.";
+		}
+	}
+
+
+
+
 }

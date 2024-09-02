@@ -1,11 +1,10 @@
 package pack.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +21,7 @@ import pack.dto.ReviewDto;
 @Builder
 public class ReviewEntity {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer no;
 
     private String id;
@@ -40,11 +40,11 @@ public class ReviewEntity {
     private float point; // 별점 필드 (평점)
 
 
-//    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<LikesReviewEntity> likes;  // 좋아요 연관 관계
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LikesEntity> likes;  // 좋아요 연관 관계
 
-   //@OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<ReportEntity> reports;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReportEntity> reports; //신고 연관 관계
     
     //toDto: entity > dto
     public static ReviewDto toReviewDto(ReviewEntity entity) {
@@ -61,14 +61,14 @@ public class ReviewEntity {
     			.blockedCnt(entity.getBlockedCnt())
     			.ip(entity.getIp())
     			.placeNo(entity.getPlaceNo())
-//                .likes(entity.getLikes() != null ?
-//                        entity.getLikes().stream()
-//                        .map(LikesReviewEntity::toLikesReviewDto)
-//                        .collect(Collectors.toList()) : Collections.emptyList())
-    			//.reports(entity.getReports() != null ?
-    			//		entity.getReports().stream()
-    			//		.map(ReportEntity::toReportDto)
-    			//		.collect(Collectors.toList()) : Collections.emptyList())
+				.likes(entity.getLikes() != null ?
+						entity.getLikes().stream()
+								.map(LikesEntity::toLikesReviewDto)  // LikesEntity를 LikesReviewDto로 변환
+								.collect(Collectors.toList()) : List.of())  // 좋아요 목록을 DTO 리스트로 변환
+    			.reports(entity.getReports() != null ?
+    					entity.getReports().stream()
+    					.map(ReportEntity::toReportReviewDto)
+    					.collect(Collectors.toList()) : List.of())
     			.build();
     }
 }

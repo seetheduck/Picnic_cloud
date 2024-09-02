@@ -25,7 +25,7 @@ public class ReportDto {
     private int userNo;
 
     //toEntity
-    private static ReportEntity toEntity(ReportDto dto) {
+    public static ReportEntity toEntity(ReportDto dto) {
         return ReportEntity.builder()
                 .no(dto.getNo())
                 .reviewNo(dto.getReviewNo())

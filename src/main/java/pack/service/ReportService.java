@@ -19,6 +19,8 @@ public class ReportService {
 
 	@Autowired
 	UserRepository userRepository;
+    @Autowired
+    private ReportRepository reportRepository;
 
 	// 신고하기
 	@Transactional
@@ -60,4 +62,38 @@ public class ReportService {
 		ReportEntity existingReport = repository.findByUserNoAndFleaMarketNo(user.getNo(), fleaBoardNo);
 		return existingReport != null;
 	}
+
+
+	// 리뷰 신고로직
+	@Transactional
+	public int reportReview(int userNo, Integer reviewNo, int code) {
+		// 이미 신고한 상태인지 확인
+		ReportEntity existingReport = reportRepository.findByUserNoAndReviewNo(userNo, reviewNo);
+		if (existingReport == null) {
+			// 신고가 없는 상태인 경우
+			ReportEntity report = ReportEntity.builder()
+					.no(reportRepository.maxReportNum() + 1) // 새로운 신고 번호 생성
+					.reviewNo(reviewNo) // 리뷰 번호 저장
+					.fleaMarketNo(null) // 플리마켓 번호는 사용하지 않음
+					.date(LocalDateTime.now()) // 신고 날짜 저장
+					.code(code) // 신고 코드 저장
+					.userNo(userNo) // 신고한 유저 번호 저장
+					.build();
+			// 신고 저장
+			reportRepository.save(report);
+			return 1; // 신고 성공 시 1
+		}
+		return 0; // 신고 실패 (이미 신고된 경우)
+	}
+
+	// 특정 유저가 특정 리뷰에 이미 신고했는지 확인
+	public boolean hasUserReportedReview(int userNo, Integer reviewNo) {
+		// 신고 상태 확인
+		ReportEntity existingReport = reportRepository.findByUserNoAndReviewNo(userNo, reviewNo);
+		return existingReport != null;
+	}
+
+
+
+
 }

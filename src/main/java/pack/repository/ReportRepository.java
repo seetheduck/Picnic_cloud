@@ -14,4 +14,7 @@ public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
 	// 특정 유저가 특정 플리마켓에 신고하기를 눌렀는지 확인
 	ReportEntity findByUserNoAndFleaMarketNo(int userNo, Integer fleaMarketNo);
 
+	// 특정 유저가 특정 리뷰에 신고하기를 눌렀는지 확인
+	ReportEntity findByUserNoAndReviewNo(int userNo, Integer reviewNo);
+
 }

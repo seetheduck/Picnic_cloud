@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pack.dto.ReportDto;
+import pack.dto.ReportReviewDto;
 
 @Entity
 @Table(name = "report")
@@ -42,5 +43,18 @@ public class ReportEntity {
 				.code(entity.getCode())
 				.build();
 	}
+
+	//toDto
+	public static ReportReviewDto toReportReviewDto(ReportEntity entity) {
+		return ReportReviewDto.builder()
+				.reviewNo(entity.getReviewNo())
+				.code(entity.getCode())
+				.userNo(entity.getUserNo())
+				.build();
+	}
+
+
+
+
 
 }
