@@ -1,8 +1,11 @@
 package pack.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pack.dto.MypageUserDto;
 import pack.dto.UserDetailDto;
 import pack.dto.UserDto;
 import pack.entity.UserDetailEntity;
@@ -30,12 +33,12 @@ public class UserService {
 
     public void checkDuplicateId(String id) {
         if (userRepository.existsById(id)) {
-            throw new IllegalArgumentException("ID already exists");
+            throw new IllegalArgumentException("같은 ID가 존재합니다");
         }
     }
     
     public void signup(UserDto userDto, UserDetailDto detailDto) {
-    	
+
     	// ID 중복 검사
         checkDuplicateId(userDto.getId());
     	
@@ -56,6 +59,7 @@ public class UserService {
         UserDetailEntity userDetail = detailDto.toEntity();
         userDetailRepository.save(userDetail);
     }
+
     public String login(String id, String pw) {
         UserEntity user = userRepository.findById(id);
 
@@ -63,13 +67,16 @@ public class UserService {
             throw new IllegalArgumentException("Invalid user");
         }
 
-        // 비밀번호 검증
-        if (passwordEncoder.matches(pw, user.getPw())) {
-            // 비밀번호가 일치하면 JWT 토큰 생성 및 반환
-            return jwtService.createToken(id);  // JWT 토큰 생성
-        } else {
+        if (Boolean.TRUE.equals(user.getAccountDeleteIs())) {
+            throw new IllegalArgumentException("이 계정은 비활성화 되었습니다. 다시 활성화 하시겠습니까??");
+        }
+
+        if (!passwordEncoder.matches(pw, user.getPw())) {
             throw new IllegalArgumentException("Invalid password");
         }
+
+        return jwtService.createToken(id);  // JWT 토큰 생성
+
     }
 
     @Transactional
@@ -116,6 +123,27 @@ public class UserService {
             // 필요한 경우, 사용자를 찾지 못했을 때의 처리
             throw new RuntimeException("User not found with id: " + id);
         }
+    }
+
+    public MypageUserDto getUserProfile(Integer no) {
+        UserEntity userEntity = userRepository.findById(no)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // accountDeleteIs 값이 true (1)인 경우 예외 발생
+        if (Boolean.TRUE.equals(userEntity.getAccountDeleteIs())) {
+            throw new IllegalArgumentException("이 계정은 비활성화 되었습니다.");
+        }
+
+        UserDetailEntity userDetailEntity = userDetailRepository.findById(no)
+                .orElseThrow(() -> new IllegalArgumentException("User details not found"));
+
+        return MypageUserDto.builder()
+                .id(userEntity.getId())
+                .name(userEntity.getName())
+                .address(userDetailEntity.getAddress())
+                .email(userDetailEntity.getEmail())
+                .childAge(userDetailEntity.getChildAge())
+                .build();
     }
 
 }

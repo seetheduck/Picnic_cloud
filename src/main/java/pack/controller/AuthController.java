@@ -1,8 +1,10 @@
 package pack.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pack.dto.MypageUserDto;
 import pack.dto.SignupRequest;
 import pack.dto.UserDto;
 import pack.service.UserService;
@@ -15,16 +17,24 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup", produces = "application/json; charset=utf8")
     public ResponseEntity<Void> signup(@RequestBody SignupRequest signupRequest) {
         userService.signup(signupRequest.getUserDto(), signupRequest.getUserDetailDto());
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDto userMasterDto) {
-        String token = userService.login(userMasterDto.getId(), userMasterDto.getPw());
-        return ResponseEntity.ok(token);
+    @PostMapping(value = "/login", produces = "application/json; charset=utf8")
+    public ResponseEntity<String> login(@RequestBody UserDto userDto) {
+        try {
+            String token = userService.login(userDto.getId(), userDto.getPw());
+            return ResponseEntity.ok(token);
+        } catch (IllegalArgumentException e) {
+            if ("이 계정은 비활성화 되었습니다. 다시 활성화 하시겠습니까??".equals(e.getMessage())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+        }
     }
 
     @PostMapping("/deactivate")
@@ -39,6 +49,20 @@ public class AuthController {
         Integer no = userDto.getNo();
         userService.reactivateAccount(no);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/myinfo", produces = "application/json; charset=utf8")
+    public ResponseEntity<?> getUserInfo(@RequestParam("no") Integer no) {  // 와일드 카드로 제네릭 타입 유연하고 다양한 이용
+        try {
+            MypageUserDto userProfile = userService.getUserProfile(no);
+            return ResponseEntity.ok(userProfile);
+        } catch (IllegalArgumentException e) {
+            if ("이 계정은 비활성화 되었습니다.".equals(e.getMessage())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+        }
     }
 
 }
