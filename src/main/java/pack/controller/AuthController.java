@@ -26,11 +26,19 @@ public class AuthController {
         String token = userService.login(userMasterDto.getId(), userMasterDto.getPw());
         return ResponseEntity.ok(token);
     }
-    
+
     @PostMapping("/deactivate")
-    public ResponseEntity<Void> deactivateAccount(@RequestParam("no") Integer no) {
+    public ResponseEntity<Void> deactivateAccount(@RequestBody UserDto userDto) {
+        Integer no = userDto.getNo();
         userService.deactivateAccount(no);
         return ResponseEntity.ok().build();
     }
-    
+
+    @PostMapping("/reactivate")
+    public ResponseEntity<Void> reactivateAccount(@RequestBody UserDto userDto) {
+        Integer no = userDto.getNo();
+        userService.reactivateAccount(no);
+        return ResponseEntity.ok().build();
+    }
+
 }
