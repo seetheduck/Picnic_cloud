@@ -36,10 +36,6 @@ public class QFleamarketEntity extends EntityPathBase<FleamarketEntity> {
 
     public final NumberPath<Integer> favoriteCnt = createNumber("favoriteCnt", Integer.class);
 
-    public final ListPath<FilesEntity, QFilesEntity> files = this.<FilesEntity, QFilesEntity>createList("files", FilesEntity.class, QFilesEntity.class, PathInits.DIRECT2);
-
-    public final ListPath<LikesEntity, QLikesEntity> likes = this.<LikesEntity, QLikesEntity>createList("likes", LikesEntity.class, QLikesEntity.class, PathInits.DIRECT2);
-
     public final NumberPath<Integer> no = createNumber("no", Integer.class);
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);

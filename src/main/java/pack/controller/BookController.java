@@ -24,13 +24,13 @@ public class BookController {
         Map<String, List<BookDto>> categoryBooks = new HashMap<>();
 
         // 각 카테고리별로 책 목록을 가져와 Map에 저장
-        categoryBooks.put("category1", service.getBooksByCategory(1).stream()
+        categoryBooks.put("category1", service.getBooksByCategory(101).stream()
                                              .map(BookEntity::toDto)
                                              .collect(Collectors.toList()));
-        categoryBooks.put("category2", service.getBooksByCategory(2).stream()
+        categoryBooks.put("category2", service.getBooksByCategory(102).stream()
                                              .map(BookEntity::toDto)
                                              .collect(Collectors.toList()));
-        categoryBooks.put("category3", service.getBooksByCategory(3).stream()
+        categoryBooks.put("category3", service.getBooksByCategory(103).stream()
                                              .map(BookEntity::toDto)
                                              .collect(Collectors.toList()));
 

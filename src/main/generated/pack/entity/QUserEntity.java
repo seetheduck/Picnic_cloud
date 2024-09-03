@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -21,8 +20,6 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
     public static final QUserEntity userEntity = new QUserEntity("userEntity");
 
     public final BooleanPath accountDeleteIs = createBoolean("accountDeleteIs");
-
-    public final ListPath<FleamarketEntity, QFleamarketEntity> fleaMarkets = this.<FleamarketEntity, QFleamarketEntity>createList("fleaMarkets", FleamarketEntity.class, QFleamarketEntity.class, PathInits.DIRECT2);
 
     public final StringPath id = createString("id");
 

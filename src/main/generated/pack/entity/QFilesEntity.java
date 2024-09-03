@@ -30,7 +30,7 @@ public class QFilesEntity extends EntityPathBase<FilesEntity> {
 
     public final DateTimePath<java.time.LocalDateTime> uploadDate = createDateTime("uploadDate", java.time.LocalDateTime.class);
 
-    public final QUserEntity userEntity;
+    public final StringPath userId = createString("userId");
 
     public QFilesEntity(String variable) {
         this(FilesEntity.class, forVariable(variable), INITS);
@@ -51,7 +51,6 @@ public class QFilesEntity extends EntityPathBase<FilesEntity> {
     public QFilesEntity(Class<? extends FilesEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.fleamarketEntity = inits.isInitialized("fleamarketEntity") ? new QFleamarketEntity(forProperty("fleamarketEntity"), inits.get("fleamarketEntity")) : null;
-        this.userEntity = inits.isInitialized("userEntity") ? new QUserEntity(forProperty("userEntity")) : null;
     }
 
 }

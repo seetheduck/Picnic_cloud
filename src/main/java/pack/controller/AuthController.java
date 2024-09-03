@@ -52,7 +52,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "/myinfo", produces = "application/json; charset=utf8")
-    public ResponseEntity<?> getUserInfo(@RequestParam("no") Integer no) {  // 와일드 카드로 제네릭 타입 유연하고 다양한 이용
+    public ResponseEntity<?> getUserInfo(@RequestParam("no") Integer no) {  // 와일드 카드 유연하고 다양한 제네릭 타입
         try {
             MypageUserDto userProfile = userService.getUserProfile(no);
             return ResponseEntity.ok(userProfile);
@@ -64,5 +64,8 @@ public class AuthController {
             }
         }
     }
+
+
+
 
 }

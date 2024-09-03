@@ -19,7 +19,7 @@ public class BookDto {
     private String author;
     private String publisher;
     private String publicationYear;
-    private byte[] thumbnail;
+    private String thumbnail;
     private int categoryNo;
     private String categoryName;
 
