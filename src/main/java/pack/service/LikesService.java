@@ -147,9 +147,4 @@ public class LikesService {
 	public int getLikesPlacesCount(int placeNo) {
 		return repository.countByPlaceNo(placeNo);
 	}
-
-
-
-
-
 }
