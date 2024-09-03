@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import pack.dto.LikeCountDto;
+import pack.dto.LikesPlaceDto;
 import pack.dto.LikesReviewDto;
 import pack.service.LikesService;
 
@@ -45,4 +46,23 @@ public class LikesController {
 	public int getLikesCount(@PathVariable("ReviewNo") Integer ReviewNo) {
 		return service.getLikesCount(ReviewNo);
 	}
+
+
+	// 장소 좋아요 로직
+	// 장소 좋아요 토글
+	@PostMapping("/places/{PlaceNo}/likes-toggle")
+	public void toggleLikePlace(@PathVariable("PlaceNo") Integer PlaceNo, @RequestParam("userId") String userId) {
+		LikesPlaceDto dto = LikesPlaceDto.builder()
+				.placeNo(PlaceNo).userId(userId)
+				.build();
+		service.toggleLike(dto);
+	}
+
+	// 장소 좋아요 수 조회
+	@GetMapping("/places/{PlaceNo}/likes-count")
+	public int getLikesPlaceCount(@PathVariable("PlaceNo") Integer PlaceNo) {
+		return service.getLikesCount(PlaceNo);
+	}
+
+
 }
