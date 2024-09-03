@@ -1,11 +1,10 @@
 package pack.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pack.entity.PlaceEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -30,7 +29,7 @@ public class PlaceDto {
     private int reviewCount;
 
     
-    //private List<LikesPlaceDto> likes; // 좋아요 목록
+    private List<LikesPlaceDto> likes; // 좋아요 목록
     
     //toEntity: dto > entity
     public static PlaceEntity toPlaceEntity(PlaceDto dto, PlaceEntity placeEntity) {
@@ -48,10 +47,10 @@ public class PlaceDto {
     			.entranceFee(dto.getEntranceFee())
     			.operationTime(dto.getOperationTime())
     			.reviewCount(dto.getReviewCount())
-//    			.likes(dto.getLikes() != null ? 
-//    				dto.getLikes().stream()
-//    				 .map(likeDto -> LikesPlaceDto.toLikesPlaceEntity(likeDto, placeEntity))
-//    					.collect(Collectors.toList()) : Collections.emptyList())
+				.likes(dto.getLikes() != null ?
+						dto.getLikes().stream()
+								.map(LikesPlaceDto::toEntity)  // LikesReviewDto를 LikesEntity로 변환
+								.collect(Collectors.toList()) : List.of())
     			.build();
     			
     }

@@ -34,7 +34,7 @@ public class QBookEntity extends EntityPathBase<BookEntity> {
 
     public final StringPath publisher = createString("publisher");
 
-    public final ArrayPath<byte[], Byte> thumbnail = createArray("thumbnail", byte[].class);
+    public final StringPath thumbnail = createString("thumbnail");
 
     public QBookEntity(String variable) {
         this(BookEntity.class, forVariable(variable), INITS);

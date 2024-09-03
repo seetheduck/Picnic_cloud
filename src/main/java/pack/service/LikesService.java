@@ -3,10 +3,12 @@ package pack.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pack.dto.LikesPlaceDto;
 import pack.dto.LikesReviewDto;
 import pack.entity.LikesEntity;
 import pack.entity.UserEntity;
 import pack.repository.LikesRepository;
+import pack.repository.PlaceRepository;
 import pack.repository.ReviewRepository;
 import pack.repository.UserRepository;
 
@@ -23,6 +25,9 @@ public class LikesService {
 
 	@Autowired
 	private ReviewRepository reviewRepository;
+
+	@Autowired
+	private PlaceRepository placeRepository;
 
 
 	// 좋아요 토글
@@ -102,7 +107,49 @@ public class LikesService {
 
 	// 5. 특정리뷰의 좋아요 수 카운트
 	public int getLikesCount(int reviewNo) {
+
 		return repository.countByReviewNo(reviewNo);
 	}
+
+
+	// 장소 좋아요
+	@Transactional
+	public void toggleLike(LikesPlaceDto dto) {
+		// 사용자가 특정 장소에 대해 좋아요를 눌렀는지 확인
+		Optional<LikesEntity> currentLike = repository.findByUserIdAndPlaceNo(dto.getUserId(), dto.getPlaceNo());
+
+		if (currentLike.isPresent()) {
+			// 좋아요가 존재하면 삭제
+			repository.deleteByUserIdAndPlaceNo(dto.getUserId(), dto.getPlaceNo());
+			// 장소의 좋아요 수 감소
+			updatePlaceLikeCnt(dto.getPlaceNo(), -1);
+		} else {
+			// 좋아요가 존재하지 않으면 추가
+			LikesEntity newLike = LikesPlaceDto.toEntity(dto);
+			repository.save(newLike);
+
+			// 장소의 좋아요 수 증가
+			updatePlaceLikeCnt(dto.getPlaceNo(), 1);
+		}
+	}
+
+	// 좋아요가 추가되거나 삭제될 때 호출되어 장소의 좋아요 수를 정확히 유지하도록
+	private void updatePlaceLikeCnt(int placeNo, int increment) {
+		int currentCount = repository.countByPlaceNo(placeNo);
+		int newCount = currentCount + increment;
+		placeRepository.findById(placeNo).ifPresent(place -> {
+			place.setLikeCnt(newCount);
+			placeRepository.save(place);
+		});
+	}
+
+	// 특정 장소의 좋아요 수 카운트
+	public int getLikesPlacesCount(int placeNo) {
+		return repository.countByPlaceNo(placeNo);
+	}
+
+
+
+
 
 }

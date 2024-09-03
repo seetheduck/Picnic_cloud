@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pack.entity.ReviewEntity;
 
-import java.util.List;
-
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 
     //장소의 리뷰들 조회. 최신순나열. 페이징처리.
@@ -23,5 +21,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     //장소의 리뷰 수 카운트
     @Query("SELECT COUNT(r) FROM ReviewEntity r WHERE r.placeNo = :placeNo")
     int countReviewsByPlaceNo(@Param("placeNo") int placeNo);
+
+
 
 }
