@@ -1,7 +1,5 @@
 package pack.service;
 
-import java.util.Optional;
-
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,11 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import pack.dto.LikesPlaceDto;
 import pack.dto.PlaceDto;
 import pack.entity.PlaceEntity;
-import pack.entity.ReviewEntity;
 import pack.repository.LikesRepository;
 import pack.repository.PlaceRepository;
 import pack.repository.PlaceSpecification;
 import pack.repository.ReviewRepository;
+
+import java.util.Optional;
 
 @Service
 public class PlaceService {

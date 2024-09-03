@@ -2,7 +2,6 @@ package pack.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import pack.dto.LikeCountDto;
 import pack.dto.LikesPlaceDto;
 import pack.dto.LikesReviewDto;
