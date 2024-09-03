@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pack.dto.MypageUserDto;
 import pack.dto.SignupRequest;
 import pack.dto.UserDto;
+import pack.entity.UserEntity;
 import pack.service.UserService;
 
 @RestController
@@ -65,6 +66,12 @@ public class AuthController {
         }
     }
 
+    @PutMapping(value = "/updateinfo", produces = "application/json; charset=utf8")
+    public ResponseEntity<Void> updateUserInfo(@RequestParam("no") Integer no,
+                                               @RequestBody SignupRequest signupRequest) {
+        userService.updateUserProfile(no, signupRequest.getUserDto(), signupRequest.getUserDetailDto());
+        return ResponseEntity.ok().build();
+    }
 
 
 

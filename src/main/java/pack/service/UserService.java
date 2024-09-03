@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import pack.dto.MypageUserDto;
 import pack.dto.UserDetailDto;
 import pack.dto.UserDto;
@@ -15,6 +16,7 @@ import pack.repository.UserDetailRepository;
 import pack.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -146,6 +148,51 @@ public class UserService {
                 .build();
     }
 
+    @Transactional
+    public void updateUserProfile(Integer no, UserDto userDto, UserDetailDto userDetailDto) {
+        // UserEntity 조회
+        UserEntity user = userRepository.findById(no)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // 사용자가 비활성화된 경우 예외 발생
+        if (Boolean.TRUE.equals(user.getAccountDeleteIs())) {
+            throw new IllegalArgumentException("이 계정은 비활성화 되었습니다.");
+        }
+
+        // UserEntity 업데이트
+        if (userDto.getId() != null) {
+            // ID 중복 검사 (만약 필요하다면)
+            if (userRepository.existsById(userDto.getId())) {
+                throw new IllegalArgumentException("중복된 ID가 존재합니다.");
+            }
+            user.setId(userDto.getId());
+        }
+        if (userDto.getPw() != null) {
+            user.setPw(passwordEncoder.encode(userDto.getPw()));
+        }
+        if (userDto.getName() != null) {
+            user.setName(userDto.getName());
+        }
+
+        // UserDetailEntity 업데이트
+        UserDetailEntity userDetail = userDetailRepository.findById(no)
+                .orElseThrow(() -> new IllegalArgumentException("User details not found"));
+
+        if (userDetailDto.getEmail() != null) {
+            userDetail.setEmail(userDetailDto.getEmail());
+        }
+        if (userDetailDto.getAddress() != null) {
+            userDetail.setAddress(userDetailDto.getAddress());
+        }
+        if (userDetailDto.getChildAge() >= 0) {  // assuming age is a positive integer
+            userDetail.setChildAge(userDetailDto.getChildAge());
+        }
+
+        // 변경된 엔티티 저장
+        userRepository.save(user);
+        userDetailRepository.save(userDetail);
+    }
 
 
 }
+

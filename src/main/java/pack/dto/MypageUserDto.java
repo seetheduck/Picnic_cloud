@@ -17,6 +17,4 @@ public class MypageUserDto {
     private String email;
     private int childAge;
 
-
-
 }
