@@ -1,16 +1,15 @@
 package pack.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pack.dto.PlaceDto;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -37,13 +36,8 @@ public class PlaceEntity {
     private String operationTime;
     private int reviewCount; // 리뷰수 
 
-//    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
-//   private List<LikesPlaceEntity> likes;
-    
- // 추가된 생성자
-    public PlaceEntity(Integer no) {
-        this.no = no;
-    }
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<LikesEntity> likes;
     
   //toDto: entity > dto
     public static PlaceDto toPlaceDto(PlaceEntity entity) {
@@ -61,10 +55,10 @@ public class PlaceEntity {
     			.entranceFee(entity.getEntranceFee())
     			.operationTime(entity.getOperationTime())
     			.reviewCount(entity.getReviewCount())
-//    			.likes(entity.getLikes() != null ?
-//    				entity.getLikes().stream()
-//    				.map(LikesPlaceEntity::toLikesPlaceDto)
-//    				.collect(Collectors.toList()) : Collections.emptyList())
+    			.likes(entity.getLikes() != null ?
+    				entity.getLikes().stream()
+    				.map(LikesEntity::toLikesPlaceDto)
+    				.collect(Collectors.toList()) : List.of())
     			.build();
     	
     }

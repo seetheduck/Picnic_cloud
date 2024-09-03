@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pack.dto.LikesDto;
+import pack.dto.LikesPlaceDto;
 import pack.dto.LikesReviewDto;
 
 @Entity
@@ -51,4 +52,19 @@ public class LikesEntity {
 
 
 	}
+
+	// to LikesPlaceDto
+	public static LikesPlaceDto toLikesPlaceDto(LikesEntity entity) {
+		if (entity == null) {
+			return null;
+		}
+		return LikesPlaceDto.builder()
+				.no(entity.getNo())
+				.userId(entity.getUserId())
+				.placeNo(entity.getPlaceNo())
+				.build();
+
+
+	}
+
 }

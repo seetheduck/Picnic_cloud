@@ -24,4 +24,6 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     @Query("SELECT COUNT(r) FROM ReviewEntity r WHERE r.placeNo = :placeNo")
     int countReviewsByPlaceNo(@Param("placeNo") int placeNo);
 
+
+
 }
