@@ -21,8 +21,8 @@ public class CategoryEntity {
 
     @Id
     private int no;
-    private int marketNo;
-    private int bookNo;
+    private Integer marketNo;
+    private Integer bookNo;
     private String categoryName;
 
     public static CategoryDto toDto(CategoryEntity categoryEntity) {

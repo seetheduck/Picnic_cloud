@@ -14,8 +14,8 @@ import pack.entity.CategoryEntity;
 @Builder
 public class CategoryDto {
     private int no;
-    private int marketNo;
-    private int bookNo;
+    private Integer marketNo;
+    private Integer bookNo;
     private String categoryName;
 
     public static CategoryEntity toEntity(CategoryDto categoryDto) {

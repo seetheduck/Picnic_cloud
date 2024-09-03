@@ -21,7 +21,7 @@ import pack.entity.UserEntity;
 public class FleamarketDto {
 
 	private int no;
-	private String userid;
+	private String userId;
 	private String title;
 	private int price;
 	private String contents;
@@ -57,13 +57,13 @@ public class FleamarketDto {
 				.title(dto.getTitle())
 				.price(dto.getPrice())
 				.contents(dto.getContents())
-				.createdate(dto.getCreatedate())
+				.createdate(LocalDateTime.now())
 				.updatedate(dto.getUpdatedate())
 				.favorite(dto.getFavorite())
 				.favoriteCnt(dto.getFavoriteCnt())
 				.blocked(dto.getBlocked())
 				.blockedCnt(dto.getBlockedCnt())
-				.userEntity(UserEntity.builder().id(dto.getUserid()).build())
+				.userEntity(UserEntity.builder().id(dto.getUserId()).build())
 				.categoryEntity(CategoryEntity.builder().no(dto.getCategory()).build())
 				.build();
 	}

@@ -37,11 +37,10 @@ public class FleamarketService {
 	}
 
 	//검색(페이징 처리)
-	public Page<FleamarketDto> search(String category, String input,Pageable page) {
-		// 입력값에 와일드카드를 추가 > jpql로 입력시 오류
+	public Page<FleamarketDto> search(Integer category, String input, Pageable page) {
 		String searchPattern = "%" + input + "%";
-		if (category.equals("전체")) {
-			return repository.searchByTitleOrContent(searchPattern,page)
+		if (category == null) {
+			return repository.searchByTitleOrContent(searchPattern, page)
 					.map(FleamarketEntity::toDto);
 		}
 		return repository.searchCategory(category, searchPattern, page)
@@ -52,9 +51,9 @@ public class FleamarketService {
 	public String insert(FleamarketDto dto,MultipartFile file) {
 		try {
 			// UserEntity를 데이터베이스에서 로드
-			UserEntity userEntity = userRepository.findById(dto.getUserid());
+			UserEntity userEntity = userRepository.findById(dto.getUserId());
 			if (userEntity == null) {
-				return "오류 : User not found with id: " + dto.getUserid();
+				return "오류 : User not found with id: " + dto.getUserId();
 			}
 			// FleamarketEntity 생성
 			FleamarketEntity insertEntity = FleamarketDto.toEntity(dto);
@@ -82,7 +81,11 @@ public class FleamarketService {
 
 	//상세보기
 	public FleamarketDto getOne(Integer no) {
-		return FleamarketEntity.toDto(repository.findByNo(no));
+		FleamarketEntity entity = repository.findByNo(no);
+		if (entity != null) {
+			return entity.toDto();
+		}
+		return null; // 엔티티가 없는 경우 null 반환
 	}
 
 	//수정

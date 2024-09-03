@@ -51,21 +51,21 @@ public class FleamarketEntity {
     private CategoryEntity categoryEntity;
 
 
-    public static FleamarketDto toDto(FleamarketEntity entity) {
+    public FleamarketDto toDto() {
         return FleamarketDto.builder()
-                .no(entity.getNo())
-                .title(entity.getTitle())
-                .price(entity.getPrice())
-                .contents(entity.getContents())
-                .createdate(entity.getCreatedate())
-                .updatedate(entity.getUpdatedate())
-                .favorite(entity.getFavorite())
-                .favoriteCnt(entity.getFavoriteCnt())
-                .blocked(entity.getBlocked())
-                .blockedCnt(entity.getBlockedCnt())
-                .userid(entity.getUserEntity().getId())
-                .category(entity.getCategoryEntity() != null ? entity.getCategoryEntity().getMarketNo() : null)
-                .categoryName(entity.getCategoryEntity() != null ? entity.getCategoryEntity().getCategoryName() : null)
+                .no(this.getNo())
+                .title(this.getTitle())
+                .price(this.getPrice())
+                .contents(this.getContents())
+                .createdate(this.getCreatedate())
+                .updatedate(this.getUpdatedate())
+                .favorite(this.getFavorite())
+                .favoriteCnt(this.getFavoriteCnt())
+                .blocked(this.getBlocked())
+                .blockedCnt(this.getBlockedCnt())
+                .userId(this.userEntity != null ? this.userEntity.getId() : null)
+                .category(this.categoryEntity != null ? this.categoryEntity.getMarketNo() : null)
+                .categoryName(this.categoryEntity != null ? this.categoryEntity.getCategoryName() : null)
                 .build();
     }
 }

@@ -17,7 +17,6 @@ import pack.entity.UserEntity;
 public class LikesDto {
 	private int no;
 	private String userId;
-	private Integer reviewNo;
 	private Integer fleaMarketNo;
 
 
@@ -25,7 +24,7 @@ public class LikesDto {
 		return LikesEntity.builder()
 				.no(dto.getNo())
 				.userId(dto.getUserId())
-				.reviewNo(dto.getReviewNo())
+				.fleaMarketNo(dto.getFleaMarketNo())
 				.build();
 	}
 }

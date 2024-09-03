@@ -30,7 +30,7 @@ public class ReportDto {
                 .no(dto.getNo())
                 .reviewNo(dto.getReviewNo())
                 .fleaMarketNo(dto.getFleaMarketNo())
-                .date(dto.getDate())
+                .date(LocalDateTime.now())
                 .code(dto.getCode())
                 .userNo(dto.getUserNo())
                 .build();

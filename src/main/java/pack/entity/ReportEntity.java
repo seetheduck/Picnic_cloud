@@ -39,7 +39,7 @@ public class ReportEntity {
 				.userNo(entity.getUserNo())
 				.reviewNo(entity.getReviewNo())
 				.fleaMarketNo(entity.getFleaMarketNo())
-				.date(LocalDateTime.now()) // 현재 시간으로 설정
+				.date(entity.getDate()) // 현재 시간으로 설정
 				.code(entity.getCode())
 				.build();
 	}

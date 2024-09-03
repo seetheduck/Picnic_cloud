@@ -47,7 +47,7 @@ public class FleamarketController {
 	public ResponseEntity<Page<FleamarketDto>> getListAll(
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "9") int size,
-			@RequestParam(value = "category", required = false) String category,
+			@RequestParam(value = "category", required = false) Integer category,
 			@RequestParam(value = "search", required = false) String search
 	) {
 
@@ -59,7 +59,7 @@ public class FleamarketController {
 		Pageable pageable = PageRequest.of(page, size);
 
 		Page<FleamarketDto> result;
-		if (category == null || category.equals("전체") && (search == null || search.isEmpty())) {
+		if (category == null && (search == null || search.isEmpty())) {
 			result = fleamarketService.findAll(pageable);
 		} else {
 			result = fleamarketService.search(category, search, pageable);

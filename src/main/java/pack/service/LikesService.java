@@ -1,17 +1,14 @@
 package pack.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
 import pack.dto.LikesReviewDto;
-import pack.entity.FleamarketEntity;
 import pack.entity.LikesEntity;
-import pack.entity.ReviewEntity;
 import pack.entity.UserEntity;
 import pack.repository.LikesRepository;
 import pack.repository.ReviewRepository;
 import pack.repository.UserRepository;
-import pack.repository.FleamarketRepository;
 
 import java.util.Optional;
 
@@ -31,29 +28,24 @@ public class LikesService {
 	// 좋아요 토글
 	@Transactional
 	public int toggleFleaMarketLike(String userId, int fleaBoardNo) {
-		// UserEntity를 직접 반환하고, null이 아니라고 가정
 		UserEntity userEntity = userRepository.findById(userId);
 		if (userEntity == null) {
 			throw new RuntimeException("User not found");
 		}
 
-		// 좋아요 상태 확인
 		LikesEntity existingLike = repository.findByUserIdAndFleaMarketNo(userId, fleaBoardNo);
 
 		if (existingLike != null) {
-			// 이미 좋아요가 눌려 있으면 좋아요 취소
 			repository.delete(existingLike);
 		} else {
-			// 좋아요 추가
 			LikesEntity newLike = LikesEntity.builder()
 					.no(repository.maxFavNum() + 1)
-					.userId(userId) // 좋아요 누른 유저 ID 저장
-					.fleaMarketNo(fleaBoardNo) // 좋아요 누른 게시물 번호 저장
+					.userId(userId)
+					.fleaMarketNo(fleaBoardNo)
 					.build();
 			repository.save(newLike);
 		}
 
-		// 업데이트된 좋아요 수 반환
 		return repository.countByFleaMarketNo(fleaBoardNo);
 	}
 
@@ -114,5 +106,3 @@ public class LikesService {
 	}
 
 }
-
-
