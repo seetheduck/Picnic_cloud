@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pack.dto.MypageUserDto;
 import pack.dto.SignupRequest;
 import pack.dto.UserDto;
-import pack.entity.UserEntity;
 import pack.service.UserService;
 
 @RestController
