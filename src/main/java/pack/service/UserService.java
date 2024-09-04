@@ -34,19 +34,26 @@ public class UserService {
             throw new IllegalArgumentException("같은 ID가 존재합니다");
         }
     }
-    
-    public void signup(UserDto userDto, UserDetailDto detailDto) {
 
-    	// ID 중복 검사
+    public void signup(UserDto userDto, UserDetailDto detailDto) {
+        // 필수 입력값 확인
+        if (userDto.getId() == null || userDto.getPw() == null || userDto.getName() == null) {
+            throw new IllegalArgumentException("ID, password, and name are required.");
+        }
+        if (detailDto.getEmail() == null) {
+            throw new IllegalArgumentException("Email is required.");
+        }
+
+        // ID 중복 검사
         checkDuplicateId(userDto.getId());
-    	
+
         // 비밀번호 해시화
         userDto.setPw(passwordEncoder.encode(userDto.getPw()));
-        
+
         // 현재 가장 큰 no 값 조회
         int maxNo = userRepository.findMaxNo();
         int newNo = maxNo + 1;
-        
+
         // UserMaster에 no 값 설정
         userDto.setNo(newNo);
         UserEntity userMaster = userDto.toEntity();
@@ -155,18 +162,11 @@ public class UserService {
             throw new IllegalArgumentException("이 계정은 비활성화 되었습니다.");
         }
 
-        // UserEntity 업데이트
-        if (userDto.getId() != null) {
-            // ID 중복 검사 (만약 필요하다면)
-            if (userRepository.existsById(userDto.getId())) {
-                throw new IllegalArgumentException("중복된 ID가 존재합니다.");
-            }
-            user.setId(userDto.getId());
-        }
-        if (userDto.getPw() != null) {
+        // UserEntity 업데이트 (ID는 수정하지 않음)
+        if (userDto.getPw() != null && !passwordEncoder.matches(userDto.getPw(), user.getPw())) {
             user.setPw(passwordEncoder.encode(userDto.getPw()));
         }
-        if (userDto.getName() != null) {
+        if (userDto.getName() != null && !userDto.getName().equals(user.getName())) {
             user.setName(userDto.getName());
         }
 
@@ -174,13 +174,13 @@ public class UserService {
         UserDetailEntity userDetail = userDetailRepository.findById(no)
                 .orElseThrow(() -> new IllegalArgumentException("User details not found"));
 
-        if (userDetailDto.getEmail() != null) {
+        if (userDetailDto.getEmail() != null && !userDetailDto.getEmail().equals(userDetail.getEmail())) {
             userDetail.setEmail(userDetailDto.getEmail());
         }
-        if (userDetailDto.getAddress() != null) {
+        if (userDetailDto.getAddress() != null && !userDetailDto.getAddress().equals(userDetail.getAddress())) {
             userDetail.setAddress(userDetailDto.getAddress());
         }
-        if (userDetailDto.getChildAge() >= 0) {  // assuming age is a positive integer
+        if (userDetailDto.getChildAge() >= 0 && userDetailDto.getChildAge() != userDetail.getChildAge()) {
             userDetail.setChildAge(userDetailDto.getChildAge());
         }
 
