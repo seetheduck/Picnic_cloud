@@ -61,19 +61,19 @@ public class ChatEntity{
     }
         
         //entity > dto 변환
-        public static ChatDto toDto(ChatEntity entity) {
-        	//private FleamarketEntity FleamarketEntity;
-        	return ChatDto.builder()
-        			.cNo(entity.getCNo())
-        			.cBuyerId(entity.getCBuyerId())
-        			.cSellerId(entity.getCSellerId())
-        			.cMessageNo(entity.getCMessageNo())
-        			.cMessageCont(entity.getCMessageCont())
-        			.cCreateDate(entity.getCCreateDate())
-        			.fleamarketDto(FleamarketEntity.toDto(entity.fleamarketEntity)) //플리마켓
-//        			.cFleaNo(entity.getCFileNo())
-//        			.fNo(entity.getFiles().stream().map(FilesEntity::getFNo).collect(Collectors.toList()))
-        			.build();
-        }
+//        public static ChatDto toDto(ChatEntity entity) {
+//        	//private FleamarketEntity FleamarketEntity;
+//        	return ChatDto.builder()
+//        			.cNo(entity.getCNo())
+//        			.cBuyerId(entity.getCBuyerId())
+//        			.cSellerId(entity.getCSellerId())
+//        			.cMessageNo(entity.getCMessageNo())
+//        			.cMessageCont(entity.getCMessageCont())
+//        			.cCreateDate(entity.getCCreateDate())
+//        			.fleamarketDto(FleamarketEntity.toDto(entity.fleamarketEntity)) //플리마켓
+////        			.cFleaNo(entity.getCFileNo())
+////        			.fNo(entity.getFiles().stream().map(FilesEntity::getFNo).collect(Collectors.toList()))
+//        			.build();
+//        }
         
 }
