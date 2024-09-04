@@ -6,6 +6,7 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'  // 사용 중인 Java 버전에 맞게 설정
 
 java {
 	toolchain {
@@ -44,9 +45,19 @@ dependencies {
 	// 비밀번호 암호화
 	implementation 'commons-codec:commons-codec:1.15'
 
-
 	// Selenium Java 의존성
     implementation 'org.seleniumhq.selenium:selenium-java:4.11.0'
+
+	// jsoup 의존성
+	//implementation 'org.jsoup:jsoup:1.15.3'  // 버전은 최신으로 설정하세요
+
+	// 선택 사항: ChromeDriver 자동 다운로드 및 설정을 위한 WebDriverManager
+	implementation 'io.github.bonigarcia:webdrivermanager:5.3.0'
+
+	// 테스트용 의존성 (JUnit 5)
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 
 	// (선택 사항) WebDriverManager를 사용해 드라이버를 자동 관리
     implementation 'io.github.bonigarcia:webdrivermanager:5.5.3'

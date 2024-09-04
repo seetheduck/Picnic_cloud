@@ -26,7 +26,7 @@ public interface PlaceRepository extends JpaRepository<PlaceEntity, Integer>, Jp
 	Page<PlaceEntity> findByPlaceType(String placeType, Pageable pageable);
 	
 	//선택한 장소 1곳 상세정보. 
-	Optional<PlaceEntity> findByNo(@Param("no") int no);
+	Optional<PlaceEntity> findByNo(int no);
 	
 	//좋아요 처리를 위한 메소드- 의도는 다르지만 상단과 같은쿼리문. 중복사용.
 	//Optional<PlaceEntity> findByNo(Integer no);
