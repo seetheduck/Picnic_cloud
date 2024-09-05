@@ -10,6 +10,7 @@ import pack.repository.ChatRoomRepository;
 import pack.repository.MessageRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +28,6 @@ public class MessageService {
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(messageDto.getChatRoomNo())
                 .orElseThrow(() -> new RuntimeException("Chat room not found"));
 
-
         MessageEntity messageEntity = MessageDto.toEntity(messageDto,chatRoomEntity);
 
         //채팅방 번호
@@ -37,6 +37,7 @@ public class MessageService {
         }
         messageEntity.setNo(maxMassegeNo + 1);
 
+        System.out.println(messageEntity.getMessageContents());
         MessageEntity savedEntity = messageRepository.save(messageEntity);
         return MessageEntity.toDto(savedEntity);
     }
@@ -48,4 +49,14 @@ public class MessageService {
                 .map(MessageEntity::toDto)
                 .collect(Collectors.toList());
     }
+
+    // 특정 채팅방의 최신 메시지 조회 메서드
+    @Transactional
+    public MessageDto findLatestMessageByChatRoomNo(Integer chatRoomNo) {
+        // Optional 처리
+        return messageRepository.findTopByChatRoomEntityNoOrderByCreateDateDesc(chatRoomNo)
+                .map(MessageEntity::toDto)
+                .orElse(null); //마지막 값 없는 경우 null 처리
+    }
+
 }

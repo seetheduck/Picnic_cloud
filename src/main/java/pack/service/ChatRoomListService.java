@@ -3,8 +3,8 @@ package pack.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pack.dto.ChatRoomDto;
 import pack.dto.ChatRoomListDto;
+import pack.dto.MessageDto;
 import pack.entity.ChatRoomEntity;
 import pack.entity.ChatRoomListEntity;
 import pack.repository.ChatRoomListRepository;
@@ -20,6 +20,8 @@ public class ChatRoomListService {
     private ChatRoomListRepository chatRoomListRepository;
     @Autowired
     private ChatRoomRepository chatRoomRepository;
+    @Autowired
+    private MessageService messageService;
 
     @Transactional //채팅방 생성 시 채팅목록에 등록
     public void addChatRoomToUser(Integer chatRoomNo) {
@@ -58,11 +60,38 @@ public class ChatRoomListService {
 
         // DTO 변환
         return chatRoomListEntities.stream()
-                .map(entity -> ChatRoomListDto.builder()
-                        .no(entity.getNo())
-                        .userId(entity.getUserId())
-                        .chatRoomNo(entity.getChatRoomNo())
-                        .build())
+                .map(entity -> {
+                    ChatRoomListDto dto = ChatRoomListDto.builder()
+                            .no(entity.getNo())
+                            .userId(entity.getUserId())
+                            .chatRoomNo(entity.getChatRoomNo())
+                            .build();
+
+                    // 채팅방 번호로 마지막 메시지와 시간을 가져옴
+                    MessageDto latestMessage = messageService.findLatestMessageByChatRoomNo(entity.getChatRoomNo());
+                    if (latestMessage != null) {
+                        dto.setLastMessage(latestMessage.getMessageContents());
+                        dto.setLastMessageTime(latestMessage.getCreateDate().toString());
+
+                        String otherPartyId = latestMessage.getSenderId().equals(userId)
+                                ? getOtherPartyId(entity.getChatRoomNo(), userId)
+                                : latestMessage.getSenderId();
+
+                        dto.setSenderId(otherPartyId);
+                    }
+
+                    return dto;
+                })
                 .collect(Collectors.toList());
+    }
+
+    private String getOtherPartyId(Integer chatRoomNo, String currentUserId) {
+        ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(chatRoomNo)
+                .orElseThrow(() -> new RuntimeException("Chat room not found"));
+
+        // Return the ID 다른 사람
+        return chatRoomEntity.getSellerId().equals(currentUserId)
+                ? chatRoomEntity.getBuyerId()
+                : chatRoomEntity.getSellerId();
     }
 }

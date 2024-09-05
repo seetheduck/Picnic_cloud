@@ -22,27 +22,26 @@ public class ChatRoomController {
     @Autowired
     private ChatRoomListService chatRoomListService;
 
-    @PostMapping("/create")
+    @PostMapping("/create") //(게시판에서 채팅 버튼 클릭시)
     public ResponseEntity<?> createChatRoom(@RequestBody ChatRoomDto request) {
         try {
+            //해당 게시판 번호가 없는 경우
             if (request.getFleaMarketNo() == null || request.getBuyerId() == null) {
-                logger.error("Invalid request: fleaMarketNo or buyerId is missing");
+                logger.error("채팅방이 사라졌습니다.");
                 return ResponseEntity.badRequest().body("Invalid request data");
             }
 
             // 채팅방 생성
             ChatRoomDto chatRoomDto = chatRoomService.createChatRoom(request.getFleaMarketNo(), request.getBuyerId());
-            logger.info("Chat room created: {}", chatRoomDto);
 
             if (chatRoomDto == null) {
-                logger.error("Chat room creation failed");
-                return ResponseEntity.status(500).body("Failed to create chat room");
+                return ResponseEntity.status(500).body("채팅방을 만들 수 없습니다.");
             }
-
+            
+            //chatRoomList에 목록 생성
             chatRoomListService.addChatRoomToUser(chatRoomDto.getNo());
-            logger.info("Chat room added to user list");// 채팅방을 채팅 목록에 추가하는 부분에서 예외가 발생할 수 있음
 
-            // 성공적으로 응답 반환
+            //성공이면 반환
             return ResponseEntity.ok(chatRoomDto);
 
         } catch (Exception e) {
