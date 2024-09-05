@@ -25,22 +25,23 @@ import pack.dto.MessageDto;
 public class MessageEntity {
     @Id
     private Integer no;
-    private Integer chatRoomId;
-    private Integer senderId;
+    private String senderId;
+    private Boolean readIs;
     private String messageContents;
     private LocalDateTime createDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "chatRoomId", referencedColumnName = "no", insertable = false, updatable = false)
+    @JoinColumn(name = "chat_room_no")
     private ChatRoomEntity chatRoomEntity;
 
     public static MessageDto toDto(MessageEntity entity) {
         return MessageDto.builder()
                 .no(entity.getNo())
-                .chatRoomId(entity.getChatRoomId())
                 .senderId(entity.getSenderId())
                 .messageContents(entity.getMessageContents())
                 .createDate(entity.getCreateDate())
+                .chatRoomNo(entity.getChatRoomEntity().getNo())
+                .sellerId(entity.getChatRoomEntity().getSellerId()) //dto에는 sellerID를 가져온다.
                 .build();
     }
 }

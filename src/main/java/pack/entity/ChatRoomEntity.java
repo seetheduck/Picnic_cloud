@@ -20,15 +20,11 @@ import pack.dto.ChatRoomDto;
 @Builder
 public class ChatRoomEntity {
     @Id
-    private Integer no;
+    private int no;
     private Integer fleaMarketNo;
     private String buyerId;
     private String sellerId;
-    private Integer messageNo;
-    private Integer fileNo;
-
-    @OneToOne(mappedBy = "chatRoomEntity")
-    private MessageEntity messageEntity;
+//    private Integer fileNo;
 
     public static ChatRoomDto toDto(ChatRoomEntity entity) {
         return ChatRoomDto.builder()
@@ -36,8 +32,7 @@ public class ChatRoomEntity {
                 .fleaMarketNo(entity.getFleaMarketNo())
                 .buyerId(entity.getBuyerId())
                 .sellerId(entity.getSellerId())
-                .messageNo(entity.getMessageNo())
-                .fileNo(entity.getFileNo())
+//                .fileNo(entity.getFileNo())
                 .build();
     }
 }

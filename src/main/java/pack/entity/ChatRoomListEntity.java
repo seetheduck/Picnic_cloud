@@ -22,19 +22,15 @@ import pack.dto.ChatRoomListDto;
 @Builder
 public class ChatRoomListEntity {
     @Id
-    private Integer no;
-    private Integer userId;
-    private Integer chatRoomId;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "chatRoomId", referencedColumnName = "no", insertable = false, updatable = false)
-    private ChatRoomEntity chatRoomEntity;
+    private int no;
+    private String userId;
+    private int chatRoomNo;
 
     public static ChatRoomListDto toDto(ChatRoomListEntity entity) {
         return ChatRoomListDto.builder()
                 .no(entity.getNo())
                 .userId(entity.getUserId())
-                .chatRoomId(entity.getChatRoomId())
+                .chatRoomNo(entity.getChatRoomNo())
                 .build();
     }
 }

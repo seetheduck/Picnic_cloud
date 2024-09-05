@@ -7,21 +7,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pack.entity.ChatRoomListEntity;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ChatRoomListDto {
-    private Integer no;
-    private Integer userId;
-    private Integer chatRoomId;
+    private int no;
+    private String userId;
+    private Integer chatRoomNo;
+
+//    private List<ChatRoomDto> chatRooms;
 
     public static ChatRoomListEntity toEntity(ChatRoomListDto dto) {
         return ChatRoomListEntity.builder()
                 .no(dto.getNo())
                 .userId(dto.getUserId())
-                .chatRoomId(dto.getChatRoomId())
+                .chatRoomNo(dto.getChatRoomNo())
                 .build();
     }
 }

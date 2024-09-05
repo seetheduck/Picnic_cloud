@@ -17,8 +17,7 @@ public class ChatRoomDto {
     private Integer fleaMarketNo;
     private String buyerId;
     private String sellerId;
-    private Integer messageNo;
-    private Integer fileNo;
+//    private Integer fileNo;
 
     public static ChatRoomEntity toEntity(ChatRoomDto dto) {
         return ChatRoomEntity.builder()
@@ -26,8 +25,7 @@ public class ChatRoomDto {
                 .fleaMarketNo(dto.getFleaMarketNo())
                 .buyerId(dto.getBuyerId())
                 .sellerId(dto.getSellerId())
-                .messageNo(dto.getMessageNo())
-                .fileNo(dto.getFileNo())
+//                .fileNo(dto.getFileNo())
                 .build();
     }
 }
