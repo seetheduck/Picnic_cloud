@@ -23,21 +23,20 @@ public class MessageService {
 
     @Transactional
     public MessageDto saveMessage(MessageDto messageDto) {
-        System.out.println(messageDto);
         // 메시지가 속한 채팅방을 조회
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(messageDto.getChatRoomNo())
                 .orElseThrow(() -> new RuntimeException("Chat room not found"));
 
         MessageEntity messageEntity = MessageDto.toEntity(messageDto,chatRoomEntity);
 
-        //채팅방 번호
+        //채팅방 번호 조회 (가장 마지막)
         Integer maxMassegeNo = messageRepository.findMaxMessageNo();
         if(maxMassegeNo == null) {
             maxMassegeNo = 1;
         }
         messageEntity.setNo(maxMassegeNo + 1);
-
-        System.out.println(messageEntity.getMessageContents());
+        
+        //채팅방 등록
         MessageEntity savedEntity = messageRepository.save(messageEntity);
         return MessageEntity.toDto(savedEntity);
     }
