@@ -33,10 +33,17 @@ public class PlaceService {
 
 
 	// 검색이 없는 경우: 단순히 유형별 장소를 페이징 처리
+//	public Page<PlaceDto> findPlacesByType(String placeType, Pageable pageable) {
+//		Page<PlaceEntity> placePage = placeRepository.findByPlaceType(placeType, pageable);
+//		return placePage.map(PlaceEntity::toPlaceDto);
+//	}
 	public Page<PlaceDto> findPlacesByType(String placeType, Pageable pageable) {
-		Page<PlaceEntity> placePage = placeRepository.findByPlaceType(placeType, pageable);
+		Specification<PlaceEntity> spec = PlaceSpecification.hasKeyword(placeType, null)
+				.and(PlaceSpecification.orderByPointAndLikeCnt());
+		Page<PlaceEntity> placePage = placeRepository.findAll(spec, pageable);
 		return placePage.map(PlaceEntity::toPlaceDto);
 	}
+
 
 	// 검색이 있는 경우: 유형별 장소에 추가적으로 키워드로 검색하고 정렬
 	public Page<PlaceDto> findPlacesByPlaceTypeAndKeyword(String placeType, String keyword, Pageable pageable) {

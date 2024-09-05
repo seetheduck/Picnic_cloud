@@ -16,4 +16,3 @@ public class ChatController {
         return message; // 메시지를 반환하면 해당 채팅방에 구독 중인 모든 클라이언트가 메시지를 받음
     }
 }
-
