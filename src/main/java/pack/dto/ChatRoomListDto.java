@@ -19,7 +19,9 @@ public class ChatRoomListDto {
     private String userId;
     private Integer chatRoomNo;
 
-//    private List<ChatRoomDto> chatRooms;
+    private String senderId; //보낸 사람
+    private String lastMessage; // 마지막 메시지
+    private String lastMessageTime; // 마지막 메시지 시간
 
     public static ChatRoomListEntity toEntity(ChatRoomListDto dto) {
         return ChatRoomListEntity.builder()
