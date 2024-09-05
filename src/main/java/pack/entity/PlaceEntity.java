@@ -36,8 +36,6 @@ public class PlaceEntity {
     private String operationTime;
     private int reviewCount; // 리뷰수 
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//   	private List<LikesEntity> likes;
     
   //toDto: entity > dto
     public static PlaceDto toPlaceDto(PlaceEntity entity) {
@@ -55,10 +53,6 @@ public class PlaceEntity {
     			.entranceFee(entity.getEntranceFee())
     			.operationTime(entity.getOperationTime())
     			.reviewCount(entity.getReviewCount())
-//    			.likes(entity.getLikes() != null ?
-//    				entity.getLikes().stream()
-//    				.map(LikesEntity::toLikesPlaceDto)
-//    				.collect(Collectors.toList()) : List.of())
     			.build();
     	
     }

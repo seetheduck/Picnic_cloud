@@ -73,7 +73,10 @@ public class PlaceService {
 		placeEntity.setReviewCount(reviewCount);
 
 		// 평점 계산
-		float averagePoint = placeRepository.findAveragePointByPlaceNo(placeNo);
+		Float averagePoint = placeRepository.findAveragePointByPlaceNo(placeNo);
+		if (averagePoint == null) {
+			averagePoint = 0.0f; // 리뷰가 없는 경우 기본값 설정
+		}
 		placeEntity.setPoint(averagePoint);
 
 		// 장소 엔티티 저장
