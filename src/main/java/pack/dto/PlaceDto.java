@@ -44,8 +44,7 @@ public class PlaceDto {
     			.entranceFee(dto.getEntranceFee())
     			.operationTime(dto.getOperationTime())
     			.reviewCount(dto.getReviewCount())
-
     			.build();
-    			
+
     }
 }

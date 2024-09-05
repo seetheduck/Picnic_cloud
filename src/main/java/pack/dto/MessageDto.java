@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pack.entity.ChatRoomEntity;
 import pack.entity.MessageEntity;
 
 @Getter
@@ -16,18 +17,26 @@ import pack.entity.MessageEntity;
 @Builder
 public class MessageDto {
     private Integer no;
-    private Integer chatRoomId;
-    private Integer senderId;
+    private String senderId;
+    private Boolean readIs;
     private String messageContents;
     private LocalDateTime createDate;
 
-    public static MessageEntity toEntity(MessageDto dto) {
+    private String sellerId;
+    private Integer chatRoomNo; //채팅방 번호
+//    private ChatRoomDto chatRoomDto;
+
+    public static MessageEntity toEntity(MessageDto dto, ChatRoomEntity chatRoomEntity) {
+
+//        ChatRoomEntity chatRoomEntity = new ChatRoomEntity();
+//        chatRoomEntity.setNo(dto.getChatRoomNo());
+
         return MessageEntity.builder()
                 .no(dto.getNo())
-                .chatRoomId(dto.getChatRoomId())
                 .senderId(dto.getSenderId())
                 .messageContents(dto.getMessageContents())
-                .createDate(dto.getCreateDate())
+                .createDate(LocalDateTime.now())
+                .chatRoomEntity(chatRoomEntity)
                 .build();
     }
 }

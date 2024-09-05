@@ -60,7 +60,7 @@ public class FleamarketService {
 			insertEntity.setUserEntity(userEntity);  // 로드된 UserEntity를 설정
 
 			//마지막 번호 + 1
-			Integer newNum = repository.findbyMaxNo() + 1;
+			int newNum = repository.findbyMaxNo() + 1;
 			insertEntity.setNo(newNum);
 
 			// 생성 날짜 설정

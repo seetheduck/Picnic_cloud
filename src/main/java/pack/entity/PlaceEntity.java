@@ -34,8 +34,7 @@ public class PlaceEntity {
     private String tel;
     private String entranceFee;
     private String operationTime;
-    private int reviewCount; // 리뷰수 
-
+    private int reviewCount; // 리뷰수
     
   //toDto: entity > dto
     public static PlaceDto toPlaceDto(PlaceEntity entity) {
