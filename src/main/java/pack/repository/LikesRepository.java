@@ -2,8 +2,11 @@ package pack.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import pack.entity.FleamarketEntity;
 import pack.entity.LikesEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface LikesRepository extends JpaRepository<LikesEntity, Integer> {
@@ -42,5 +45,10 @@ public interface LikesRepository extends JpaRepository<LikesEntity, Integer> {
 	void deleteByUserIdAndPlaceNo(String userId, Integer placeNo);
 	//존재하는 좋아요가 없으면, .save()를 통해 수행
 
+	@Query("SELECT l.fleaMarketNo FROM LikesEntity l WHERE l.userId = :userId")
+	List<Integer> findFleaMarketNosByUserId(@Param("userId") String userId);
+
+	@Query("SELECT l FROM LikesEntity l WHERE l.userId = :userId AND l.fleaMarketNo IS NOT NULL")
+	List<LikesEntity> findLikedFleaMarketsByUserId(@Param("userId") String userId);
 
 }

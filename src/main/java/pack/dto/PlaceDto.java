@@ -28,9 +28,6 @@ public class PlaceDto {
     private String operationTime;
     private int reviewCount;
 
-    
-    //private List<LikesPlaceDto> likes; // 좋아요 목록
-    
     //toEntity: dto > entity
     public static PlaceEntity toPlaceEntity(PlaceDto dto) {
     	return PlaceEntity.builder()
@@ -47,11 +44,7 @@ public class PlaceDto {
     			.entranceFee(dto.getEntranceFee())
     			.operationTime(dto.getOperationTime())
     			.reviewCount(dto.getReviewCount())
-//				.likes(dto.getLikes() != null ?
-//						dto.getLikes().stream()
-//								.map(LikesPlaceDto::toEntity)  // LikesReviewDto를 LikesEntity로 변환
-//								.collect(Collectors.toList()) : List.of())
     			.build();
-    			
+
     }
 }

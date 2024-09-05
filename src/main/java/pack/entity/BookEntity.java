@@ -21,7 +21,7 @@ public class BookEntity {
     private String publicationYear;
     private String thumbnail;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_no", referencedColumnName = "bookNo")
     private CategoryEntity category;
 

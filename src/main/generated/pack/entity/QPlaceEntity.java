@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -31,8 +30,6 @@ public class QPlaceEntity extends EntityPathBase<PlaceEntity> {
     public final NumberPath<Integer> likeCnt = createNumber("likeCnt", Integer.class);
 
     public final BooleanPath likeIs = createBoolean("likeIs");
-
-    public final ListPath<LikesEntity, QLikesEntity> likes = this.<LikesEntity, QLikesEntity>createList("likes", LikesEntity.class, QLikesEntity.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
 
