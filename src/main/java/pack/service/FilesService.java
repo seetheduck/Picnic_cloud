@@ -35,7 +35,8 @@ public class FilesService {
 			String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/";
 
 			//파일명)공백을 언더바로 대체하고, URL 인코딩된 문자들을 제거
-			String safeFilename = file.getOriginalFilename().replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_\\.]", "");
+			String safeFilename = file.getOriginalFilename().
+					replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_\\.]", "");
 			Path imagePath = Paths.get(staticDirectory, safeFilename);
 
 			//이미지 저장 디렉토리 체크 및 생성
