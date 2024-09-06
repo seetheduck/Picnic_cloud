@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -18,37 +17,24 @@ public class QChatRoomListEntity extends EntityPathBase<ChatRoomListEntity> {
 
     private static final long serialVersionUID = 411833162L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QChatRoomListEntity chatRoomListEntity = new QChatRoomListEntity("chatRoomListEntity");
 
-    public final QChatRoomEntity chatRoomEntity;
-
-    public final NumberPath<Integer> chatRoomId = createNumber("chatRoomId", Integer.class);
+    public final NumberPath<Integer> chatRoomNo = createNumber("chatRoomNo", Integer.class);
 
     public final NumberPath<Integer> no = createNumber("no", Integer.class);
 
-    public final NumberPath<Integer> userId = createNumber("userId", Integer.class);
+    public final StringPath userId = createString("userId");
 
     public QChatRoomListEntity(String variable) {
-        this(ChatRoomListEntity.class, forVariable(variable), INITS);
+        super(ChatRoomListEntity.class, forVariable(variable));
     }
 
     public QChatRoomListEntity(Path<? extends ChatRoomListEntity> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QChatRoomListEntity(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QChatRoomListEntity(PathMetadata metadata, PathInits inits) {
-        this(ChatRoomListEntity.class, metadata, inits);
-    }
-
-    public QChatRoomListEntity(Class<? extends ChatRoomListEntity> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.chatRoomEntity = inits.isInitialized("chatRoomEntity") ? new QChatRoomEntity(forProperty("chatRoomEntity"), inits.get("chatRoomEntity")) : null;
+        super(ChatRoomListEntity.class, metadata);
     }
 
 }

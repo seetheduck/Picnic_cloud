@@ -24,15 +24,15 @@ public class QMessageEntity extends EntityPathBase<MessageEntity> {
 
     public final QChatRoomEntity chatRoomEntity;
 
-    public final NumberPath<Integer> chatRoomId = createNumber("chatRoomId", Integer.class);
-
     public final DateTimePath<java.time.LocalDateTime> createDate = createDateTime("createDate", java.time.LocalDateTime.class);
 
     public final StringPath messageContents = createString("messageContents");
 
     public final NumberPath<Integer> no = createNumber("no", Integer.class);
 
-    public final NumberPath<Integer> senderId = createNumber("senderId", Integer.class);
+    public final BooleanPath readIs = createBoolean("readIs");
+
+    public final StringPath senderId = createString("senderId");
 
     public QMessageEntity(String variable) {
         this(MessageEntity.class, forVariable(variable), INITS);
@@ -52,7 +52,7 @@ public class QMessageEntity extends EntityPathBase<MessageEntity> {
 
     public QMessageEntity(Class<? extends MessageEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.chatRoomEntity = inits.isInitialized("chatRoomEntity") ? new QChatRoomEntity(forProperty("chatRoomEntity"), inits.get("chatRoomEntity")) : null;
+        this.chatRoomEntity = inits.isInitialized("chatRoomEntity") ? new QChatRoomEntity(forProperty("chatRoomEntity")) : null;
     }
 
 }

@@ -10,8 +10,8 @@ import pack.dto.*;
 import pack.entity.*;
 import pack.repository.*;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,18 +35,22 @@ public class MypageService {
     @Autowired
     private LikesRepository likesRepository;
 
+    //   유저 프로필 정보 조회
     public MypageUserDto getUserProfile(Integer no) {
+        // UserEntity 조회
         UserEntity userEntity = userRepository.findById(no)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // accountDeleteIs 값이 true (1)인 경우 예외 발생
+        // 계정이 비활성화된 경우 예외 발생
         if (Boolean.TRUE.equals(userEntity.getAccountDeleteIs())) {
             throw new IllegalArgumentException("이 계정은 비활성화 되었습니다.");
         }
 
+        // UserDetailEntity 조회
         UserDetailEntity userDetailEntity = userDetailRepository.findById(no)
                 .orElseThrow(() -> new IllegalArgumentException("User details not found"));
 
+        // 프로필 정보를 MypageUserDto로 변환
         return MypageUserDto.builder()
                 .id(userEntity.getId())
                 .name(userEntity.getName())
@@ -56,26 +60,28 @@ public class MypageService {
                 .build();
     }
 
+    //   유저 프로필 업데이트
     @Transactional
     public void updateUserProfile(Integer no, UserDto userDto, UserDetailDto userDetailDto) {
+        // UserDto와 UserDetailDto가 null이면 예외 발생
+        Objects.requireNonNull(userDto, "UserDto cannot be null");
+        Objects.requireNonNull(userDetailDto, "UserDetailDto cannot be null");
+
         // UserEntity 조회
         UserEntity user = userRepository.findById(no)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // 사용자가 비활성화된 경우 예외 발생
+        // 계정이 비활성화된 경우 예외 발생
         if (Boolean.TRUE.equals(user.getAccountDeleteIs())) {
             throw new IllegalArgumentException("이 계정은 비활성화 되었습니다.");
         }
 
-        // UserEntity 업데이트 (ID는 수정하지 않음)
-        if (userDto.getPw() != null && !passwordEncoder.matches(userDto.getPw(), user.getPw())) {
-            user.setPw(passwordEncoder.encode(userDto.getPw()));
-        }
+        // 이름 업데이트
         if (userDto.getName() != null && !userDto.getName().equals(user.getName())) {
             user.setName(userDto.getName());
         }
 
-        // UserDetailEntity 업데이트
+        // UserDetailEntity 조회 및 업데이트
         UserDetailEntity userDetail = userDetailRepository.findById(no)
                 .orElseThrow(() -> new IllegalArgumentException("User details not found"));
 
@@ -94,8 +100,27 @@ public class MypageService {
         userDetailRepository.save(userDetail);
     }
 
+
+    //     비밀번호 변경
+    @Transactional
+    public void changePassword(Integer no, String currentPassword, String newPassword) {
+        // UserEntity 조회
+        UserEntity user = userRepository.findById(no)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // 현재 비밀번호 확인
+        if (!passwordEncoder.matches(currentPassword, user.getPw())) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 새 비밀번호 해시화 후 저장
+        user.setPw(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    //  유저가 좋아요한 장소 목록 조회
     public Page<PlaceDto> getLikedPlaces(String userId, Pageable pageable) {
-        // QueryDSL을 사용하여 Likes 테이블과 Place 테이블을 조인하여 데이터 조회
+        // 좋아요한 장소 조회
         List<PlaceEntity> likedPlaces = myPageRepository.findLikedPlacesByUserId(userId, pageable);
 
         // PlaceEntity를 PlaceDto로 변환
@@ -103,15 +128,16 @@ public class MypageService {
                 .map(PlaceEntity::toPlaceDto)
                 .collect(Collectors.toList());
 
-        // 전체 좋아요 수 계산
+        // 좋아요한 장소 수 조회
         long totalLikedPlaces = myPageRepository.countLikedPlacesByUserId(userId);
 
-        // Page 객체로 반환 (페이지, 사이즈, 총 개수 포함)
+        // Page 객체로 반환
         return new PageImpl<>(likedPlaceDtos, pageable, totalLikedPlaces);
     }
 
+    //  유저가 작성한 중고거래 게시글 조회
     public Page<FleamarketDto> getUserPosts(String userId, Pageable pageable) {
-        // 사용자 게시글 조회
+        // 유저가 작성한 게시글 조회
         Page<FleamarketEntity> userPosts = fleamarketRepository.findUserPostsByUserId(userId, pageable);
 
         // FleamarketEntity를 FleamarketDto로 변환
@@ -120,19 +146,21 @@ public class MypageService {
         return userPostDtos;
     }
 
+    //  유저가 좋아요한 중고거래 게시글 조회
     public Page<FleamarketDto> getLikedFleaMarkets(String userId, Pageable pageable) {
+        // 좋아요한 중고거래 게시글 목록 조회
         List<LikesEntity> likedFleaMarkets = likesRepository.findLikedFleaMarketsByUserId(userId);
         List<Integer> fleaMarketNos = likedFleaMarkets.stream()
                 .map(LikesEntity::getFleaMarketNo)
                 .collect(Collectors.toList());
 
-        // 페이징 처리
+        // 페이징 처리된 중고거래 게시글 목록 조회
         Page<FleamarketEntity> fleaMarketEntities = fleamarketRepository.findAllByNoIn(fleaMarketNos, pageable);
         List<FleamarketDto> fleaMarketDtos = fleaMarketEntities.stream()
                 .map(FleamarketEntity::toDto)
                 .collect(Collectors.toList());
 
+        // Page 객체로 반환
         return new PageImpl<>(fleaMarketDtos, pageable, fleaMarketEntities.getTotalElements());
     }
-
 }

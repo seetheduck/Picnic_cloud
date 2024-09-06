@@ -8,10 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pack.dto.FleamarketDto;
-import pack.dto.MypageUserDto;
-import pack.dto.PlaceDto;
-import pack.dto.SignupRequest;
+import pack.dto.*;
 import pack.service.MypageService;
 import pack.service.UserService;
 
@@ -40,12 +37,24 @@ public class MypageController {
         }
     }
 
-    // 유저 정보 업데이트
+    // 유저 정보 수정
     @PutMapping(value = "/updateinfo", produces = "application/json; charset=utf8")
     public ResponseEntity<Void> updateUserInfo(@RequestParam("no") Integer no,
                                                @RequestBody SignupRequest signupRequest) {
         mypageService.updateUserProfile(no, signupRequest.getUserDto(), signupRequest.getUserDetailDto());
         return ResponseEntity.ok().build();
+    }
+
+    // 비밀번호 변경 API
+    @PostMapping(value = "/change-password", produces = "application/json; charset=utf8")
+    public ResponseEntity<?> changePassword(@RequestParam("no") Integer no,
+                                            @RequestBody ChangePasswordRequest request) {
+        try {
+            mypageService.changePassword(no, request.getCurrentPassword(), request.getNewPassword());
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     // 유저가 좋아요한 장소를 가져오기
