@@ -1,5 +1,6 @@
 package pack.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +46,7 @@ public class MypageController {
         return ResponseEntity.ok().build();
     }
 
-    // 비밀번호 변경 API
+    // 비밀번호 변경
     @PostMapping(value = "/change-password", produces = "application/json; charset=utf8")
     public ResponseEntity<?> changePassword(@RequestParam("no") Integer no,
                                             @RequestBody ChangePasswordRequest request) {
@@ -59,8 +60,13 @@ public class MypageController {
 
     // 유저가 좋아요한 장소를 가져오기
     @GetMapping(value = "/liked-places", produces = "application/json; charset=utf8")
-    public ResponseEntity<Page<PlaceDto>> getLikedPlaces(@RequestParam("userId") String userId,
-                                                         Pageable pageable) {
+    public ResponseEntity<Page<PlaceDto>> getLikedPlaces(
+            HttpServletRequest request,
+            Pageable pageable
+    ) {
+        String userId = request.getAttribute("userId").toString();
+
+        System.out.println("userId : " + userId);
         try {
             Page<PlaceDto> likedPlaces = mypageService.getLikedPlaces(userId, pageable);
             return ResponseEntity.ok(likedPlaces);

@@ -10,7 +10,7 @@ import pack.service.EduEventService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/edu-events")
+@RequestMapping("/edu-events")
 public class EduEventController {
     @Autowired
     private EduEventService eduEventService;

@@ -15,13 +15,15 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-
+    
+    // 회원가입
     @PostMapping(value = "/signup", produces = "application/json; charset=utf8")
     public ResponseEntity<Void> signup(@RequestBody SignupRequest signupRequest) {
         userService.signup(signupRequest.getUserDto(), signupRequest.getUserDetailDto());
         return ResponseEntity.ok().build();
     }
 
+    // 로그인
     @PostMapping(value = "/login", produces = "application/json; charset=utf8")
     public ResponseEntity<String> login(@RequestBody UserDto userDto) {
         try {
@@ -36,6 +38,7 @@ public class AuthController {
         }
     }
 
+    // 유저 비활성화
     @PostMapping("/deactivate")
     public ResponseEntity<Void> deactivateAccount(@RequestBody UserDto userDto) {
         Integer no = userDto.getNo();
@@ -43,6 +46,7 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    // 유저 활성화
     @PostMapping("/reactivate")
     public ResponseEntity<Void> reactivateAccount(@RequestBody UserDto userDto) {
         Integer no = userDto.getNo();
