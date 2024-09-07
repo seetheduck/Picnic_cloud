@@ -35,10 +35,11 @@ public class MypageService {
     @Autowired
     private LikesRepository likesRepository;
 
+
     //   유저 프로필 정보 조회
     public MypageUserDto getUserProfile(Integer no) {
         // UserEntity 조회
-        UserEntity userEntity = userRepository.findById(no)
+        UserEntity userEntity = userRepository.findById(no)   // no 말고 id 받아오게 수정하기
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         // 계정이 비활성화된 경우 예외 발생
@@ -68,7 +69,7 @@ public class MypageService {
         Objects.requireNonNull(userDetailDto, "UserDetailDto cannot be null");
 
         // UserEntity 조회
-        UserEntity user = userRepository.findById(no)
+        UserEntity user = userRepository.findById(no)   // no 말고 id 받아오게 수정하기
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         // 계정이 비활성화된 경우 예외 발생
@@ -82,7 +83,7 @@ public class MypageService {
         }
 
         // UserDetailEntity 조회 및 업데이트
-        UserDetailEntity userDetail = userDetailRepository.findById(no)
+        UserDetailEntity userDetail = userDetailRepository.findById(no)   // detail 테이블 수정할 생각 해야할듯
                 .orElseThrow(() -> new IllegalArgumentException("User details not found"));
 
         if (userDetailDto.getEmail() != null && !userDetailDto.getEmail().equals(userDetail.getEmail())) {
@@ -105,7 +106,7 @@ public class MypageService {
     @Transactional
     public void changePassword(Integer no, String currentPassword, String newPassword) {
         // UserEntity 조회
-        UserEntity user = userRepository.findById(no)
+        UserEntity user = userRepository.findById(no)   // no 말고 id 받아오게 수정하기
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         // 현재 비밀번호 확인
@@ -126,7 +127,7 @@ public class MypageService {
         // PlaceEntity를 PlaceDto로 변환
         List<PlaceDto> likedPlaceDtos = likedPlaces.stream()
                 .map(PlaceEntity::toPlaceDto)
-                .collect(Collectors.toList());
+                .toList();  // Collectors.toList() 대신 Stream.toList() 사용
 
         // 좋아요한 장소 수 조회
         long totalLikedPlaces = myPageRepository.countLikedPlacesByUserId(userId);
@@ -134,6 +135,7 @@ public class MypageService {
         // Page 객체로 반환
         return new PageImpl<>(likedPlaceDtos, pageable, totalLikedPlaces);
     }
+
 
     //  유저가 작성한 중고거래 게시글 조회
     public Page<FleamarketDto> getUserPosts(String userId, Pageable pageable) {
@@ -152,13 +154,13 @@ public class MypageService {
         List<LikesEntity> likedFleaMarkets = likesRepository.findLikedFleaMarketsByUserId(userId);
         List<Integer> fleaMarketNos = likedFleaMarkets.stream()
                 .map(LikesEntity::getFleaMarketNo)
-                .collect(Collectors.toList());
+                .toList();
 
         // 페이징 처리된 중고거래 게시글 목록 조회
         Page<FleamarketEntity> fleaMarketEntities = fleamarketRepository.findAllByNoIn(fleaMarketNos, pageable);
         List<FleamarketDto> fleaMarketDtos = fleaMarketEntities.stream()
                 .map(FleamarketEntity::toDto)
-                .collect(Collectors.toList());
+                .toList();
 
         // Page 객체로 반환
         return new PageImpl<>(fleaMarketDtos, pageable, fleaMarketEntities.getTotalElements());

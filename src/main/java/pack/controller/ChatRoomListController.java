@@ -19,4 +19,7 @@ public class ChatRoomListController {
     public List<ChatRoomListDto> getChatRoomList(@PathVariable String userId) {
         return chatRoomListService.getChatRoomListByUserId(userId);
     }
+
+
+
 }

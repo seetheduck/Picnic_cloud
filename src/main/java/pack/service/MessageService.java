@@ -12,7 +12,6 @@ import pack.repository.ChatRoomRepository;
 import pack.repository.MessageRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

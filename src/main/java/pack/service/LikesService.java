@@ -35,7 +35,7 @@ public class LikesService {
 	public int toggleFleaMarketLike(String userId, int fleaBoardNo) {
 		UserEntity userEntity = userRepository.findById(userId);
 		if (userEntity == null) {
-			throw new RuntimeException("User not found");
+			throw new IllegalArgumentException("User not found");
 		}
 
 		LikesEntity existingLike = repository.findByUserIdAndFleaMarketNo(userId, fleaBoardNo);
@@ -59,7 +59,7 @@ public class LikesService {
 		// UserEntity를 직접 반환하고, null이 아니라고 가정
 		UserEntity userEntity = userRepository.findById(userId);
 		if (userEntity == null) {
-			throw new RuntimeException("User not found");
+			throw new IllegalArgumentException("User not found");
 		}
 
 		LikesEntity existingLike = repository.findByUserIdAndFleaMarketNo(userId, fleaMarketNo);

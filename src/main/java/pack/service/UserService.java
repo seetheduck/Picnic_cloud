@@ -132,7 +132,7 @@ public class UserService {
             return userEntity;
         } else {
             // 필요한 경우, 사용자를 찾지 못했을 때의 처리
-            throw new RuntimeException("User not found with id: " + id);
+            throw new IllegalArgumentException("User not found with id: " + id);
         }
     }
 
