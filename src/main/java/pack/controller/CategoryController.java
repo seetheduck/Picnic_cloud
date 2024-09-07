@@ -14,12 +14,12 @@ import pack.service.CategoryService;
 @CrossOrigin("*")
 public class CategoryController {
 
-	 @Autowired
+    @Autowired
     private CategoryService categoryService;
 
     // 카테고리 목록 조회
     @GetMapping("/categories")
     public List<CategoryDto> getCategories() {
-    	 return categoryService.getCategories();
+        return categoryService.getCategories();
     }
 }
