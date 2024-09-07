@@ -1,5 +1,7 @@
 package pack.service;
 import java.time.LocalDateTime;
+
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,6 +50,7 @@ public class FleamarketService {
 	}
 
 	//생성
+	@Transactional
 	public String insert(FleamarketDto dto,MultipartFile file) {
 		try {
 			// UserEntity를 데이터베이스에서 로드
@@ -108,6 +111,7 @@ public class FleamarketService {
 	}
 
 	//삭제
+	@Transactional
 	public String deleteOne(Integer no) {
 		try {
 			//특정 번호의 데이터
@@ -124,5 +128,7 @@ public class FleamarketService {
 	public Integer maxBoardNum() {
 		return repository.findbyMaxNo();
 	}
+
+	//
 
 }

@@ -1,7 +1,9 @@
 package pack.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pack.dto.BoardAndMessagesDto;
 import pack.dto.MessageDto;
 import pack.service.MessageService;
 
@@ -24,8 +26,13 @@ public class MessageController {
     }
 
     // 특정 채팅방의 메시지를 조회
+//    @GetMapping("/{chatRoomId}")
+//    public List<MessageDto> getMessagesByChatRoomId(@PathVariable Integer chatRoomId) {
+//        return messageService.getMessagesByChatRoomId(chatRoomId);
+//    }
     @GetMapping("/{chatRoomId}")
-    public List<MessageDto> getMessagesByChatRoomId(@PathVariable Integer chatRoomId) {
-        return messageService.getMessagesByChatRoomId(chatRoomId);
+    public ResponseEntity<BoardAndMessagesDto> getMessagesAndBoard(@PathVariable Integer chatRoomId) {
+        BoardAndMessagesDto result = messageService.getMessagesAndBoardByChatRoomId(chatRoomId);
+        return ResponseEntity.ok(result);
     }
 }

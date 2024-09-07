@@ -73,13 +73,17 @@ public class ChatRoomListService {
                         dto.setLastMessage(latestMessage.getMessageContents());
                         dto.setLastMessageTime(latestMessage.getCreateDate().toString());
 
-                        String otherPartyId = latestMessage.getSenderId().equals(userId)
-                                ? getOtherPartyId(entity.getChatRoomNo(), userId)
-                                : latestMessage.getSenderId();
-
-                        dto.setSenderId(otherPartyId);
+                        // 메시지를 보낸 사용자가 현재 사용자와 같으면 상대방 ID를 가져옴
+                        if (latestMessage.getSenderId() != null && latestMessage.getSenderId().equals(userId)) {
+                            dto.setOtherId(getOtherPartyId(entity.getChatRoomNo(), userId));
+                        } else {
+                            dto.setOtherId(latestMessage.getSenderId()!=null ? latestMessage.getSenderId() : "상대 없음");
+                        }
+                    }else{
+                        dto.setLastMessage("메시지가 없습니다");
+                        dto.setLastMessageTime("시간 없음");
+                        dto.setOtherId(getOtherPartyId(entity.getChatRoomNo(), userId)); // 상대방 ID를 설정
                     }
-
                     return dto;
                 })
                 .collect(Collectors.toList());

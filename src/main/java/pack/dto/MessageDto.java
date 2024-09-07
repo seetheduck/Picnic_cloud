@@ -24,12 +24,9 @@ public class MessageDto {
 
     private String sellerId;
     private Integer chatRoomNo; //채팅방 번호
-//    private ChatRoomDto chatRoomDto;
 
     public static MessageEntity toEntity(MessageDto dto, ChatRoomEntity chatRoomEntity) {
 
-//        ChatRoomEntity chatRoomEntity = new ChatRoomEntity();
-//        chatRoomEntity.setNo(dto.getChatRoomNo());
 
         return MessageEntity.builder()
                 .no(dto.getNo())

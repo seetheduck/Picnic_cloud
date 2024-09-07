@@ -19,7 +19,7 @@ public class ChatRoomListDto {
     private String userId;
     private Integer chatRoomNo;
 
-    private String senderId; //보낸 사람
+    private String otherId; //상대
     private String lastMessage; // 마지막 메시지
     private String lastMessageTime; // 마지막 메시지 시간
 
