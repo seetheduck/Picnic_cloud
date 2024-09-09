@@ -31,6 +31,8 @@ public class FleamarketController {
 	@Autowired
 	private FleamarketService fleamarketService;
 
+	private static final String USER_ID_ATTRIBUTE = "userId";
+
 	//플리마켓 홈 (페이징)
 	@GetMapping("/fleaMarket")
 	public ResponseEntity<Page<FleamarketDto>> getListAll(
@@ -66,7 +68,7 @@ public class FleamarketController {
 			HttpServletRequest request) {
 
 		try {
-			String userId = request.getAttribute("userId").toString();
+			String userId = request.getAttribute(USER_ID_ATTRIBUTE).toString();
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			FleamarketDto fleamarketDto = objectMapper.readValue(dtoJson, FleamarketDto.class);
@@ -112,8 +114,17 @@ public class FleamarketController {
 	}
 	//삭제
 	@DeleteMapping("/fleaMarket/{no}")
-	public ResponseEntity<String> deleteOne(@PathVariable("no") Integer no) {
+	public ResponseEntity<String> deleteOne(@PathVariable("no") Integer no,HttpServletRequest request) {
 		try {
+			String userId = request.getAttribute("userId").toString();
+			// 해당 번호의 게시물 정보 가져오기
+			FleamarketDto fleamarketDto = fleamarketService.getOne(no);
+
+			// 게시물의 작성자와 요청한 사용자가 일치하는지 확인
+			if (!fleamarketDto.getUserId().equals(userId)) {
+				return ResponseEntity.status(HttpStatus.FORBIDDEN)
+						.body("You do not have permission to delete this FleaMarket post");
+			}
 			// 서비스 호출을 통해 삭제 수행
 			fleamarketService.deleteOne(no);
 			// 성공 시 200 OK와 메시지 반환

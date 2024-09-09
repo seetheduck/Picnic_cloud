@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pack.dto.ChatRoomDto;
+import pack.dto.request.ChatRoomRequest;
 import pack.service.ChatRoomService;
 import pack.service.ChatRoomListService;
 import org.slf4j.Logger;
@@ -23,18 +24,21 @@ public class ChatRoomController {
     @Autowired
     private ChatRoomListService chatRoomListService;
 
+    private static final String USER_ID_ATTRIBUTE = "userId";
+
     @PostMapping("/create") // 게시판에서 채팅 버튼 클릭 시
-    public ResponseEntity<Object> createChatRoom(
-            @RequestParam Integer fleaMarketNo,
-            HttpServletRequest request) {
+    public ResponseEntity<Object> createChatRoom(HttpServletRequest request,
+                                                 @RequestBody ChatRoomRequest chatRoomRequest) {
         try {
+            Integer fleaMarketNo = chatRoomRequest.getFleaMarketNo();
+            String buyerId = request.getAttribute(USER_ID_ATTRIBUTE).toString();
+            System.out.println("****createChatRoom******" + buyerId);
             // 입력 데이터 검증
             if (fleaMarketNo == null) {
                 logger.error("게시판 번호가 없습니다.");
                 return ResponseEntity.badRequest().body("게시판 번호가 누락되었습니다.");
             }
 
-            String buyerId = request.getAttribute("userId").toString();
             if (buyerId == null) {
                 logger.error("구매자 ID가 없습니다.");
                 return ResponseEntity.badRequest().body("구매자 ID가 누락되었습니다.");

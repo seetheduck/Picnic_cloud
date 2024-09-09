@@ -27,7 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
 		// Interceptor를 특정 경로에만 적용할 수 있음
 		registry.addInterceptor(jwtInterceptor)
 				// 원하는 경로에 Interceptor를 적용
-				.addPathPatterns("/message/**", "/reviews/**", "/mypage/**", "/chat/**", "/api/**")
+				.addPathPatterns("/message/**", "/reviews/**", "/mypage/**", "/chat/**", "/api/**","/fleaMarket/**")
 				.excludePathPatterns("/auth/**"); // 로그인 및 회원가입 같은 경로는 제외
 	}
 

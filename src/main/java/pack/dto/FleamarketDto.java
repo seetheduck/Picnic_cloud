@@ -22,7 +22,7 @@ import pack.entity.UserEntity;
 public class FleamarketDto {
 
 	private int no;
-	@JsonProperty("userid")
+//	@JsonProperty("userid")
 	private String userId;
 	private String title;
 	private int price;

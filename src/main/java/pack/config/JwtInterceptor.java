@@ -20,6 +20,11 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        // GET 요청은 /fleaMarket 경로에 대해 인증을 생략
+        if (request.getMethod().equalsIgnoreCase("GET") && request.getRequestURI().startsWith("/fleaMarket")) {
+            return true; // 인증 생략
+        }
+
         // GET 요청은 토큰 검증을 생략하고 통과
         if (request.getMethod().equalsIgnoreCase("GET")) {
             if (!request.getRequestURI().startsWith("/mypage")) {
