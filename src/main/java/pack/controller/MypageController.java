@@ -24,9 +24,11 @@ public class MypageController {
 
     // 유저 정보를 가져오기
     @GetMapping(value = "/myinfo", produces = "application/json; charset=utf8")
-    public ResponseEntity<Object> getUserInfo(@RequestParam("no") Integer no) {
+    public ResponseEntity<Object> getUserInfo(HttpServletRequest request) {
+        userId = request.getAttribute(USER_ID_ATTRIBUTE).toString(); // JWT에서 userId 추출
+
         try {
-            MypageUserDto userProfile = mypageService.getUserProfile(no);
+            MypageUserDto userProfile = mypageService.getUserProfile(userId); // userId로 조회
             return ResponseEntity.ok(userProfile);
         } catch (IllegalArgumentException e) {
             if ("이 계정은 비활성화 되었습니다.".equals(e.getMessage())) {
@@ -40,20 +42,24 @@ public class MypageController {
     // 유저 정보 수정
     @PutMapping(value = "/updateinfo", produces = "application/json; charset=utf8")
     public ResponseEntity<Void> updateUserInfo(
-            @RequestParam("no") Integer no,
+            HttpServletRequest request,
             @RequestBody SignupRequest signupRequest
     ) {
-        mypageService.updateUserProfile(no, signupRequest.getUserDto(), signupRequest.getUserDetailDto());
+        userId = request.getAttribute(USER_ID_ATTRIBUTE).toString(); // JWT에서 userId 추출
+
+        mypageService.updateUserProfile(userId, signupRequest.getUserDto(), signupRequest.getUserDetailDto());
         return ResponseEntity.ok().build();
     }
 
     // 비밀번호 변경
     @PostMapping(value = "/change-password", produces = "application/json; charset=utf8")
     public ResponseEntity<String> changePassword(
-            @RequestParam("no") Integer no,
-            @RequestBody ChangePasswordRequest request) {
+            HttpServletRequest request,
+            @RequestBody ChangePasswordRequest changePasswordRequest) {
+        userId = request.getAttribute(USER_ID_ATTRIBUTE).toString(); // JWT에서 userId 추출
+
         try {
-            mypageService.changePassword(no, request.getCurrentPassword(), request.getNewPassword());
+            mypageService.changePassword(userId, changePasswordRequest.getCurrentPassword(), changePasswordRequest.getNewPassword());
             return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

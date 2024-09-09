@@ -72,14 +72,11 @@ public class UserService {
     }
 
     public String login(String id, String pw) {
-        UserEntity user = userRepository.findById(id);
-
-        if (user == null) {
-            throw new IllegalArgumentException("Invalid user");
-        }
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user"));
 
         if (Boolean.TRUE.equals(user.getAccountDeleteIs())) {
-            throw new IllegalArgumentException("이 계정은 비활성화 되었습니다. 다시 활성화 하시겠습니까??");
+            throw new IllegalArgumentException("이 계정은 비활성화 되었습니다. 다시 활성화 하시겠습니까?");
         }
 
         if (!passwordEncoder.matches(pw, user.getPw())) {
@@ -87,7 +84,6 @@ public class UserService {
         }
 
         return jwtService.createToken(id);  // JWT 토큰 생성
-
     }
 
     @Transactional
@@ -127,13 +123,8 @@ public class UserService {
     }
 
     public UserEntity findById(String id) {
-        UserEntity userEntity = userRepository.findById(id);
-        if (userEntity != null) {
-            return userEntity;
-        } else {
-            // 필요한 경우, 사용자를 찾지 못했을 때의 처리
-            throw new IllegalArgumentException("User not found with id: " + id);
-        }
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
     }
 
 }

@@ -33,7 +33,7 @@ public class LikesService {
 	// 좋아요 토글
 	@Transactional
 	public int toggleFleaMarketLike(String userId, int fleaBoardNo) {
-		UserEntity userEntity = userRepository.findById(userId);
+		Optional<UserEntity> userEntity = userRepository.findById(userId);
 		if (userEntity == null) {
 			throw new IllegalArgumentException("User not found");
 		}
@@ -57,7 +57,7 @@ public class LikesService {
 	// 좋아요 여부 확인
 	public boolean checkLikes(String userId, Integer fleaMarketNo) {
 		// UserEntity를 직접 반환하고, null이 아니라고 가정
-		UserEntity userEntity = userRepository.findById(userId);
+		Optional<UserEntity> userEntity = userRepository.findById(userId);
 		if (userEntity == null) {
 			throw new IllegalArgumentException("User not found");
 		}

@@ -54,10 +54,9 @@ public class FleamarketService {
 	public String insert(FleamarketDto dto,MultipartFile file) {
 		try {
 			// UserEntity를 데이터베이스에서 로드
-			UserEntity userEntity = userRepository.findById(dto.getUserId());
-			if (userEntity == null) {
-				return "오류 : User not found with id: " + dto.getUserId();
-			}
+			UserEntity userEntity = userRepository.findById(dto.getUserId())
+					.orElseThrow(() -> new IllegalArgumentException("User not found with id: " + dto.getUserId()));
+
 			// FleamarketEntity 생성
 			FleamarketEntity insertEntity = FleamarketDto.toEntity(dto);
 			insertEntity.setUserEntity(userEntity);  // 로드된 UserEntity를 설정

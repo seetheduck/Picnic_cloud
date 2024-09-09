@@ -11,7 +11,7 @@ import pack.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
-	UserEntity findById(String id);
+	Optional<UserEntity> findById(String id);
 
 	@Query("SELECT COALESCE(MAX(u.no), 0) FROM UserEntity u")
     int findMaxNo();

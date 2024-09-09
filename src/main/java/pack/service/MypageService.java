@@ -35,20 +35,21 @@ public class MypageService {
     @Autowired
     private LikesRepository likesRepository;
 
+    public static final String USER_NOT_FOUND_MESSAGE = "User not found";
 
     //   유저 프로필 정보 조회
-    public MypageUserDto getUserProfile(Integer no) {
-        // UserEntity 조회
-        UserEntity userEntity = userRepository.findById(no)   // no 말고 id 받아오게 수정하기
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public MypageUserDto getUserProfile(String userId) {
+        // userId로 UserEntity 조회
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_MESSAGE));
 
         // 계정이 비활성화된 경우 예외 발생
         if (Boolean.TRUE.equals(userEntity.getAccountDeleteIs())) {
             throw new IllegalArgumentException("이 계정은 비활성화 되었습니다.");
         }
 
-        // UserDetailEntity 조회
-        UserDetailEntity userDetailEntity = userDetailRepository.findById(no)
+        // userId로 UserDetailEntity 조회
+        UserDetailEntity userDetailEntity = userDetailRepository.findById(userEntity.getNo())
                 .orElseThrow(() -> new IllegalArgumentException("User details not found"));
 
         // 프로필 정보를 MypageUserDto로 변환
@@ -63,29 +64,24 @@ public class MypageService {
 
     //   유저 프로필 업데이트
     @Transactional
-    public void updateUserProfile(Integer no, UserDto userDto, UserDetailDto userDetailDto) {
-        // UserDto와 UserDetailDto가 null이면 예외 발생
-        Objects.requireNonNull(userDto, "UserDto cannot be null");
-        Objects.requireNonNull(userDetailDto, "UserDetailDto cannot be null");
-
+    public void updateUserProfile(String userId, UserDto userDto, UserDetailDto userDetailDto) {
         // UserEntity 조회
-        UserEntity user = userRepository.findById(no)   // no 말고 id 받아오게 수정하기
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_MESSAGE));
 
         // 계정이 비활성화된 경우 예외 발생
         if (Boolean.TRUE.equals(user.getAccountDeleteIs())) {
             throw new IllegalArgumentException("이 계정은 비활성화 되었습니다.");
         }
 
-        // 이름 업데이트
+        // UserDetailEntity 조회 및 업데이트
+        UserDetailEntity userDetail = userDetailRepository.findById(user.getNo())
+                .orElseThrow(() -> new IllegalArgumentException("User details not found"));
+
+        // 필요한 필드 업데이트
         if (userDto.getName() != null && !userDto.getName().equals(user.getName())) {
             user.setName(userDto.getName());
         }
-
-        // UserDetailEntity 조회 및 업데이트
-        UserDetailEntity userDetail = userDetailRepository.findById(no)   // detail 테이블 수정할 생각 해야할듯
-                .orElseThrow(() -> new IllegalArgumentException("User details not found"));
-
         if (userDetailDto.getEmail() != null && !userDetailDto.getEmail().equals(userDetail.getEmail())) {
             userDetail.setEmail(userDetailDto.getEmail());
         }
@@ -102,22 +98,28 @@ public class MypageService {
     }
 
 
-    //     비밀번호 변경
+    // 비밀번호 변경
     @Transactional
-    public void changePassword(Integer no, String currentPassword, String newPassword) {
-        // UserEntity 조회
-        UserEntity user = userRepository.findById(no)   // no 말고 id 받아오게 수정하기
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void changePassword(String userId, String currentPassword, String newPassword) {
+        // userId로 UserEntity 조회
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_MESSAGE));
 
         // 현재 비밀번호 확인
         if (!passwordEncoder.matches(currentPassword, user.getPw())) {
             throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
         }
 
+        // 새 비밀번호가 현재 비밀번호와 동일한지 확인
+        if (passwordEncoder.matches(newPassword, user.getPw())) {
+            throw new IllegalArgumentException("새 비밀번호는 현재 비밀번호와 다르게 설정해야 합니다.");
+        }
+
         // 새 비밀번호 해시화 후 저장
         user.setPw(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
+
 
     //  유저가 좋아요한 장소 목록 조회
     public Page<PlaceDto> getLikedPlaces(String userId, Pageable pageable) {
