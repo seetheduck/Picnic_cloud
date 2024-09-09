@@ -17,5 +17,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     int findMaxNo();
 	
 	boolean existsById(String id);
-	
+
+	Optional<UserEntity> findByNo(Integer no);
 }

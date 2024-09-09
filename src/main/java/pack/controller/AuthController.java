@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pack.dto.SignupRequest;
+import pack.dto.request.SignupRequest;
 import pack.dto.UserDto;
+import pack.dto.request.EmailRequest;
+import pack.dto.response.FindIdResponseDto;
+import pack.dto.response.LoginResponseDto;
 import pack.service.UserService;
 
 @RestController
@@ -25,16 +28,25 @@ public class AuthController {
 
     // 로그인
     @PostMapping(value = "/login", produces = "application/json; charset=utf8")
-    public ResponseEntity<String> login(@RequestBody UserDto userDto) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody UserDto userDto) {
         try {
             String token = userService.login(userDto.getId(), userDto.getPw());
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(new LoginResponseDto(token, null));
         } catch (IllegalArgumentException e) {
-            if ("이 계정은 비활성화 되었습니다. 다시 활성화 하시겠습니까??".equals(e.getMessage())) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new LoginResponseDto(null, e.getMessage()));
+        }
+    }
+
+    // ID 찾기
+    @PostMapping("/find-id")
+    public ResponseEntity<FindIdResponseDto> findId(@RequestBody EmailRequest emailRequest) {
+        try {
+            String userId = userService.findIdByEmail(emailRequest.getEmail());
+            return ResponseEntity.ok(new FindIdResponseDto(userId, null));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new FindIdResponseDto(null, e.getMessage()));
         }
     }
 

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pack.dto.*;
+import pack.dto.request.ChangePasswordRequest;
+import pack.dto.request.SignupRequest;
 import pack.service.MypageService;
 
 @RestController

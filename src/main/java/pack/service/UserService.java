@@ -26,7 +26,9 @@ public class UserService {
     private JwtService jwtService;
 
     @Autowired
-    private  CustomPasswordEncoder passwordEncoder;
+    private CustomPasswordEncoder passwordEncoder;
+
+
 
     public void checkDuplicateId(String id) {
         if (userRepository.existsById(id)) {
@@ -85,6 +87,21 @@ public class UserService {
 
         return jwtService.createToken(id);  // JWT 토큰 생성
     }
+
+    // 이메일로 ID 찾기
+    public String findIdByEmail(String email) {
+        // 이메일로 UserDetailEntity 조회
+        UserDetailEntity userDetail = userDetailRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 사용자 없음"));
+
+        // UserDetailEntity의 no를 사용하여 UserEntity 조회
+        UserEntity user = userRepository.findByNo(userDetail.getNo())
+                .orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
+
+        // 사용자 ID 반환
+        return user.getId();
+    }
+
 
     @Transactional
     public void deactivateAccount(Integer no) {

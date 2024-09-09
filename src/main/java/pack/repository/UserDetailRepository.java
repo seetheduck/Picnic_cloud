@@ -6,6 +6,7 @@ import pack.entity.UserDetailEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserDetailRepository extends JpaRepository<UserDetailEntity, Integer>{
@@ -13,5 +14,7 @@ public interface UserDetailRepository extends JpaRepository<UserDetailEntity, In
 	UserDetailEntity findByNo(int no);
 	
 	List<UserDetailEntity> findByAccountDeleteDateBefore(LocalDateTime thresholdDate);
-	
+
+	Optional<UserDetailEntity> findByEmail(String email);
+
 }
