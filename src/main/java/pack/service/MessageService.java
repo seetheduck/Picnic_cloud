@@ -38,19 +38,11 @@ public class MessageService {
             maxMassegeNo = 1;
         }
         messageEntity.setNo(maxMassegeNo + 1);
-        
+
         //채팅방 등록
         MessageEntity savedEntity = messageRepository.save(messageEntity);
         return MessageEntity.toDto(savedEntity);
     }
-
-    // 특정 채팅방의 메시지만 조회 메서드
-//    public List<MessageDto> getMessagesByChatRoomId(Integer chatRoomId) {
-//        List<MessageEntity> messageEntities = messageRepository.findByChatRoomEntityNo(chatRoomId);
-//        return messageEntities.stream()
-//                .map(MessageEntity::toDto)
-//                .collect(Collectors.toList());
-//    }
 
     // 특정 채팅방의 메시지와 게시판 정보 조회 메서드
     public BoardAndMessagesDto getMessagesAndBoardByChatRoomId(Integer chatRoomNo) {

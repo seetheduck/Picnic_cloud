@@ -28,6 +28,11 @@ public class JwtInterceptor implements HandlerInterceptor {
             }
         }
 
+        // OPTIONS 요청은 인증을 요구하지 않도록 예외 처리
+        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+            return true; // OPTIONS 요청은 그냥 통과시킴
+        }
+
         // HTTP 요청에서 Authorization 헤더에서 JWT 토큰 추출
         String token = request.getHeader("Authorization");
         // 토큰이 없거나 Bearer 토큰이 아닌 경우

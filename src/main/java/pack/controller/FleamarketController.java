@@ -1,13 +1,6 @@
 package pack.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,16 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pack.dto.FleamarketDto;
-import pack.entity.FleamarketEntity;
-import pack.entity.UserEntity;
-import pack.repository.UserRepository;
-import pack.service.FilesService;
 import pack.service.FleamarketService;
-import pack.service.UserService;
 
 @RestController
 @CrossOrigin("*")
 public class FleamarketController {
+
 	@Autowired
 	private FleamarketService fleamarketService;
 
@@ -47,19 +36,13 @@ public class FleamarketController {
 	public ResponseEntity<Page<FleamarketDto>> getListAll(
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "9") int size,
-			@RequestParam(value = "category", required = false) Integer category,
+			@RequestParam(value = "category") Integer category,
 			@RequestParam(value = "search", required = false) String search
 	) {
-
-		// 페이지 요청 생성 (* import org.springframework.data.domain.PageRequest)
-		// For a stable JSON structure, please use Spring Data's PagedModel ..와 같은 메시지가 뜬다.
-		// 페이징된 데이터를 반환할 때, JSON 구조가 일관되지 않거나 예상치 못한 방식으로 나타남. 일관된 json 형식으로 만드는게 중요하다.
-		// Spring에서는 PagedModel 또는 PagedResourcesAssembler와 같은 도구를 제공
-
 		Pageable pageable = PageRequest.of(page, size);
 
 		Page<FleamarketDto> result;
-		if (category == null && (search == null || search.isEmpty())) {
+		if (category == 0 && (search == null || search.isEmpty())) {
 			result = fleamarketService.findAll(pageable);
 		} else {
 			result = fleamarketService.search(category, search, pageable);
@@ -79,12 +62,16 @@ public class FleamarketController {
 	@PostMapping("/fleaMarket")
 	public ResponseEntity<String> postOne(
 			@RequestPart("dto") String dtoJson,
-			@RequestPart(value = "file", required = false) MultipartFile file) {
+			@RequestPart(value = "file", required = false) MultipartFile file,
+			HttpServletRequest request) {
 
 		try {
+			String userId = request.getAttribute("userId").toString();
 
 			ObjectMapper objectMapper = new ObjectMapper();
 			FleamarketDto fleamarketDto = objectMapper.readValue(dtoJson, FleamarketDto.class);
+
+			fleamarketDto.setUserId(userId);
 
 			// 서비스 호출
 			fleamarketService.insert(fleamarketDto, file);
@@ -102,8 +89,15 @@ public class FleamarketController {
 
 	//수정
 	@PutMapping("/fleaMarket/{no}")
-	public ResponseEntity<String> putOne(@PathVariable("no") Integer no, @RequestBody FleamarketDto dto) {
+	public ResponseEntity<String> putOne(
+			@PathVariable("no") Integer no,
+			@RequestBody FleamarketDto dto,
+			HttpServletRequest request) {
 		try {
+			// 요청에서 userId 추출
+			String userId = request.getAttribute("userId").toString();
+
+			dto.setUserId(userId);
 			dto.setNo(no);
 			fleamarketService.putOne(dto);
 
@@ -116,8 +110,6 @@ public class FleamarketController {
 					.body("Failed to update FleaMarket: " + e.getMessage());
 		}
 	}
-
-
 	//삭제
 	@DeleteMapping("/fleaMarket/{no}")
 	public ResponseEntity<String> deleteOne(@PathVariable("no") Integer no) {

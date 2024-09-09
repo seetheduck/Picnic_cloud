@@ -46,4 +46,9 @@ public class ChatRoomService {
         }
     }
 
+//    public ChatRoomDto getChatRoomById(Integer no) {
+//        return chatRoomRepository.findById(no)
+//                .map(ChatRoomEntity::toDto)
+//                .orElse(null);
+//    }
 }

@@ -27,7 +27,6 @@ public class MessageDto {
 
     public static MessageEntity toEntity(MessageDto dto, ChatRoomEntity chatRoomEntity) {
 
-
         return MessageEntity.builder()
                 .no(dto.getNo())
                 .senderId(dto.getSenderId())

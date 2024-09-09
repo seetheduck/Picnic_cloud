@@ -1,5 +1,6 @@
 package pack.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/chat")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChatRoomController {
 
     private static final Logger logger = LoggerFactory.getLogger(ChatRoomController.class);
@@ -23,7 +24,9 @@ public class ChatRoomController {
     private ChatRoomListService chatRoomListService;
 
     @PostMapping("/create") // 게시판에서 채팅 버튼 클릭 시
-    public ResponseEntity<?> createChatRoom(@RequestParam Integer fleaMarketNo, @RequestParam String buyerId) {
+    public ResponseEntity<Object> createChatRoom(
+            @RequestParam Integer fleaMarketNo,
+            HttpServletRequest request) {
         try {
             // 입력 데이터 검증
             if (fleaMarketNo == null) {
@@ -31,6 +34,7 @@ public class ChatRoomController {
                 return ResponseEntity.badRequest().body("게시판 번호가 누락되었습니다.");
             }
 
+            String buyerId = request.getAttribute("userId").toString();
             if (buyerId == null) {
                 logger.error("구매자 ID가 없습니다.");
                 return ResponseEntity.badRequest().body("구매자 ID가 누락되었습니다.");
@@ -55,4 +59,13 @@ public class ChatRoomController {
             return ResponseEntity.status(500).body("서버 내부 오류가 발생했습니다.");
         }
     }
+
+//    @GetMapping("/chat-room/{chatRoomId}")
+//    public ResponseEntity<ChatRoomDto> getChatRoom(@PathVariable Integer chatRoomId) {
+//        ChatRoomDto chatRoom = chatRoomService.getChatRoomById(chatRoomId);
+//        if (chatRoom == null) {
+//            return ResponseEntity.status(404).body(null);
+//        }
+//        return ResponseEntity.ok(chatRoom);
+//    }
 }

@@ -29,11 +29,10 @@ public class CategoryEntity {
         if (categoryEntity == null) {
             return null;
         }
-        
+
         return CategoryDto.builder()
                 .no(categoryEntity.getNo())
                 .marketNo(categoryEntity.getMarketNo())
-                .bookNo(categoryEntity.getBookNo())
                 .categoryName(categoryEntity.getCategoryName())
                 .build();
     }

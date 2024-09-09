@@ -37,9 +37,9 @@ public class MessageEntity {
     public static MessageDto toDto(MessageEntity entity) {
         return MessageDto.builder()
                 .no(entity.getNo())
-                .senderId(entity.getSenderId())
+//                .senderId(entity.getSenderId())
                 .messageContents(entity.getMessageContents())
-                .createDate(entity.getCreateDate())
+//                .createDate(entity.getCreateDate())
                 .chatRoomNo(entity.getChatRoomEntity().getNo())
                 .sellerId(entity.getChatRoomEntity().getSellerId()) //dto에는 sellerID를 가져온다.
                 .build();

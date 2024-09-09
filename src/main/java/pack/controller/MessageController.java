@@ -7,11 +7,9 @@ import pack.dto.BoardAndMessagesDto;
 import pack.dto.MessageDto;
 import pack.service.MessageService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/message")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MessageController {
     //ChatController랑 다름
     //MessageController는 데이터베이스에 메시지를 저장
@@ -26,12 +24,9 @@ public class MessageController {
     }
 
     // 특정 채팅방의 메시지를 조회
-//    @GetMapping("/{chatRoomId}")
-//    public List<MessageDto> getMessagesByChatRoomId(@PathVariable Integer chatRoomId) {
-//        return messageService.getMessagesByChatRoomId(chatRoomId);
-//    }
     @GetMapping("/{chatRoomId}")
     public ResponseEntity<BoardAndMessagesDto> getMessagesAndBoard(@PathVariable Integer chatRoomId) {
+        System.out.println("-------- "+chatRoomId);
         BoardAndMessagesDto result = messageService.getMessagesAndBoardByChatRoomId(chatRoomId);
         return ResponseEntity.ok(result);
     }

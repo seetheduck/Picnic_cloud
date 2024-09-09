@@ -128,7 +128,4 @@ public class FleamarketService {
 	public Integer maxBoardNum() {
 		return repository.findbyMaxNo();
 	}
-
-	//
-
 }
