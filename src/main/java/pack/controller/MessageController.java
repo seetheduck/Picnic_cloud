@@ -54,7 +54,7 @@ public class MessageController {
     @GetMapping("/{chatRoomId}")
     public ResponseEntity<BoardAndMessagesDto> getMessagesAndBoard(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-            @PathVariable Integer chatRoomId) {
+            @PathVariable("chatRoomId") Integer chatRoomId) {
         try {
             // Authorization 헤더에서 토큰 추출
             String token = (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) ?
