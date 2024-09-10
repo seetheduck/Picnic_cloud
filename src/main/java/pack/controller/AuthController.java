@@ -4,21 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pack.dto.request.PasswordUpdateRequest;
-import pack.dto.request.SignupRequest;
 import pack.dto.UserDto;
 import pack.dto.request.EmailRequest;
+import pack.dto.request.PasswordUpdateRequest;
+import pack.dto.request.SignupRequest;
 import pack.dto.response.FindIdResponseDto;
 import pack.dto.response.LoginResponseDto;
-import pack.entity.PasswordResetToken;
-import pack.entity.UserDetailEntity;
 import pack.repository.UserDetailRepository;
 import pack.service.EmailService;
 import pack.service.UserService;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")

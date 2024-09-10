@@ -153,11 +153,8 @@ public class UserService {
         // 복호화된 토큰으로 비밀번호 재설정 토큰 조회
         PasswordResetToken resetToken =
                 tokenRepository.findByToken(tokenEncryptionService.decryptToken(encryptedToken));
-        if (resetToken != null && resetToken.getExpiryDate().isAfter(LocalDateTime.now())) {
-            return true;
-        } else {
-            return false;
-        }
+        return resetToken != null && resetToken.getExpiryDate().isAfter(LocalDateTime.now());
+
     }
 
     // 비밀번호 업데이트
@@ -184,9 +181,7 @@ public class UserService {
 
                     // 비밀번호 재설정 후 토큰 삭제
                     tokenRepository.deleteByToken(token);
-                } else {
                 }
-            } else {
             }
         } else {
             throw new IllegalArgumentException("Invalid or expired token.");
