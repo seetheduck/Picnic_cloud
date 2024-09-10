@@ -1,5 +1,6 @@
 package pack.service;
 
+import jakarta.annotation.Resource;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,17 +27,12 @@ public class PlaceService {
 	private ReviewRepository reviewRepository;
 
 	@Autowired
-	private LikesRepository likesRepository;
-
-	@Autowired
 	private LikesService likesService;
 
+	@Resource
+	private AsyncPlaceService asyncPlaceService; // 비동기 메서드를 호출할 프록시 객체
 
 	// 검색이 없는 경우: 단순히 유형별 장소를 페이징 처리
-//	public Page<PlaceDto> findPlacesByType(String placeType, Pageable pageable) {
-//		Page<PlaceEntity> placePage = placeRepository.findByPlaceType(placeType, pageable);
-//		return placePage.map(PlaceEntity::toPlaceDto);
-//	}
 	public Page<PlaceDto> findPlacesByType(String placeType, Pageable pageable) {
 		Specification<PlaceEntity> spec = PlaceSpecification.hasKeyword(placeType, null)
 				.and(PlaceSpecification.orderByPointAndLikeCnt());
@@ -85,29 +81,22 @@ public class PlaceService {
 
 	// 장소의 좋아요 토글 기능
 	@Transactional
-	public void toggleLike(String userId, int placeNo) {
+	public void togglePlaceLike(String userId, int placeNo) {
 		// 좋아요 토글
-		likesService.toggleLike(LikesPlaceDto.builder()
+		likesService.togglePlaceLike(LikesPlaceDto.builder()
 				.userId(userId)
 				.placeNo(placeNo)
 				.build());
 
 		// 장소의 좋아요 수 업데이트
-		updatePlaceLikeCount(placeNo);
+		// 장소의 좋아요 수 업데이트를 비동기로 호출
+		asyncPlaceService.updatePlaceLikeCount(placeNo);
 	}
 
 	// 장소의 좋아요 수 카운트
 	public int getPlaceLikesCount(int placeNo) {
-		return likesService.getLikesPlacesCount(placeNo);
+		return likesService.getPlaceLikesCount(placeNo);
+
 	}
 
-	// 좋아요 수 업데이트 메서드
-	@Transactional
-	public void updatePlaceLikeCount(int placeNo) {
-		int likeCount = likesService.getLikesPlacesCount(placeNo);
-		placeRepository.findById(placeNo).ifPresent(place -> {
-			place.setLikeCnt(likeCount);
-			placeRepository.save(place);
-		});
-	}
 }

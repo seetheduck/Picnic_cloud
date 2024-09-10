@@ -12,15 +12,13 @@ import pack.dto.ReviewDto;
 import pack.exception.ForbiddenException;
 import pack.service.ReviewService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/reviews")
 public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    // 1. 선택한 장소의 리뷰들 조회. 최신순 나열, 페이징처리. /reviews/{placeNo}
+    // 1. 선택한 장소의 리뷰들 조회. 최신순 나열, 페이징처리.
     @GetMapping("/{placeNo}")
     public ResponseEntity<Page<ReviewDto>> getReviewsByPlaceNo(
             @PathVariable("placeNo") int placeNo,
@@ -31,8 +29,7 @@ public class ReviewController {
         return ResponseEntity.ok(reviews);
     }
 
-
-    //2. 장소의 리뷰생성 /reviews/{placeNo}
+    //2. 장소의 리뷰생성
     @PostMapping("/{placeNo}")
     public ResponseEntity<ReviewDto> createReview(
             @PathVariable("placeNo") int placeNo,
@@ -42,7 +39,7 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReview);
     }
 
-    //3. 리뷰 수정/reviews/{no}
+    //3. 리뷰 수정
     @PutMapping("/{no}")
     public ResponseEntity<ReviewDto> updateReview(
             @PathVariable("no") int no,
@@ -58,9 +55,7 @@ public class ReviewController {
         }
     }
 
-
-
-    //4. 리뷰 삭제 /reviews/{no}
+    //4. 리뷰 삭제
     @DeleteMapping("/{no}")
     public ResponseEntity<Void> deleteReview(
                 @PathVariable("no") int no,
@@ -76,5 +71,4 @@ public class ReviewController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
         }
-
-    }
+}

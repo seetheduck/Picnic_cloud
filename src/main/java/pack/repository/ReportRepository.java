@@ -8,8 +8,9 @@ import pack.entity.ReportEntity;
 public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
 
 	// 신고 max번호
-	@Query("select Max(r.no) from ReportEntity r")
+	@Query("SELECT COALESCE(MAX(r.no), 0) FROM ReportEntity r")
 	int maxReportNum();
+	//테이블이 비어 있을 때, 즉 r.no 값이 없는 경우, 이 쿼리(select Max(r.no) from ReportEntity r)는 null을 반환
 
 	// 특정 유저가 특정 플리마켓에 신고하기를 눌렀는지 확인
 	ReportEntity findByUserNoAndFleaMarketNo(int userNo, Integer fleaMarketNo);

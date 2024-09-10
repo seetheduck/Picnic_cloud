@@ -1,6 +1,8 @@
 package pack.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +34,7 @@ public class ReportController {
 	}
 
 	@PostMapping("/review/report")
-	public String reportReview(@RequestBody ReportReviewDto reportReviewDto) {
+	public ResponseEntity<String> reportReview(@RequestBody ReportReviewDto reportReviewDto) {
 		try {
 			int userNo = reportReviewDto.getUserNo();
 			Integer reviewNo = reportReviewDto.getReviewNo();
@@ -40,13 +42,16 @@ public class ReportController {
 
 			// 리뷰 신고 처리
 			int result = reportService.reportReview(userNo, reviewNo, code);
-			return result == 1 ? "신고 성공" : "이미 신고됨";
+			if (result == 1) {
+				return ResponseEntity.ok("신고 성공");
+			} else {
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신고됨");
+			}
 		} catch (NumberFormatException e) {
-			return "잘못된 입력입니다.";
+			return ResponseEntity.badRequest().body("잘못된 입력입니다.");
 		}
 	}
 
-
-
-
 }
+
+

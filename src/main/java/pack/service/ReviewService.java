@@ -22,6 +22,10 @@ public class ReviewService {
 
     @Autowired
     private PlaceService placeService; // 장소 정보 업데이트를 위한 서비스
+
+    @Autowired
+    private JwtService jwtService; // JWT 서비스
+
 //    @Autowired
 //    private LikesRepository likesRepository;
 
@@ -47,15 +51,15 @@ public class ReviewService {
 
         // 6. 장소 정보 업데이트 (평점 및 리뷰 수)
         placeService.updatePlaceAfterReview(reviewDto.getPlaceNo()); // 장소의 정보 업데이트
-
         return ReviewEntity.toReviewDto(savedEntity); // 저장된 ReviewEntity를 DTO로 변환하여 반환
     }
 
     // 3. 리뷰 수정
     @Transactional
-    public ReviewDto updateReview(int reviewNo, ReviewDto reviewDto, String id) {
+    public ReviewDto updateReview(int reviewNo, ReviewDto reviewDto, String token) {
+        String userId = jwtService.getUserFromToken(token); // 토큰에서 사용자 ID 추출
         // 5. 작성자 확인
-        if (!isUserAuthorOfReview(reviewNo, id)) {
+        if (!isUserAuthorOfReview(reviewNo, userId)) {
             // 권한이 없는 경우 예외발생
             //return null;
             throw new ForbiddenException("User is not the author of the review");
@@ -72,9 +76,11 @@ public class ReviewService {
 
     // 4. 리뷰 삭제
     @Transactional
-    public boolean deleteReview(int reviewNo, String id) {
+    public boolean deleteReview(int reviewNo, String token) {
+        String userId = jwtService.getUserFromToken(token); // 토큰에서 사용자 ID 추출
+
         // 5. 작성자 확인
-        if (!isUserAuthorOfReview(reviewNo, id)) {
+        if (!isUserAuthorOfReview(reviewNo, userId)) {
             // 권한이 없는 경우 예외발생
             //return false;
             throw new ForbiddenException("User is not the author of the review");
