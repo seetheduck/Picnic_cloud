@@ -1,6 +1,7 @@
 package pack.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pack.dto.BoardAndMessagesDto;
@@ -20,10 +21,15 @@ public class MessageService {
 
     @Autowired
     private MessageRepository messageRepository;
+
     @Autowired
     private ChatRoomRepository chatRoomRepository;
+
     @Autowired
     private FleamarketService fleamarketService;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @Transactional
     public MessageDto saveMessage(MessageDto messageDto) {
@@ -34,18 +40,19 @@ public class MessageService {
         // 현재 시간을 설정
         messageDto.setCreateDate(LocalDateTime.now());
 
-        MessageEntity messageEntity = MessageDto.toEntity(messageDto,chatRoomEntity);
+        // 메시지 엔티티 생성 및 저장
+        MessageEntity messageEntity = MessageDto.toEntity(messageDto, chatRoomEntity);
+        Integer maxMessageNo = messageRepository.findMaxMessageNo();
+        messageEntity.setNo(maxMessageNo != null ? maxMessageNo + 1 : 1);
 
-        //채팅방 번호 조회 (가장 마지막)
-        Integer maxMassegeNo = messageRepository.findMaxMessageNo();
-        if(maxMassegeNo == null) {
-            maxMassegeNo = 1;
-        }
-        messageEntity.setNo(maxMassegeNo + 1);
-
-        //채팅방 등록
+        // 메시지 저장
         MessageEntity savedEntity = messageRepository.save(messageEntity);
-        return MessageEntity.toDto(savedEntity);
+
+        // 저장된 메시지를 WebSocket을 통해 브로드캐스트
+        MessageDto savedMessageDto = MessageEntity.toDto(savedEntity);
+        messagingTemplate.convertAndSend("/topic/chatRoom/" + messageDto.getChatRoomNo(), savedMessageDto);
+
+        return savedMessageDto;
     }
 
     // 특정 채팅방의 메시지와 게시판 정보 조회 메서드
