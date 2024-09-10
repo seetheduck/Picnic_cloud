@@ -26,11 +26,11 @@ import pack.dto.ReportReviewDto;
 public class ReportEntity {
 	@Id
 	private int no;
-	private int userNo;
+	private int userNo; //신고하는 유저번호
 	private Integer reviewNo;
 	private Integer fleaMarketNo;
 	private LocalDateTime date;
-	private int code;
+	private int code; //신고사유
 
 	//toDto
 	public static ReportDto toDto(ReportEntity entity) {
@@ -47,14 +47,10 @@ public class ReportEntity {
 	//toDto
 	public static ReportReviewDto toReportReviewDto(ReportEntity entity) {
 		return ReportReviewDto.builder()
+				.no(entity.getNo())
+				.userNo(entity.getUserNo())
 				.reviewNo(entity.getReviewNo())
 				.code(entity.getCode())
-				.userNo(entity.getUserNo())
 				.build();
 	}
-
-
-
-
-
 }

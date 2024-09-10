@@ -75,7 +75,7 @@ public class LikesService {
 	// 리뷰 좋아요 로직
 	// 4. 좋아요 토글처리
 	@Transactional
-	public void toggleLike(LikesReviewDto dto) {
+	public void toggleReviewLike(LikesReviewDto dto) {
 		Optional<LikesEntity> currentLike = repository.findByUserIdAndReviewNo(dto.getUserId(),
 				dto.getReviewNo());
 
@@ -106,7 +106,7 @@ public class LikesService {
 	}
 
 	// 5. 특정리뷰의 좋아요 수 카운트
-	public int getLikesCount(int reviewNo) {
+	public int getReviewLikesCount(int reviewNo) {
 
 		return repository.countByReviewNo(reviewNo);
 	}
@@ -114,7 +114,7 @@ public class LikesService {
 
 	// 장소 좋아요
 	@Transactional
-	public void toggleLike(LikesPlaceDto dto) {
+	public void togglePlaceLike(LikesPlaceDto dto) {
 		// 사용자가 특정 장소에 대해 좋아요를 눌렀는지 확인
 		Optional<LikesEntity> currentLike = repository.findByUserIdAndPlaceNo(dto.getUserId(), dto.getPlaceNo());
 
@@ -144,7 +144,7 @@ public class LikesService {
 	}
 
 	// 특정 장소의 좋아요 수 카운트
-	public int getLikesPlacesCount(int placeNo) {
+	public int getPlaceLikesCount(int placeNo) {
 		return repository.countByPlaceNo(placeNo);
 	}
 }
