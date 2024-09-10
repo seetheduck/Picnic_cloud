@@ -5,13 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pack.dto.UserDetailDto;
 import pack.dto.UserDto;
+import pack.entity.PasswordResetToken;
 import pack.entity.UserDetailEntity;
 import pack.entity.UserEntity;
 import pack.repository.CustomPasswordEncoder;
+import pack.repository.PasswordResetTokenRepository;
 import pack.repository.UserDetailRepository;
 import pack.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -28,7 +32,14 @@ public class UserService {
     @Autowired
     private CustomPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private PasswordResetTokenRepository tokenRepository;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private TokenEncryptionService tokenEncryptionService;
 
     public void checkDuplicateId(String id) {
         if (userRepository.existsById(id)) {
@@ -101,6 +112,87 @@ public class UserService {
         // 사용자 ID 반환
         return user.getId();
     }
+
+    public boolean processPasswordReset(String email) {
+        // 사용자 이메일로 사용자 정보 조회
+        Optional<UserDetailEntity> userDetailOptional = userDetailRepository.findByEmail(email);
+
+        if (userDetailOptional.isPresent()) {
+            // 비밀번호 재설정 토큰 생성
+            String token = UUID.randomUUID().toString();
+            LocalDateTime expiryDate = LocalDateTime.now().plusHours(1);
+
+            // 암호화된 링크 생성
+            String encryptedToken = tokenEncryptionService.encryptToken(token);
+            String resetLink = "http://localhost:8080/auth/reset-password?token=" + encryptedToken;
+
+            // 이메일 전송
+            emailService.sendPasswordResetEmail(email, resetLink);
+
+            // 토큰 저장
+            savePasswordResetToken(email, token, expiryDate);
+
+            return true; // 이메일 전송 성공
+        } else {
+            return false; // 이메일이 존재하지 않음
+        }
+    }
+
+    // 비밀번호 재설정 토큰 저장
+    public void savePasswordResetToken(String email, String token, LocalDateTime expiryDate) {
+        PasswordResetToken resetToken = PasswordResetToken.builder()
+                .email(email)
+                .token(token)
+                .expiryDate(expiryDate)
+                .build();
+        tokenRepository.save(resetToken);
+    }
+
+    // 비밀번호 재설정 토큰 유효성 검사
+    public boolean validateToken(String encryptedToken) {
+        // 복호화된 토큰으로 비밀번호 재설정 토큰 조회
+        PasswordResetToken resetToken =
+                tokenRepository.findByToken(tokenEncryptionService.decryptToken(encryptedToken));
+        if (resetToken != null && resetToken.getExpiryDate().isAfter(LocalDateTime.now())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // 비밀번호 업데이트
+    @Transactional
+    public void updatePassword(String encryptedToken, String newPassword) {
+        // 암호화된 토큰을 복호화
+        String token = tokenEncryptionService.decryptToken(encryptedToken);
+
+        // 비밀번호 재설정 토큰 조회
+        PasswordResetToken resetToken = tokenRepository.findByToken(token);
+        if (resetToken != null && resetToken.getExpiryDate().isAfter(LocalDateTime.now())) {
+            String email = resetToken.getEmail();
+
+            // 이메일로 사용자 정보 조회
+            Optional<UserDetailEntity> userDetailOptional = userDetailRepository.findByEmail(email);
+            if (userDetailOptional.isPresent()) {
+                UserDetailEntity userDetail = userDetailOptional.get();
+                Optional<UserEntity> userOptional = userRepository.findById(userDetail.getNo());
+                if (userOptional.isPresent()) {
+                    UserEntity user = userOptional.get();
+                    String encodedPassword = passwordEncoder.encode(newPassword); // 비밀번호 암호화
+                    user.setPw(encodedPassword);
+                    userRepository.save(user);
+
+                    // 비밀번호 재설정 후 토큰 삭제
+                    tokenRepository.deleteByToken(token);
+                } else {
+                }
+            } else {
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid or expired token.");
+        }
+    }
+
 
 
     @Transactional

@@ -71,9 +71,8 @@ dependencies {
 	// swagger 의존성
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
 
-	// javamail
+	// mail 의존성
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-
 
 
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
