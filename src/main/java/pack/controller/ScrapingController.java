@@ -16,10 +16,7 @@ import pack.repository.EduEventRepository;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class ScrapingController {
@@ -38,7 +35,6 @@ public class ScrapingController {
 
         WebDriver driver = new ChromeDriver(options);
 
-        List<Map<String, Object>> events = new ArrayList<>();
 
         try {// 세종문화회관 페이지 접속
             driver.get("https://www.sejongpac.or.kr/portal/academy/academyProgram/list.do?menuNo=200560");
@@ -49,7 +45,8 @@ public class ScrapingController {
             // 이벤트 리스트 추출
             List<WebElement> items = content.findElements(By.cssSelector("#listType1 > li"));
             if (items.isEmpty()) {
-                throw new Exception("No items found in the 'listType1' section.");
+                //throw new Exception("No items found in the 'listType1' section."); //sonarlint 권장방법으로 변경
+                throw new IllegalArgumentException("Value is 42");
             }
             // 각 항목에 대해 데이터 추출 및 DB 저장
             for (WebElement item : items) {

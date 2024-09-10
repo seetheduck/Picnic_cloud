@@ -35,7 +35,7 @@ public interface LikesRepository extends JpaRepository<LikesEntity, Integer> {
 
 	//장소의 좋아요 로직
 	//1. 장소에 대한 좋아요 수 카운트 기능
-	int countByPlaceNo(int PlaceNo);
+	int countByPlaceNo(int placeNo);
 
 	//2. 장소에 대한 좋아요 토글 처리
 	//사용자가 특정 리뷰에 대해 이미 좋아요를 눌렀는지를 확인

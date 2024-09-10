@@ -32,7 +32,7 @@ public class LikesEntity {
 				.build();
 	}
 
-	// to LikesReviewDto
+	// toLikesReviewDto
 	public static LikesReviewDto toLikesReviewDto(LikesEntity entity) {
 		if (entity == null) {
 			return null;
@@ -46,7 +46,7 @@ public class LikesEntity {
 
 	}
 
-	// to LikesPlaceDto
+	// toLikesPlaceDto
 	public static LikesPlaceDto toLikesPlaceDto(LikesEntity entity) {
 		if (entity == null) {
 			return null;

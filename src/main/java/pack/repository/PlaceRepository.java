@@ -18,11 +18,9 @@ public interface PlaceRepository extends JpaRepository<PlaceEntity, Integer>, Jp
 	//타입별 장소 목록 출력. 검색있을시 필터링(동적쿼리). 페이징처리
 	Page<PlaceEntity> findAll(Specification<PlaceEntity> spec, Pageable pageable);
 	
-	//선택한 장소 1곳 상세정보. 
+	//선택한 장소 1곳 상세정보.
+	//좋아요 처리를 위한 메소드- 중복사용.
 	Optional<PlaceEntity> findByNo(int no);
-	
-	//좋아요 처리를 위한 메소드- 의도는 다르지만 상단과 같은쿼리문. 중복사용.
-	//Optional<PlaceEntity> findByNo(Integer no);
 
 	//평점 평균 계산
 	@Query("SELECT AVG(r.point) FROM ReviewEntity r WHERE r.placeNo = :placeNo")
