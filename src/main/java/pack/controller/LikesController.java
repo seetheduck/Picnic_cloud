@@ -2,6 +2,7 @@ package pack.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.server.ResponseStatusException;
@@ -9,7 +10,7 @@ import pack.dto.LikeCountDto;
 import pack.dto.LikesDto;
 import pack.dto.LikesReviewDto;
 import pack.service.LikesService;
-
+import pack.service.PlaceService;
 
 
 @RestController
@@ -18,7 +19,9 @@ public class LikesController {
 	
 	@Autowired
 	LikesService service;
-	
+    @Autowired
+    private PlaceService placeService;
+
 	//플리마켓
 	//좋아요 갯수 가져오기
 	@GetMapping("/fleaMarket/favorite/{no}")
@@ -47,12 +50,38 @@ public class LikesController {
 		LikesReviewDto dto = LikesReviewDto.builder()
 				.reviewNo(ReviewNo).userId(userId)
 				.build();
-		service.toggleLike(dto);
+		service.toggleReviewLike(dto);
 	}
 
 	// 6. 리뷰 좋아요 수 조회
 	@GetMapping("/reviews/{ReviewNo}/likes-count")
 	public int getLikesCount(@PathVariable("ReviewNo") Integer ReviewNo) {
-		return service.getLikesCount(ReviewNo);
+		return service.getReviewLikesCount(ReviewNo);
+
 	}
+
+	//장소 좋아요 로직
+	//특정 장소 좋아요 토글
+	@PostMapping("/places/{placeNo}/likes-toggle")
+	public ResponseEntity<String> togglePlaceLike(@RequestParam("userId") String userId, @PathVariable("placeNo") int placeNo) {
+		try {
+			placeService.togglePlaceLike(userId, placeNo);
+			return ResponseEntity.ok("Like toggled successfully."); // 성공적인 응답
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body("An error occurred: " + e.getMessage()); // 오류 응답
+		}
+	}
+
+	//특정 장소 좋아요 수 조회
+	@GetMapping("/places/{placeNo}/likes-count")
+	public ResponseEntity<Integer> getPlaceLikesCount(@PathVariable("placeNo") int placeNo) {
+		try {
+			int likeCount = placeService.getPlaceLikesCount(placeNo);
+			return ResponseEntity.ok(likeCount); // 성공적인 응답
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body(null); // 오류 응답
+		}
+	}
+
+
 }

@@ -10,16 +10,20 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ReportReviewDto {
+    private Integer no;
+    private int userNo;
     private Integer reviewNo;
     private int code;
-    private int userNo;
+
 
     //toEntity
     public ReportEntity toEntity() {
         return ReportEntity.builder()
-                .reviewNo(this.reviewNo)
-                .code(this.code)
+                .no(this.no)
                 .userNo(this.userNo)
+                .reviewNo(this.reviewNo)
+                .date(LocalDateTime.now())
+                .code(this.code)
                 .build();
     }
 }

@@ -16,5 +16,4 @@ public class EduEventService {
     public List<EduEventEntitiy> getAllEduEvents() {
         return eduEventRepository.findAll(); // 데이터베이스에서 모든 데이터를 조회
     }
-
 }
