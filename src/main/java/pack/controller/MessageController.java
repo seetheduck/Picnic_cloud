@@ -13,7 +13,7 @@ import pack.service.MessageService;
 
 @RestController
 @RequestMapping("/message")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 public class MessageController {
     private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
@@ -22,27 +22,28 @@ public class MessageController {
     @Autowired
     private JwtService jwtService;
 
-//    private static final String USER_ID_ATTRIBUTE = "userId";
     // 메시지 전송 메서드
     @PostMapping("/send")
     public ResponseEntity<MessageDto> sendMessage(HttpServletRequest request, @RequestBody MessageDto messageDto) {
         try {
+            // JWT 토큰에서 `userId`를 추출하고, 이를 `senderId`로 설정
             String token = request.getHeader("Authorization");
             if (token == null || !token.startsWith("Bearer ")) {
                 logger.error("Authorization 헤더가 없거나 형식이 올바르지 않습니다.");
                 return ResponseEntity.badRequest().body(null);
             }
-
-            String userId = jwtService.getUserFromToken(token.replace("Bearer ", ""));
+            String userId = jwtService.getUserFromToken(token.replace("Bearer ", "")); // 토큰에서 userId 추출
             if (userId == null) {
                 logger.error("사용자 ID를 추출할 수 없습니다.");
                 return ResponseEntity.status(401).body(null);
             }
 
+            // 메시지에 `senderId` 설정
             messageDto.setSenderId(userId);
+
+            // 메시지를 저장하고 응답을 반환
             MessageDto savedMessage = messageService.saveMessage(messageDto);
             return ResponseEntity.ok(savedMessage);
-
         } catch (Exception e) {
             logger.error("메시지 전송 중 오류 발생", e);
             return ResponseEntity.status(500).body(null);
@@ -55,7 +56,6 @@ public class MessageController {
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
             @PathVariable Integer chatRoomId) {
         try {
-            System.out.println( "******#####******"+ authorizationHeader);
             // Authorization 헤더에서 토큰 추출
             String token = (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) ?
                     authorizationHeader.replace("Bearer ", "") : null;
@@ -69,7 +69,6 @@ public class MessageController {
                     return ResponseEntity.status(401).body(null); // 인증 실패
                 }
             }
-            System.out.println("***********+++++++" + userId);
             // 사용자 ID가 없거나 토큰이 유효하지 않은 경우 처리
             if (userId == null) {
                 logger.error("사용자 ID가 없습니다.");

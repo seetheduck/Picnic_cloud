@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import pack.dto.MessageDto;
 
 @Controller
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:8080")
 public class ChatController {
     //ChatController는 실시간 메시징(WebSocket) 관련 작업
 

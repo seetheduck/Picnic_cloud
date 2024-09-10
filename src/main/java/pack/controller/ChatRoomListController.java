@@ -20,8 +20,19 @@ public class ChatRoomListController {
 
     @GetMapping("/chatList")
     public List<ChatRoomListDto> getChatRoomList(HttpServletRequest request) {
-        String userId = request.getAttribute(USER_ID_ATTRIBUTE).toString();
-			System.out.println("******getChatRoomList********"+userId);
-        return chatRoomListService.getChatRoomListByUserId(userId);
+
+        Object userIdAttribute = request.getAttribute(USER_ID_ATTRIBUTE);
+        if (userIdAttribute == null) {
+            throw new RuntimeException("User ID attribute not found in request");
+        }
+
+        String userId = userIdAttribute.toString();
+        try {
+            // 사용자 ID로 채팅 목록을 조회
+            return chatRoomListService.getChatRoomListByUserId(userId);
+        } catch (Exception e) {
+            // 예외 처리 및 로그 기록
+            throw new RuntimeException("Error fetching chat room list", e);
+        }
     }
 }

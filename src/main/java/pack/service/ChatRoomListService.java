@@ -10,6 +10,7 @@ import pack.entity.ChatRoomListEntity;
 import pack.repository.ChatRoomListRepository;
 import pack.repository.ChatRoomRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,7 +72,14 @@ public class ChatRoomListService {
                     MessageDto latestMessage = messageService.findLatestMessageByChatRoomNo(entity.getChatRoomNo());
                     if (latestMessage != null) {
                         dto.setLastMessage(latestMessage.getMessageContents());
-                        dto.setLastMessageTime(latestMessage.getCreateDate().toString());
+                        // 채팅방 번호로 마지막 메시지와 시간을 가져옴
+                        LocalDateTime createDate = latestMessage.getCreateDate();
+                        if (createDate != null) {
+                            dto.setLastMessageTime(createDate.toString());
+                        } else {
+                            dto.setLastMessageTime("No date available");
+                        }
+
 
                         // 메시지를 보낸 사용자가 현재 사용자와 같으면 상대방 ID를 가져옴
                         if (latestMessage.getSenderId() != null && latestMessage.getSenderId().equals(userId)) {

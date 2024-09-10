@@ -23,7 +23,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         // 모든 GET 요청을 허용
         if (request.getMethod().equalsIgnoreCase("GET")) {
             // /mypage로 시작하는 GET 요청에 대해서만 권한을 요구
-            if (request.getRequestURI().startsWith("/mypage")) {
+            if (request.getRequestURI().startsWith("/mypage") || request.getRequestURI().startsWith("/api")) {
                 // JWT 토큰을 검사하여 유효하지 않으면 401 Unauthorized
                 String token = request.getHeader("Authorization");
                 if (token == null || !token.startsWith("Bearer ")) {

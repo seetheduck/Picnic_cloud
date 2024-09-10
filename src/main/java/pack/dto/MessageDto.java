@@ -31,7 +31,7 @@ public class MessageDto {
                 .no(dto.getNo())
                 .senderId(dto.getSenderId())
                 .messageContents(dto.getMessageContents())
-                .createDate(LocalDateTime.now())
+                .createDate(dto.getCreateDate() != null ? dto.getCreateDate() : LocalDateTime.now())
                 .chatRoomEntity(chatRoomEntity)
                 .build();
     }

@@ -11,6 +11,7 @@ import pack.entity.MessageEntity;
 import pack.repository.ChatRoomRepository;
 import pack.repository.MessageRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,9 @@ public class MessageService {
         // 메시지가 속한 채팅방을 조회
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(messageDto.getChatRoomNo())
                 .orElseThrow(() -> new RuntimeException("Chat room not found"));
+
+        // 현재 시간을 설정
+        messageDto.setCreateDate(LocalDateTime.now());
 
         MessageEntity messageEntity = MessageDto.toEntity(messageDto,chatRoomEntity);
 
