@@ -17,4 +17,6 @@ public interface ChatRoomListRepository extends JpaRepository<ChatRoomListEntity
 
     //해당 채팅방이 있는지 없는지 유무
     boolean existsByUserIdAndChatRoomNo(String userId, Integer chatRoomNo);
+
+    ChatRoomListEntity findByUserIdAndChatRoomNo(String userId, int chatRoomNo);
 }

@@ -97,6 +97,15 @@ public class ChatRoomListService {
                 .collect(Collectors.toList());
     }
 
+    public void leaveChatRoom(String userId, int chatRoomNo) {
+        ChatRoomListEntity chatRoomListEntity = chatRoomListRepository.findByUserIdAndChatRoomNo(userId, chatRoomNo);
+        if (chatRoomListEntity != null) {
+            chatRoomListRepository.delete(chatRoomListEntity);
+        } else {
+            throw new RuntimeException("해당 사용자가 이 채팅방에 속해 있지 않습니다.");
+        }
+    }
+
     private String getOtherPartyId(Integer chatRoomNo, String currentUserId) {
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(chatRoomNo)
                 .orElseThrow(() -> new RuntimeException("Chat room not found"));
