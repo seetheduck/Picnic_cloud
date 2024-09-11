@@ -88,14 +88,13 @@ public class LikesService {
 			// 좋아요가 존재하지 않으면 추가
 			LikesEntity newLike = LikesReviewDto.toEntity(dto);
 			repository.save(newLike);
-
 			// 리뷰의 좋아요 수 증가
 			updateReviewLikeCnt(dto.getReviewNo(), 1);
 
 		}
 
 	}
-	//4-1. 좋아요가 추가되거나 삭제될 때 호출되어 리뷰의 좋아요 수를 정확히 유지하도록
+	//4-1. 좋아요가 추가되거나 삭제될 때 호출되어 리뷰의 좋아요 수를 항상 최신 상태로 유지하도록
 	private void updateReviewLikeCnt(int reviewNo, int increment) {
 		int currentCount = repository.countByReviewNo(reviewNo);
 		int newCount = currentCount + increment;
@@ -107,7 +106,6 @@ public class LikesService {
 
 	// 5. 특정리뷰의 좋아요 수 카운트
 	public int getReviewLikesCount(int reviewNo) {
-
 		return repository.countByReviewNo(reviewNo);
 	}
 
@@ -115,7 +113,7 @@ public class LikesService {
 	// 장소 좋아요
 	@Transactional
 	public void togglePlaceLike(LikesPlaceDto dto) {
-		// 사용자가 특정 장소에 대해 좋아요를 눌렀는지 확인
+		// 4. 사용자가 특정 장소에 대해 좋아요를 눌렀는지 확인
 		Optional<LikesEntity> currentLike = repository.findByUserIdAndPlaceNo(dto.getUserId(), dto.getPlaceNo());
 
 		if (currentLike.isPresent()) {
@@ -133,7 +131,7 @@ public class LikesService {
 		}
 	}
 
-	// 좋아요가 추가되거나 삭제될 때 호출되어 장소의 좋아요 수를 정확히 유지하도록
+	// 4-1. 좋아요가 추가되거나 삭제될 때 호출되어 장소의 좋아요 수를 정확히 유지하도록
 	private void updatePlaceLikeCnt(int placeNo, int increment) {
 		int currentCount = repository.countByPlaceNo(placeNo);
 		int newCount = currentCount + increment;
@@ -143,7 +141,7 @@ public class LikesService {
 		});
 	}
 
-	// 특정 장소의 좋아요 수 카운트
+	// 5. 특정 장소의 좋아요 수 카운트
 	public int getPlaceLikesCount(int placeNo) {
 		return repository.countByPlaceNo(placeNo);
 	}

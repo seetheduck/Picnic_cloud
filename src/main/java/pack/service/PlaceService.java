@@ -98,5 +98,4 @@ public class PlaceService {
 		return likesService.getPlaceLikesCount(placeNo);
 
 	}
-
 }
