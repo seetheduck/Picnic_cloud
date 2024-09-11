@@ -50,12 +50,9 @@ public class FleamarketController {
 		if (request.getAttribute(USER_ID_ATTRIBUTE) != null) {
 			userId = request.getAttribute(USER_ID_ATTRIBUTE).toString();
 		}
-
-
 		Page<FleamarketDto> result;
-
 		// 카테고리와 검색 값에 따라 다른 메서드 호출
-		if (category == 0 && (search == null || search.isEmpty())) {
+		if (category == 1 && (search == null || search.isEmpty())) {
 			result = fleamarketService.getFleaMarketWithLikes(pageable, userId);  // 전체 목록
 		} else {
 			result = fleamarketService.searchWithLikes(category, search, pageable, userId);  // 검색 결과
@@ -79,7 +76,6 @@ public class FleamarketController {
 
 		try {
 			String userId = request.getAttribute(USER_ID_ATTRIBUTE).toString();
-			System.out.println("*****---***" + userId);
 			ObjectMapper objectMapper = new ObjectMapper();
 			FleamarketDto fleamarketDto = objectMapper.readValue(dtoJson, FleamarketDto.class);
 

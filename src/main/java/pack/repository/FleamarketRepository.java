@@ -10,24 +10,17 @@ import pack.entity.FleamarketEntity;
 import java.util.List;
 
 public interface FleamarketRepository extends JpaRepository<FleamarketEntity,Integer> {
-	
-	//전체 목록값 불러오기(페이징)
-	Page<FleamarketEntity> findAll(Pageable page);
 
 	//추가시 증가용) 게시판 가장 큰 번호
 	@Query("select Max(f.no) from FleamarketEntity f")
 	Integer findbyMaxNo();
-	
-	//검색)카테고리가 전체인 경우
-//		List<FleamarketEntity> findByMTitleContainingOrMContContaining(String input);
-	@Query("select f from FleamarketEntity f " +
-			"where f.title like %:input% or f.contents like %:input% order by f.no desc")
-	Page<FleamarketEntity> searchByTitleOrContent(@Param("input") String input, Pageable page);
+
+	//전체 목록값 불러오기(페이징)
+	Page<FleamarketEntity> findAll(Pageable page);
 
 	// 검색)카테고리 선택된 경우
 	@Query("select f from FleamarketEntity f " +
-			"where f.categoryEntity.no = :category and (f.title " +
-			"like concat('%', :input, '%') or f.contents like concat('%', :input, '%')) " +
+			"where (:category = 1 or f.categoryEntity.no = :category) and (f.title like %:input% or f.contents like %:input%) " +
 			"order by f.no desc")
 	Page<FleamarketEntity> searchCategory(
 			@Param("category") Integer category, @Param("input") String input, Pageable page);

@@ -59,7 +59,7 @@ public class FleamarketService {
 	}
 	//검색 결과 (좋아요 포함)
 	public Page<FleamarketDto> searchWithLikes(Integer category, String search, Pageable pageable, String userId) {
-		Page<FleamarketDto> fleaMarkets = repository.searchCategory(category, "%" + search + "%", pageable)
+		Page<FleamarketDto> fleaMarkets =  repository.searchCategory(category, search, pageable)
 				.map(FleamarketEntity::toDto);
 
 		// 각 플리마켓 게시물에 대해 좋아요 상태 및 파일 경로 추가
