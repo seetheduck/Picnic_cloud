@@ -22,10 +22,7 @@ public interface LikesRepository extends JpaRepository<LikesEntity, Integer> {
 	int countByFleaMarketNo(Integer fleaMarketNo);
 
 	//리뷰글의 좋아요 로직
-	//1. 리뷰에 대한 좋아요 수 카운트 기능
-	int countByReviewNo(int reviewNo);
-
-	//2. 리뷰에 대한 좋아요 토글 처리
+	//1. 리뷰에 대한 좋아요 토글 처리
 	//사용자가 특정 리뷰에 대해 이미 좋아요를 눌렀는지를 확인
 	Optional<LikesEntity> findByUserIdAndReviewNo(String userId, Integer reviewNo);
 
@@ -33,17 +30,21 @@ public interface LikesRepository extends JpaRepository<LikesEntity, Integer> {
 	void deleteByUserIdAndReviewNo(String userId, Integer reviewNo);
 	//존재하는 좋아요가 없으면, .save()를 통해 수행
 
-	//장소의 좋아요 로직
-	//1. 장소에 대한 좋아요 수 카운트 기능
-	int countByPlaceNo(int placeNo);
+	//2. 리뷰에 대한 좋아요 수 카운트 기능//쿼리문으로
+	@Query("SELECT COUNT(l) FROM LikesEntity l WHERE l.reviewNo = :reviewNo")
+	int countByReviewNo(@Param("reviewNo") int reviewNo);
 
-	//2. 장소에 대한 좋아요 토글 처리
+	//장소의 좋아요 로직
+	//1. 장소에 대한 좋아요 토글 처리
 	//사용자가 특정 리뷰에 대해 이미 좋아요를 눌렀는지를 확인
 	Optional<LikesEntity> findByUserIdAndPlaceNo(String userId, Integer placeNo);
 
 	//좋아요가 존재하면 존재하는 좋아요를 삭제
 	void deleteByUserIdAndPlaceNo(String userId, Integer placeNo);
 	//존재하는 좋아요가 없으면, .save()를 통해 수행
+
+	//2. 장소에 대한 좋아요 수 카운트 기능
+	int countByPlaceNo(int placeNo);
 
 	@Query("SELECT l.fleaMarketNo FROM LikesEntity l WHERE l.userId = :userId")
 	List<Integer> findFleaMarketNosByUserId(@Param("userId") String userId);

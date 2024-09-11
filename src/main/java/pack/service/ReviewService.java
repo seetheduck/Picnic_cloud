@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pack.dto.LikesReviewDto;
 import pack.dto.ReviewDto;
 import pack.entity.ReviewEntity;
 import pack.exception.ForbiddenException;
@@ -26,22 +27,12 @@ public class ReviewService {
     @Autowired
     private JwtService jwtService; // JWT 서비스
 
-//    @Autowired
-//    private LikesRepository likesRepository;
 
     // 1. 선택한 장소의 리뷰들 조회. 최신순 나열, 페이징처리
     public Page<ReviewDto> findReviewsByPlaceNo(int placeNo, Pageable pageable) {
         return reviewRepository.findByPlaceNoOrderByCreateDateDesc(placeNo, pageable)
                 .map(ReviewEntity::toReviewDto);
     }
-
-//    // 1-1. 리뷰와 좋아요 정보 포함.
-//    private ReviewDto getReviewWithLikes(ReviewEntity reviewEntity) {
-//        // 좋아요 수 업데이트
-//        int likeCount = likesRepository.countByReviewNo(reviewEntity.getNo());
-//        reviewEntity.setLikeCnt(likeCount);
-//        return ReviewEntity.toReviewDto(reviewEntity);
-//    }
 
     // 2. 리뷰 생성
     @Transactional
@@ -101,4 +92,5 @@ public class ReviewService {
         Optional<ReviewEntity> reviewEntity = reviewRepository.findById(no);
         return reviewEntity.isPresent() && reviewEntity.get().getId().equals(id);
     }
+
 }
