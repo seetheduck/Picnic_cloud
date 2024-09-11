@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,8 @@ import pack.repository.FleamarketRepository;
 @Transactional
 public class FilesService {
 
+	private static final Logger logger = LoggerFactory.getLogger(FilesService.class);
+
 	@Autowired
 	private FleamarketRepository fleamarketRepository;
 
@@ -29,27 +33,34 @@ public class FilesService {
 	private FilesRepository repository;
 
 	//게시판 등록시
-	public String insertFleaFile(Integer newfleaNum,MultipartFile file) {
+	public String insertFleaFile(Integer newfleaNum, MultipartFile file) {
 		FleamarketEntity fleamarketEntity = fleamarketRepository.findByNo(newfleaNum);
 		String path = null;
 		try {
 			//파일 저장 경로
-			String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/image/flea";
+			String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/";// 절대 경로 사용
 
-			//파일명)공백을 언더바로 대체하고, URL 인코딩된 문자들을 제거
-			String safeFilename = file.getOriginalFilename().
-					replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_\\.]", "");
+			//파일명 처리
+			String originalFilename = file.getOriginalFilename();
+			if (originalFilename == null) {
+				throw new IOException("파일명은 null일 수 없습니다.");
+			}
+			String safeFilename = originalFilename
+					.replaceAll(" ", "_")
+					.replaceAll("[^a-zA-Z0-9_\\.]", "");
 			Path imagePath = Paths.get(staticDirectory, safeFilename);
 
 			//이미지 저장 디렉토리 체크 및 생성
 			File dest = imagePath.toFile();
 			if (!dest.getParentFile().exists()) {
-				dest.getParentFile().mkdirs();
+				boolean dirsCreated = dest.getParentFile().mkdirs();
+				if (!dirsCreated) {
+					throw new IOException("디렉토리를 생성할 수 없습니다: " + dest.getParentFile().getAbsolutePath());
+				}
 			}
 
-			// 파일을 저장하기 전에 미리 데이터베이스에 경로 설정
-			path = "/image/flea/" + safeFilename;
 			//파일 저장
+			path = "/image/flea/" + safeFilename;
 			file.transferTo(dest);
 
 			// 파일 테이블에 저장
@@ -63,8 +74,7 @@ public class FilesService {
 			repository.save(entity);
 
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("file IOException : " + e);
+			logger.error("파일 저장 중 오류 발생", e);
 		}
 		return path;
 	}

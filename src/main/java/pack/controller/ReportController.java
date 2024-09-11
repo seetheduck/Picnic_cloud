@@ -23,6 +23,7 @@ public class ReportController {
 	@PostMapping("/fleaMarket/report")
 	public String report(@RequestBody ReportRequestDto reportRequest) {
 		try {
+			System.out.println(reportRequest);
 			Integer reportCodeInteger = Integer.parseInt(reportRequest.getReportCode());
 			Integer fleaBoardNoInteger = Integer.parseInt(reportRequest.getFleaBoardNo());
 
