@@ -79,7 +79,7 @@ public class FleamarketController {
 
 		try {
 			String userId = request.getAttribute(USER_ID_ATTRIBUTE).toString();
-
+			System.out.println("*****---***" + userId);
 			ObjectMapper objectMapper = new ObjectMapper();
 			FleamarketDto fleamarketDto = objectMapper.readValue(dtoJson, FleamarketDto.class);
 

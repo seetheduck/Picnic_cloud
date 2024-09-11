@@ -21,6 +21,9 @@ public interface LikesRepository extends JpaRepository<LikesEntity, Integer> {
 	// 특정 플리마켓의 좋아요 수 계산하기
 	int countByFleaMarketNo(Integer fleaMarketNo);
 
+	// FleamarketEntity의 no를 기준으로 관련된 파일 레코드 삭제
+	void deleteByFleaMarketNo(Integer fleaMarketNo);
+
 	//리뷰글의 좋아요 로직
 	//1. 리뷰에 대한 좋아요 토글 처리
 	//사용자가 특정 리뷰에 대해 이미 좋아요를 눌렀는지를 확인

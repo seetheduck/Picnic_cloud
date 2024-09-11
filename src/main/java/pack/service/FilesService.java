@@ -34,7 +34,7 @@ public class FilesService {
 		String path = null;
 		try {
 			//파일 저장 경로
-			String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/";
+			String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/image/flea";
 
 			//파일명)공백을 언더바로 대체하고, URL 인코딩된 문자들을 제거
 			String safeFilename = file.getOriginalFilename().
@@ -48,8 +48,7 @@ public class FilesService {
 			}
 
 			// 파일을 저장하기 전에 미리 데이터베이스에 경로 설정
-			path = "../image/flea" + safeFilename;
-//		        FleamarketDto.setFilePath(path);
+			path = "/image/flea/" + safeFilename;
 			//파일 저장
 			file.transferTo(dest);
 

@@ -16,4 +16,7 @@ public interface FilesRepository extends JpaRepository<FilesEntity,Integer> {
 
 	// 특정 플리마켓 게시물 번호에 해당하는 파일 정보 가져오기
 	List<FilesEntity> findByFleamarketEntity_No(Integer fleaMarketNo);
+
+	// 특정 플리와 관련된 files삭제
+	void deleteByFleamarketEntity_No(Integer fleaMarketNo);
 }

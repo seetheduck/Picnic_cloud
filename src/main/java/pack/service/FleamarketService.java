@@ -14,7 +14,9 @@ import pack.dto.FilesDto;
 import pack.dto.FleamarketDto;
 import pack.entity.FleamarketEntity;
 import pack.entity.UserEntity;
+import pack.repository.FilesRepository;
 import pack.repository.FleamarketRepository;
+import pack.repository.LikesRepository;
 import pack.repository.UserRepository;
 @Service
 public class FleamarketService {
@@ -27,6 +29,12 @@ public class FleamarketService {
 
 	@Autowired
 	private FilesService filesService;
+
+	@Autowired
+	private FilesRepository filesRepository;
+
+	@Autowired
+	private LikesRepository likesRepository;
 
 	@Autowired
 	private LikesService likesService;
@@ -152,6 +160,10 @@ public class FleamarketService {
 	@Transactional
 	public String deleteOne(Integer no) {
 		try {
+			// 'files' 테이블의 관련 레코드 삭제
+			filesRepository.deleteByFleamarketEntity_No(no);
+			// 'likes' 테이블의 관련 레코드 삭제
+			likesRepository.deleteByFleaMarketNo(no);
 			//특정 번호의 데이터
 			FleamarketEntity entity = repository.findByNo(no);
 			repository.delete(entity);
