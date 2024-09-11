@@ -68,6 +68,7 @@ public class LikesService {
 
 	// 특정 게시물 좋아요 수 계산
 	public int countFleaLikes(Integer fleaMarketNo) {
+
 		return repository.countByFleaMarketNo(fleaMarketNo);
 	}
 

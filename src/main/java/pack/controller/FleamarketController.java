@@ -39,18 +39,27 @@ public class FleamarketController {
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "9") int size,
 			@RequestParam(value = "category") Integer category,
-			@RequestParam(value = "search", required = false) String search
+			@RequestParam(value = "search", required = false) String search,
+			HttpServletRequest request
 	) {
 		Pageable pageable = PageRequest.of(page, size);
 
-		Page<FleamarketDto> result;
-		if (category == 0 && (search == null || search.isEmpty())) {
-			result = fleamarketService.findAll(pageable);
-		} else {
-			result = fleamarketService.search(category, search, pageable);
+		// 현재 사용자 ID 가져오기 (비로그인 사용자의 경우 null 처리)
+		String userId = null;
+		if (request.getAttribute(USER_ID_ATTRIBUTE) != null) {
+			userId = request.getAttribute(USER_ID_ATTRIBUTE).toString();
 		}
 
-		// 결과를 ResponseEntity로 반환
+
+		Page<FleamarketDto> result;
+
+		// 카테고리와 검색 값에 따라 다른 메서드 호출
+		if (category == 0 && (search == null || search.isEmpty())) {
+			result = fleamarketService.getFleaMarketWithLikes(pageable, userId);  // 전체 목록
+		} else {
+			result = fleamarketService.searchWithLikes(category, search, pageable, userId);  // 검색 결과
+		}
+
 		return ResponseEntity.ok(result);
 	}
 

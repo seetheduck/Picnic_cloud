@@ -1,5 +1,6 @@
 package pack.service;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import pack.dto.FilesDto;
 import pack.dto.FleamarketDto;
 import pack.entity.FleamarketEntity;
 import pack.entity.UserEntity;
@@ -26,27 +28,60 @@ public class FleamarketService {
 	@Autowired
 	private FilesService filesService;
 
-	//전체보기 (페이징 처리)
-	public Page<FleamarketDto> findAll(Pageable pageable) {
-		// Pageable 객체에서 페이지 번호와 크기를 가져와서 새로운 Pageable 객체 생성
-		Pageable sortedByNoDesc = PageRequest.of(
-				pageable.getPageNumber(), // 인스턴스 메서드를 호출하여 페이지 번호를 가져옴
-				pageable.getPageSize(), // 인스턴스 메서드를 호출하여 페이지 크기를 가져옴
-				Sort.by("no").descending() // no 필드를 기준으로 내림차순 정렬
-		);
+	@Autowired
+	private LikesService likesService;
 
-		return repository.findAll(sortedByNoDesc).map(FleamarketEntity::toDto);
+	// 전체 플리마켓 게시물 리스트 가져오기 (좋아요 및 파일 정보 포함)
+	public Page<FleamarketDto> getFleaMarketWithLikes(Pageable pageable, String userId) {
+		Page<FleamarketDto> fleaMarkets = repository.findAll(pageable)
+				.map(FleamarketEntity::toDto);
+
+		// 각 플리마켓 게시물에 대해 좋아요 상태 및 파일 경로 추가
+		fleaMarkets.forEach(fleaMarketDto -> {
+			int fleaMarketNo = fleaMarketDto.getNo();
+
+			// 좋아요 정보 추가
+			addLikeInfo(fleaMarketDto, userId);
+
+			// 파일 경로 추가
+			addFileInfo(fleaMarketDto, fleaMarketNo);
+		});
+
+		return fleaMarkets;
+	}
+	//검색 결과 (좋아요 포함)
+	public Page<FleamarketDto> searchWithLikes(Integer category, String search, Pageable pageable, String userId) {
+		Page<FleamarketDto> fleaMarkets = repository.searchCategory(category, "%" + search + "%", pageable)
+				.map(FleamarketEntity::toDto);
+
+		// 각 플리마켓 게시물에 대해 좋아요 상태 및 파일 경로 추가
+		fleaMarkets.forEach(fleaMarketDto -> {
+			int fleaMarketNo = fleaMarketDto.getNo();
+
+			// 좋아요 정보 추가
+			addLikeInfo(fleaMarketDto, userId);
+
+			// 파일 경로 추가
+			addFileInfo(fleaMarketDto, fleaMarketNo);
+		});
+
+		return fleaMarkets;
 	}
 
-	//검색(페이징 처리)
-	public Page<FleamarketDto> search(Integer category, String input, Pageable page) {
-		String searchPattern = "%" + input + "%";
-		if (category == null) {
-			return repository.searchByTitleOrContent(searchPattern, page)
-					.map(FleamarketEntity::toDto);
-		}
-		return repository.searchCategory(category, searchPattern, page)
-				.map(FleamarketEntity::toDto);
+	// 특정 플리마켓 게시물에 파일 정보 추가
+	private void addFileInfo(FleamarketDto fleaMarketDto, int fleaMarketNo) {
+		List<String> filePaths = filesService.getFilePathsByFleaMarketNo(fleaMarketNo);
+		fleaMarketDto.setFiles(filePaths);
+	}
+
+	// 특정 플리마켓 게시물에 좋아요 정보 추가
+	private void addLikeInfo(FleamarketDto fleaMarketDto, String userId) {
+		int fleaMarketNo = fleaMarketDto.getNo();
+		int favoriteCnt = likesService.countFleaLikes(fleaMarketNo);
+		boolean isFavorite = userId != null && likesService.checkLikes(userId, fleaMarketNo);
+
+		fleaMarketDto.setFavorite(isFavorite);
+		fleaMarketDto.setFavoriteCnt(favoriteCnt);
 	}
 
 	//생성
@@ -85,7 +120,11 @@ public class FleamarketService {
 	public FleamarketDto getOne(Integer no) {
 		FleamarketEntity entity = repository.findByNo(no);
 		if (entity != null) {
-			return entity.toDto();
+			FleamarketDto dto = entity.toDto();
+			// 파일 정보 가져오기
+			List<String> files = filesService.getFilePathsByFleaMarketNo(no);
+			dto.setFiles(files);
+			return dto;
 		}
 		return null; // 엔티티가 없는 경우 null 반환
 	}

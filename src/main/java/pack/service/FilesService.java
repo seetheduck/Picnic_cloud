@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -46,7 +48,7 @@ public class FilesService {
 			}
 
 			// 파일을 저장하기 전에 미리 데이터베이스에 경로 설정
-			path = "/images/" + safeFilename;
+			path = "../image/flea" + safeFilename;
 //		        FleamarketDto.setFilePath(path);
 			//파일 저장
 			file.transferTo(dest);
@@ -66,5 +68,13 @@ public class FilesService {
 			System.out.println("file IOException : " + e);
 		}
 		return path;
+	}
+
+	// 특정 플리마켓 게시물 번호에 해당하는 파일 경로 가져오기
+	public List<String> getFilePathsByFleaMarketNo(Integer fleaMarketNo) {
+		List<FilesEntity> files = repository.findByFleamarketEntity_No(fleaMarketNo);
+		return files.stream()
+				.map(FilesEntity::getPath)
+				.collect(Collectors.toList());
 	}
 }
