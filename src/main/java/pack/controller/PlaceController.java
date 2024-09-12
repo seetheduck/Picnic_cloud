@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,16 +31,18 @@ public class PlaceController {
 	//카테고리별 및 검색어를 통한 장소 목록 조회. 페이징처리 추가.
 	@GetMapping
     public Page<PlaceDto> getPlacesByPlaceTypeAndKeyword(
-            @RequestParam(value = "placeType") String placeType, 
-            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
-            Pageable pageable) {
-        return placeService.findPlacesByPlaceTypeAndKeyword(placeType, keyword, pageable);
-    }
+			@RequestParam(value = "placeType") String placeType,
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+			@RequestParam(value = "userId") String userId,
+			Pageable pageable) {
+		return placeService.findPlacesByPlaceTypeAndKeyword(placeType, keyword, pageable,userId);
+	}
 
 	//특정 장소 상세정보. //places/3
 	@GetMapping("/{no}")
-	public Optional<PlaceDto> getPlacesByNo(@PathVariable("no") int no){
-		
-		return placeService.findPlacesByNo(no);
+	public ResponseEntity<PlaceDto> getPlacesByNo(@PathVariable("no") int no, @RequestParam("userId") String userId) {
+		return placeService.findPlacesByNo(no, userId)
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 }
