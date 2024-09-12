@@ -188,25 +188,6 @@ public class UserService {
         }
     }
 
-
-
-    @Transactional
-    public void deactivateAccount(Integer no) {
-        // 사용자 ID로 UserMasterEntity를 조회
-        UserEntity user = userRepository.findById(no)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        // UserDetailEntity를 조회
-        UserDetailEntity userDetail = userDetailRepository.findById(user.getNo())
-                .orElseThrow(() -> new IllegalArgumentException("User details not found"));
-
-        // 계정 비활성화
-        user.setAccountDeleteIs(true);
-        userDetail.setAccountDeleteDate(LocalDateTime.now());  // 비활성화 날짜 설정
-        userRepository.save(user);
-        userDetailRepository.save(userDetail);
-    }
-
     @Transactional
     public void reactivateAccount(Integer no) {
         // UserEntity 조회

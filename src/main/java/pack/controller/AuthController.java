@@ -104,14 +104,6 @@ public class AuthController {
         }
     }
 
-    // 유저 비활성화
-    @PostMapping("/deactivate")
-    public ResponseEntity<Void> deactivateAccount(@RequestBody UserDto userDto) {
-        Integer no = userDto.getNo();
-        userService.deactivateAccount(no);
-        return ResponseEntity.ok().build();
-    }
-
     // 유저 활성화
     @PostMapping("/reactivate")
     public ResponseEntity<Void> reactivateAccount(@RequestBody UserDto userDto) {

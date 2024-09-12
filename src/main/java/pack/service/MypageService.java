@@ -10,6 +10,7 @@ import pack.dto.*;
 import pack.entity.*;
 import pack.repository.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -167,4 +168,25 @@ public class MypageService {
         // Page 객체로 반환
         return new PageImpl<>(fleaMarketDtos, pageable, fleaMarketEntities.getTotalElements());
     }
+
+    @Transactional
+    public void deactivateAccount(Integer userId) {
+        // 사용자 ID로 UserEntity를 조회
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // UserDetailEntity를 조회
+        UserDetailEntity userDetail = userDetailRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User details not found"));
+
+        // 계정 비활성화
+        user.setAccountDeleteIs(true);
+        userDetail.setAccountDeleteDate(LocalDateTime.now());  // 비활성화 날짜 설정
+
+        // 변경된 엔티티를 저장
+        userRepository.save(user);
+        userDetailRepository.save(userDetail);
+    }
+
+
 }
