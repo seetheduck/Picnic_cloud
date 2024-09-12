@@ -33,8 +33,7 @@ public interface LikesRepository extends JpaRepository<LikesEntity, Integer> {
 	void deleteByUserIdAndReviewNo(String userId, Integer reviewNo);
 	//존재하는 좋아요가 없으면, .save()를 통해 수행
 
-	//2. 리뷰에 대한 좋아요 수 카운트 기능//쿼리문으로
-	@Query("SELECT COUNT(l) FROM LikesEntity l WHERE l.reviewNo = :reviewNo")
+	//2. 리뷰에 대한 좋아요 수 카운트 기능
 	int countByReviewNo(@Param("reviewNo") int reviewNo);
 
 	//장소의 좋아요 로직

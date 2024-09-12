@@ -13,6 +13,9 @@ public class LikesPlaceDto {
     private int no;
     private String userId;
     private Integer placeNo;
+    
+    private boolean liked; // dto 좋아요 유무
+	private int likeCount;// 좋아요 수
 
     //toEntity
     public static LikesEntity toEntity(LikesPlaceDto dto) {

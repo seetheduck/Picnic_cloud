@@ -146,4 +146,15 @@ public class LikesService {
 	public int getPlaceLikesCount(int placeNo) {
 		return repository.countByPlaceNo(placeNo);
 	}
+
+	// 장소 좋아요 여부 확인
+	public boolean checkPlaceLike(String userId, int placeNo) {
+		Optional<UserEntity> userEntity = userRepository.findById(userId);
+		if (!userEntity.isPresent()) {
+			throw new IllegalArgumentException("User not found");
+		}
+		Optional<LikesEntity> existingLike = repository.findByUserIdAndPlaceNo(userId, placeNo);
+		return existingLike.isPresent();
+	}
+
 }
