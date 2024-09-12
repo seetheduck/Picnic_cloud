@@ -124,7 +124,7 @@ public class UserService {
 
             // 암호화된 링크 생성
             String encryptedToken = tokenEncryptionService.encryptToken(token);
-            String resetLink = "http://localhost:8080/auth/reset-password?token=" + encryptedToken;
+            String resetLink = "http://localhost:3000/auth/reset-password?token=" + encryptedToken;
 
             // 이메일 전송
             emailService.sendPasswordResetEmail(email, resetLink);
