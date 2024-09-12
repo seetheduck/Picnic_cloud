@@ -50,15 +50,23 @@ public class PlaceService {
 		// 검색된 모든 장소에 대해 좋아요 상태와 좋아요 수를 반영하여 DTO로 변환
 		return placePage.map(placeEntity -> {
 			PlaceDto placeDto = PlaceEntity.toPlaceDto(placeEntity);
-			int likeCount = likesService.getPlaceLikesCount(placeEntity.getNo());
-			boolean liked = likesService.checkPlaceLike(userId, placeEntity.getNo());
 
+			// 좋아요 수를 항상 설정
+			int likeCount = likesService.getPlaceLikesCount(placeEntity.getNo());
 			placeDto.setLikeCnt(likeCount);
-			placeDto.setLikeIs(liked);
+
+			// userId가 있을 때만 좋아요 상태를 확인
+			if (userId != null && !userId.isEmpty()) {
+				boolean liked = likesService.checkPlaceLike(userId, placeEntity.getNo());
+				placeDto.setLikeIs(liked);
+			}else {
+				placeDto.setLikeIs(false);
+			}
 
 			return placeDto;
 		});
 	}
+
 
 	// 선택한 장소 1곳 상세정보.
 	public Optional<PlaceDto> findPlacesByNo(int no, String userId) {
