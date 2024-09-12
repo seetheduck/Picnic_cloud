@@ -20,7 +20,7 @@ public interface FleamarketRepository extends JpaRepository<FleamarketEntity,Int
 
 	// 검색)카테고리 선택된 경우
 	@Query("select f from FleamarketEntity f " +
-			"where (:category = 1 or f.categoryEntity.no = :category) and (f.title like %:input% or f.contents like %:input%) " +
+			"where f.categoryEntity.no = :category or (f.title like %:input% or f.contents like %:input%) " +
 			"order by f.no desc")
 	Page<FleamarketEntity> searchCategory(
 			@Param("category") Integer category, @Param("input") String input, Pageable page);
