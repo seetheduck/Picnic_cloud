@@ -13,6 +13,7 @@ import pack.exception.ForbiddenException;
 import pack.repository.LikesRepository;
 import pack.repository.ReviewRepository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -38,6 +39,9 @@ public class ReviewService {
     @Transactional
     public ReviewDto saveReview(ReviewDto reviewDto) {
         ReviewEntity reviewEntity = ReviewDto.toReviewEntity(reviewDto); // DTO를 엔티티로 변환
+
+        // 생성 시간을 현재 시간으로 설정
+        reviewEntity.setCreateDate(LocalDateTime.now());
         ReviewEntity savedEntity = reviewRepository.save(reviewEntity); // 엔티티 저장
 
         // 6. 장소 정보 업데이트 (평점 및 리뷰 수)
