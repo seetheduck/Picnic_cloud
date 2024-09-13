@@ -10,6 +10,7 @@ import pack.dto.request.PasswordUpdateRequest;
 import pack.dto.request.SignupRequest;
 import pack.dto.response.FindIdResponseDto;
 import pack.dto.response.LoginResponseDto;
+import pack.entity.UserEntity;
 import pack.repository.UserDetailRepository;
 import pack.service.EmailService;
 import pack.service.UserService;
@@ -36,9 +37,18 @@ public class AuthController {
     }
 
     // 로그인
+    // 로그인 메서드 수정
     @PostMapping(value = "/login", produces = "application/json; charset=utf8")
     public ResponseEntity<LoginResponseDto> login(@RequestBody UserDto userDto) {
         try {
+            // 비활성화된 계정인지 확인
+            UserEntity user = userService.findById(userDto.getId());
+            if (user.getAccountDeleteIs()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(new LoginResponseDto(null, "계정이 비활성화되었습니다. 관리자에게 문의하세요."));
+            }
+
+            // 정상 로그인 처리
             String token = userService.login(userDto.getId(), userDto.getPw());
             return ResponseEntity.ok(new LoginResponseDto(token, null));
         } catch (IllegalArgumentException e) {
@@ -46,6 +56,7 @@ public class AuthController {
                     .body(new LoginResponseDto(null, e.getMessage()));
         }
     }
+
 
     // ID 찾기
     @PostMapping("/find-id")

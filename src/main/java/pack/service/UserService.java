@@ -188,6 +188,12 @@ public class UserService {
         }
     }
 
+    public Integer getNoByUserId(String userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return user.getNo();
+    }
+
     @Transactional
     public void reactivateAccount(Integer no) {
         // UserEntity 조회
