@@ -15,12 +15,10 @@ public interface FleamarketRepository extends JpaRepository<FleamarketEntity,Int
 	@Query("select Max(f.no) from FleamarketEntity f")
 	Integer findbyMaxNo();
 
-	//전체 목록값 불러오기(페이징)
-	Page<FleamarketEntity> findAll(Pageable page);
-
 	// 검색)카테고리 선택된 경우
 	@Query("select f from FleamarketEntity f " +
-			"where f.categoryEntity.no = :category or (f.title like %:input% or f.contents like %:input%) " +
+			"where (:category = 0 or f.categoryEntity.no = :category) " +
+			"and (:input is null or f.title like %:input% or f.contents like %:input%) " +
 			"order by f.no desc")
 	Page<FleamarketEntity> searchCategory(
 			@Param("category") Integer category, @Param("input") String input, Pageable page);

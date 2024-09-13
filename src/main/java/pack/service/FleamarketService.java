@@ -39,25 +39,6 @@ public class FleamarketService {
 
 	@Autowired
 	private LikesService likesService;
-
-	// 전체 플리마켓 게시물 리스트 가져오기 (좋아요 및 파일 정보 포함)
-	public Page<FleamarketDto> getFleaMarketWithLikes(Pageable pageable, String userId) {
-		Page<FleamarketDto> fleaMarkets = repository.findAll(pageable)
-				.map(FleamarketEntity::toDto);
-
-		// 각 플리마켓 게시물에 대해 좋아요 상태 및 파일 경로 추가
-		fleaMarkets.forEach(fleaMarketDto -> {
-			int fleaMarketNo = fleaMarketDto.getNo();
-
-			// 좋아요 정보 추가
-			addLikeInfo(fleaMarketDto, userId);
-
-			// 파일 경로 추가
-			addFileInfo(fleaMarketDto, fleaMarketNo);
-		});
-
-		return fleaMarkets;
-	}
 	//검색 결과 (좋아요 포함)
 	public Page<FleamarketDto> searchWithLikes(Integer category, String search, Pageable pageable, String userId) {
 		Page<FleamarketDto> fleaMarkets =  repository.searchCategory(category, search, pageable)
