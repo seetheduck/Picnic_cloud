@@ -122,15 +122,14 @@ public class MypageController {
     public ResponseEntity<Void> deactivateAccount(HttpServletRequest request) {
         // JWT 토큰에서 userId 추출
         String userId = (String) request.getAttribute(USER_ID_ATTRIBUTE);
+        System.out.println("Extracted userId: " + userId); // 로그 추가
 
-        // userId가 null이거나 비어 있는 경우 처리
         if (userId == null || userId.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         try {
-            // userId를 기반으로 계정 비활성화
-            mypageService.deactivateAccount(Integer.parseInt(userId));
+            mypageService.deactivateAccount(userId);
             return ResponseEntity.ok().build();
         } catch (NumberFormatException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -138,6 +137,7 @@ public class MypageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
 
 }

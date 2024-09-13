@@ -170,13 +170,13 @@ public class MypageService {
     }
 
     @Transactional
-    public void deactivateAccount(Integer userId) {
+    public void deactivateAccount(String userId) {
         // 사용자 ID로 UserEntity를 조회
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // UserDetailEntity를 조회
-        UserDetailEntity userDetail = userDetailRepository.findById(userId)
+        // 조회된 UserEntity에서 no 값을 사용해 UserDetailEntity 조회
+        UserDetailEntity userDetail = userDetailRepository.findById(user.getNo())
                 .orElseThrow(() -> new IllegalArgumentException("User details not found"));
 
         // 계정 비활성화
@@ -187,6 +187,5 @@ public class MypageService {
         userRepository.save(user);
         userDetailRepository.save(userDetail);
     }
-
 
 }
