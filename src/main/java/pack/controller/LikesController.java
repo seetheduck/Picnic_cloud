@@ -67,6 +67,18 @@ public class LikesController {
 		}
 	}
 
+	//리뷰 좋아요 상태유지
+		@GetMapping("/reviews/{reviewNo}/likes-status")
+		public ResponseEntity<LikeStatusDto> getReviewLikeStatus(@PathVariable("reviewNo") int reviewNo, @RequestParam("userId") String userId) {
+			try {
+				boolean likedByUser = service.checkReviewLike(userId, reviewNo);
+				int likeCount = service.getReviewLikesCount(reviewNo);
+				return ResponseEntity.ok(new LikeStatusDto(likedByUser, likeCount));
+			} catch (Exception e) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			}
+		}
+
 	//장소 좋아요 로직
 	//특정 장소 좋아요 토글
 	@PostMapping("/places/{placeNo}/likes-toggle")
@@ -108,7 +120,7 @@ public class LikesController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // 오류 응답
 		}
 	}
-
+	//장소 좋아요 상태유지
 	@GetMapping("/places/{placeNo}/likes-status")
 	public ResponseEntity<LikeStatusDto> getPlaceLikeStatus(@PathVariable("placeNo") int placeNo, @RequestParam("userId") String userId) {
 		try {
@@ -119,5 +131,8 @@ public class LikesController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
+
+
+
 
 }
