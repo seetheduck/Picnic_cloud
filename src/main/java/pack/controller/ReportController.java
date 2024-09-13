@@ -37,12 +37,12 @@ public class ReportController {
 	@PostMapping("/review/report")
 	public ResponseEntity<String> reportReview(@RequestBody ReportReviewDto reportReviewDto) {
 		try {
-			int userNo = reportReviewDto.getUserNo();
+			String userId = reportReviewDto.getUserId();
 			Integer reviewNo = reportReviewDto.getReviewNo();
 			int code = reportReviewDto.getCode();
 
 			// 리뷰 신고 처리
-			int result = reportService.reportReview(userNo, reviewNo, code);
+			int result = reportService.reportReview(userId, reviewNo, code);
 			if (result == 1) {
 				return ResponseEntity.ok("신고 성공");
 			} else {

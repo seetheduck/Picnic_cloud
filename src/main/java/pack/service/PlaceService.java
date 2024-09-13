@@ -42,19 +42,49 @@ public class PlaceService {
 
 
 	// 검색이 있는 경우: 유형별 장소에 추가적으로 키워드로 검색하고 정렬
-	public Page<PlaceDto> findPlacesByPlaceTypeAndKeyword(String placeType, String keyword, Pageable pageable) {
+	public Page<PlaceDto> findPlacesByPlaceTypeAndKeyword(String placeType, String keyword, Pageable pageable, String userId) {
 		Specification<PlaceEntity> spec = PlaceSpecification.hasKeyword(placeType, keyword)
 				.and(PlaceSpecification.orderByPointAndLikeCnt());
 		Page<PlaceEntity> placePage = placeRepository.findAll(spec, pageable);
 
-		return placePage.map(PlaceEntity::toPlaceDto);
+		// 검색된 모든 장소에 대해 좋아요 상태와 좋아요 수를 반영하여 DTO로 변환
+		return placePage.map(placeEntity -> {
+			PlaceDto placeDto = PlaceEntity.toPlaceDto(placeEntity);
+
+			// 좋아요 수를 항상 설정
+			int likeCount = likesService.getPlaceLikesCount(placeEntity.getNo());
+			placeDto.setLikeCnt(likeCount);
+
+			// userId가 있을 때만 좋아요 상태를 확인
+			if (userId != null && !userId.isEmpty()) {
+				boolean liked = likesService.checkPlaceLike(userId, placeEntity.getNo());
+				placeDto.setLikeIs(liked);
+			}else {
+				placeDto.setLikeIs(false);
+			}
+
+			return placeDto;
+		});
 	}
 
+
 	// 선택한 장소 1곳 상세정보.
-	public Optional<PlaceDto> findPlacesByNo(int no) {
-		// entity to dto
-		return placeRepository.findByNo(no)
-				.map(PlaceEntity::toPlaceDto);
+	public Optional<PlaceDto> findPlacesByNo(int no, String userId) {
+		// 장소 엔티티 조회
+		Optional<PlaceEntity> placeEntityOpt = placeRepository.findByNo(no);
+
+		// 좋아요 상태 및 좋아요 수 추가 반영
+		return placeEntityOpt.map(placeEntity -> {
+			PlaceDto placeDto = PlaceEntity.toPlaceDto(placeEntity);
+			int likeCount = likesService.getPlaceLikesCount(no); // 좋아요 수 가져오기
+			boolean liked = likesService.checkPlaceLike(userId, no); // 현재 유저의 좋아요 상태 확인
+
+			// 좋아요 정보 업데이트
+			placeDto.setLikeCnt(likeCount);
+			placeDto.setLikeIs(liked);
+
+			return placeDto;
+		});
 	}
 
 	// 리뷰 추가 후 장소 정보 업데이트

@@ -54,6 +54,7 @@ public class ReviewEntity {
     			.blockedCnt(entity.getBlockedCnt())
     			.ip(entity.getIp())
     			.placeNo(entity.getPlaceNo())
+                .point(entity.getPoint())
     			.build();
     }
 }

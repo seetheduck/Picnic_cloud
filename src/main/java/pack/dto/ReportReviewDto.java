@@ -14,13 +14,14 @@ public class ReportReviewDto {
     private int userNo;
     private Integer reviewNo;
     private int code;
+    private String userId;
 
 
     //toEntity
-    public ReportEntity toEntity() {
+    public ReportEntity toEntity(int userNo) {
         return ReportEntity.builder()
                 .no(this.no)
-                .userNo(this.userNo)
+                .userNo(userNo)
                 .reviewNo(this.reviewNo)
                 .date(LocalDateTime.now())
                 .code(this.code)

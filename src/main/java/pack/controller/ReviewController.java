@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pack.dto.ReviewDto;
 import pack.exception.ForbiddenException;
+import pack.service.JwtService;
 import pack.service.ReviewService;
 
 @RestController
@@ -17,6 +18,8 @@ import pack.service.ReviewService;
 public class ReviewController {
     @Autowired
     private ReviewService reviewService;
+    @Autowired
+    private JwtService jwtService;
 
     // 1. 선택한 장소의 리뷰들 조회. 최신순 나열, 페이징처리.
     @GetMapping("/{placeNo}")
@@ -43,12 +46,14 @@ public class ReviewController {
     @PutMapping("/{no}")
     public ResponseEntity<ReviewDto> updateReview(
             @PathVariable("no") int no,
-            @RequestBody ReviewDto reviewDto) {
+            @RequestBody ReviewDto reviewDto,
+            @RequestHeader("Authorization") String tokenHeader) { // 토큰을 헤더로 받음
         try {
-            // ReviewDto 안에 있는 id 값을 사용
-            String id = reviewDto.getId();
+            String token = tokenHeader.replace("Bearer ", ""); // "Bearer " 부분을 제거하고 토큰만 추출
+            String userId = jwtService.getUserFromToken(token); // 토큰에서 사용자 ID 추출
 
-            ReviewDto updatedReview = reviewService.updateReview(no, reviewDto, id);
+            // 사용자 검증 및 리뷰 업데이트 처리
+            ReviewDto updatedReview = reviewService.updateReview(no, reviewDto, userId);
             return ResponseEntity.ok(updatedReview);
         } catch (ForbiddenException ex) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -58,17 +63,20 @@ public class ReviewController {
     //4. 리뷰 삭제
     @DeleteMapping("/{no}")
     public ResponseEntity<Void> deleteReview(
-                @PathVariable("no") int no,
-                @RequestParam("id") String id) {
-            try {
-                boolean success = reviewService.deleteReview(no, id);
-                if (success) {
-                    return ResponseEntity.noContent().build();
-                } else {
-                    return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-                }
-            } catch (ForbiddenException ex) {
+            @PathVariable("no") int no,
+            @RequestHeader("Authorization") String token) {
+        try {
+            // Bearer 문자열을 제거한 실제 토큰 추출
+            String jwtToken = token.replace("Bearer ", "");
+
+            boolean success = reviewService.deleteReview(no, jwtToken);
+            if (success) {
+                return ResponseEntity.noContent().build();
+            } else {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
+        } catch (ForbiddenException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+    }
 }

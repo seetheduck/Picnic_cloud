@@ -6,10 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.server.ResponseStatusException;
-import pack.dto.LikeCountDto;
-import pack.dto.LikesDto;
-import pack.dto.LikesPlaceDto;
-import pack.dto.LikesReviewDto;
+import pack.dto.*;
 import pack.service.LikesService;
 import pack.service.PlaceService;
 import pack.service.ReviewService;
@@ -21,7 +18,6 @@ public class LikesController {
 	
 	@Autowired
 	LikesService service;
-
 
 	//플리마켓
 	//좋아요 갯수 가져오기
@@ -74,16 +70,31 @@ public class LikesController {
 	//장소 좋아요 로직
 	//특정 장소 좋아요 토글
 	@PostMapping("/places/{placeNo}/likes-toggle")
-	public ResponseEntity<String> togglePlaceLike(@RequestParam("userId") String userId, @PathVariable("placeNo") int placeNo) {
+	public ResponseEntity<LikesPlaceDto> togglePlaceLike(@RequestParam("userId") String userId, @PathVariable("placeNo") int placeNo) {
 		LikesPlaceDto dto = LikesPlaceDto.builder()
 				.userId(userId)
 				.placeNo(placeNo)
 				.build();
 		try {
+			// 좋아요 토글 처리
 			service.togglePlaceLike(dto);
-			return ResponseEntity.ok("PlaceLike toggled successfully."); // 성공적인 응답
+
+			// 좋아요 상태와 총 좋아요 수 가져오기
+			boolean liked = service.checkPlaceLike(userId, placeNo);
+			int likeCount = service.getPlaceLikesCount(placeNo);
+
+			// LikesPlaceDto에 좋아요 상태와 좋아요 수를 설정하여 반환
+			LikesPlaceDto responseDto = LikesPlaceDto.builder()
+					.userId(userId)
+					.placeNo(placeNo)
+					.liked(liked)
+					.likeCount(likeCount)
+					.build();
+
+			return ResponseEntity.ok(responseDto);  // LikesPlaceDto 반환
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An placelikeerror occurred: " + e.getMessage()); // 오류 응답
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(null);  // 오류 처리
 		}
 	}
 
@@ -98,5 +109,15 @@ public class LikesController {
 		}
 	}
 
+	@GetMapping("/places/{placeNo}/likes-status")
+	public ResponseEntity<LikeStatusDto> getPlaceLikeStatus(@PathVariable("placeNo") int placeNo, @RequestParam("userId") String userId) {
+		try {
+			boolean likedByUser = service.checkPlaceLike(userId, placeNo);
+			int likeCount = service.getPlaceLikesCount(placeNo);
+			return ResponseEntity.ok(new LikeStatusDto(likedByUser, likeCount));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
 
 }
