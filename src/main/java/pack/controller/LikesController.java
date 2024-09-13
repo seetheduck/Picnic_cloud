@@ -22,7 +22,7 @@ public class LikesController {
 	//플리마켓
 	//좋아요 갯수 가져오기
 	@GetMapping("/fleaMarket/favorite/{no}")
-	public LikeCountDto getLikes(@PathVariable("fleaBoardNo") int fleaBoardNo) {
+	public LikeCountDto getLikes(@PathVariable("no") int fleaBoardNo) {
 		int count = service.countFleaLikes(fleaBoardNo);
 		return new LikeCountDto(fleaBoardNo,count,false); //false 는 좋아요 여부 확인 없이 보낸다.
 	}

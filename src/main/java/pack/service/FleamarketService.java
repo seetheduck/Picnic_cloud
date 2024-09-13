@@ -176,9 +176,4 @@ public class FleamarketService {
 			return "삭제 오류 : deleteOne" +e.getMessage();
 		}
 	}
-
-	// no 최대값 카운트
-	public Integer maxBoardNum() {
-		return repository.findbyMaxNo();
-	}
 }
