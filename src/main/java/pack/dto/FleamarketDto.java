@@ -22,7 +22,6 @@ import pack.entity.UserEntity;
 public class FleamarketDto {
 
 	private int no;
-//	@JsonProperty("userid")
 	private String userId;
 	private String title;
 	private int price;
@@ -31,8 +30,8 @@ public class FleamarketDto {
 	private LocalDateTime createdate;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime updatedate;
-	private Boolean favorite;
-	private Integer favoriteCnt;
+	private Boolean favorite = false;
+	private int favoriteCnt = 0;
 	private Integer category;
 	private Boolean blocked;
 	private Integer blockedCnt;

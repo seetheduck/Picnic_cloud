@@ -57,7 +57,6 @@ public class FleamarketController {
 		} else {
 			result = fleamarketService.searchWithLikes(category, search, pageable, userId);  // 검색 결과
 		}
-
 		return ResponseEntity.ok(result);
 	}
 
