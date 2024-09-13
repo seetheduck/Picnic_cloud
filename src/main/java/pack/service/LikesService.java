@@ -110,6 +110,20 @@ public class LikesService {
 		return repository.countByReviewNo(reviewNo);
 	}
 
+	//리뷰 좋아요 여부 확인
+		public boolean checkReviewLike(String userId, int reviewNo) {
+			if (userId == null || userId.isEmpty()) {
+				return false;
+			}
+
+			Optional<UserEntity> userEntity = userRepository.findById(userId);
+			if (!userEntity.isPresent()) {
+				throw new IllegalArgumentException("User not found");
+			}
+
+			Optional<LikesEntity> existingLike = repository.findByUserIdAndReviewNo(userId, reviewNo);
+			return existingLike.isPresent();
+		}
 
 	// 장소 좋아요
 	@Transactional
