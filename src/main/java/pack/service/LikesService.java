@@ -34,7 +34,7 @@ public class LikesService {
 	@Transactional
 	public int toggleFleaMarketLike(String userId, int fleaBoardNo) {
 		Optional<UserEntity> userEntity = userRepository.findById(userId);
-		if (userEntity == null) {
+		if (userEntity.isEmpty()) {
 			throw new IllegalArgumentException("User not found");
 		}
 
@@ -43,8 +43,9 @@ public class LikesService {
 		if (existingLike != null) {
 			repository.delete(existingLike);
 		} else {
+			int nextFavNum = repository.maxFavNum() != null ? repository.maxFavNum() + 1 : 1;
 			LikesEntity newLike = LikesEntity.builder()
-					.no(repository.maxFavNum() + 1)
+					.no(nextFavNum)
 					.userId(userId)
 					.fleaMarketNo(fleaBoardNo)
 					.build();
@@ -58,7 +59,7 @@ public class LikesService {
 	public boolean checkLikes(String userId, Integer fleaMarketNo) {
 		// UserEntity를 직접 반환하고, null이 아니라고 가정
 		Optional<UserEntity> userEntity = userRepository.findById(userId);
-		if (userEntity == null) {
+		if (userEntity.isEmpty()) {
 			throw new IllegalArgumentException("User not found");
 		}
 
@@ -68,7 +69,6 @@ public class LikesService {
 
 	// 특정 게시물 좋아요 수 계산
 	public int countFleaLikes(Integer fleaMarketNo) {
-
 		return repository.countByFleaMarketNo(fleaMarketNo);
 	}
 

@@ -38,7 +38,7 @@ public class FilesService {
 		String path = null;
 		try {
 			//파일 저장 경로
-			String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images/";// 절대 경로 사용
+			String staticDirectory = System.getProperty("user.dir") + "/src/main/resources/static/image/flea/";// 절대 경로 사용
 
 			//파일명 처리
 			String originalFilename = file.getOriginalFilename();

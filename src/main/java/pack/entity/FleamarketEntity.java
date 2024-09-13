@@ -60,7 +60,7 @@ public class FleamarketEntity {
                 .createdate(this.getCreatedate())
                 .updatedate(this.getUpdatedate())
                 .favorite(this.getFavorite())
-                .favoriteCnt(this.getFavoriteCnt())
+                .favoriteCnt(this.getFavoriteCnt() != null ? this.getFavoriteCnt() : 0)
                 .blocked(this.getBlocked())
                 .blockedCnt(this.getBlockedCnt())
                 .userId(this.userEntity != null ? this.userEntity.getId() : null)
