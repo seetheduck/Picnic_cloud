@@ -63,11 +63,13 @@ public class ReportService {
 
 	// 리뷰 신고 로직
 	@Transactional
-	public int reportReview(int userNo, int reviewNo, int code) {
-		// 유저와 리뷰의 존재 여부를 확인
-		if (!userRepository.existsById(userNo)) {
-			throw new RuntimeException("User not found");
-		}
+	public int reportReview(String userId, int reviewNo, int code) {
+		// userId로 userNo 조회
+		UserEntity user = userRepository.findById(userId)
+				.orElseThrow(() -> new RuntimeException("cannot find User"));
+
+		int userNo = user.getNo();
+
 		if (!reviewRepository.existsById(reviewNo)) {
 			throw new RuntimeException("Review not found");
 		}
