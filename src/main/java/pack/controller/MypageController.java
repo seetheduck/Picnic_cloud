@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pack.dto.*;
+import pack.dto.FleamarketDto;
+import pack.dto.MypageUserDto;
+import pack.dto.PlaceDto;
 import pack.dto.request.ChangePasswordRequest;
 import pack.dto.request.SignupRequest;
 import pack.service.MypageService;
@@ -121,8 +123,7 @@ public class MypageController {
     @PostMapping("/deactivate")
     public ResponseEntity<Void> deactivateAccount(HttpServletRequest request) {
         // JWT 토큰에서 userId 추출
-        String userId = (String) request.getAttribute(USER_ID_ATTRIBUTE);
-        System.out.println("Extracted userId: " + userId); // 로그 추가
+        userId = (String) request.getAttribute(USER_ID_ATTRIBUTE);
 
         if (userId == null || userId.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
