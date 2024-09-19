@@ -25,8 +25,8 @@ public class ReviewController {
     @GetMapping("/{placeNo}")
     public ResponseEntity<Page<ReviewDto>> getReviewsByPlaceNo(
             @PathVariable("placeNo") int placeNo,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(name = "page" ,defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createDate"));
         Page<ReviewDto> reviews = reviewService.findReviewsByPlaceNo(placeNo, pageable);
         return ResponseEntity.ok(reviews);
