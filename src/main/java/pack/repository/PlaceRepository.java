@@ -23,8 +23,7 @@ public interface PlaceRepository extends JpaRepository<PlaceEntity, Integer>, Jp
 	Optional<PlaceEntity> findByNo(int no);
 
 	//평점 평균 계산
-	@Query("SELECT AVG(r.point) FROM ReviewEntity r WHERE r.placeNo = :placeNo")
+	@Query("SELECT COALESCE(AVG(r.point), 0) FROM ReviewEntity r WHERE r.placeNo = :placeNo")
 	float findAveragePointByPlaceNo(@Param("placeNo") int placeNo);
-
 	
 }
