@@ -76,6 +76,7 @@ public class UserService {
         // UserMaster에 no 값 설정
         userDto.setNo(newNo);
         UserEntity userMaster = userDto.toEntity();
+        userMaster.setAccountDeleteIs(false);
         UserEntity savedUserMaster = userRepository.save(userMaster);
 
         // UserDetail에 동일한 no 값 설정
