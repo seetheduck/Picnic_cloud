@@ -9,19 +9,19 @@ import pack.entity.FleamarketEntity;
 
 import java.util.List;
 
-public interface FleamarketRepository extends JpaRepository<FleamarketEntity,Integer> {
+public interface FleamarketRepository extends JpaRepository<FleamarketEntity,Integer>, FleamarketRepositoryCustom {
 
 	//추가시 증가용) 게시판 가장 큰 번호
 	@Query("select Max(f.no) from FleamarketEntity f")
 	Integer findbyMaxNo();
-
-	// 검색)카테고리 선택된 경우
-	@Query("select f from FleamarketEntity f " +
-			"where (:category = 0 or f.categoryEntity.no = :category) " +
-			"and (:input is null or f.title like %:input% or f.contents like %:input%) " +
-			"order by f.no desc")
-	Page<FleamarketEntity> searchCategory(
-			@Param("category") Integer category, @Param("input") String input, Pageable page);
+//
+//	// 검색)카테고리 선택된 경우
+//	@Query("select f from FleamarketEntity f " +
+//			"where (:category = 0 or f.categoryEntity.no = :category) " +
+//			"and (:input is null or f.title like %:input% or f.contents like %:input%) " +
+//			"order by f.no desc")
+//	Page<FleamarketEntity> searchCategory(
+//			@Param("category") Integer category, @Param("input") String input, Pageable page);
 
 	//특정 게시물 반환
 	FleamarketEntity findByNo(Integer no);
